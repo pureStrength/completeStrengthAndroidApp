@@ -16,6 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Registration"
+            android:label="@string/title_activity_registration"
+            android:parentActivityName=".LaunchActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.completeconceptstrength.LaunchActivity" />
+        </activity>
+        <activity
+            android:name=".CoachHomeActivity"
+            android:label="@string/title_activity_coach_home"
+            android:parentActivityName=".LaunchActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.completeconceptstrength.LaunchActivity" />
+        </activity>
     </application>
 
 </manifest>
