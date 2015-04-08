@@ -85,10 +85,44 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="appcompat-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="play-services-6.5.87" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="javax.inject-2.4.0-b10" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="javax.ws.rs-api-2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="org.eclipse.persistence.antlr-2.5.0" level="project" />
+    <orderEntry type="library" exported="" name="log4j-1.2.17" level="project" />
+    <orderEntry type="library" exported="" name="woodstox-core-asl-4.4.1" level="project" />
+    <orderEntry type="library" exported="" name="cxf-rt-transports-http-3.0.4" level="project" />
+    <orderEntry type="library" exported="" name="javax.annotation-api-1.2" level="project" />
+    <orderEntry type="library" exported="" name="slf4j-log4j12-1.7.10" level="project" />
+    <orderEntry type="library" exported="" name="xmlschema-core-2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="hk2-utils-2.4.0-b10" level="project" />
+    <orderEntry type="library" exported="" name="jackson-core-asl-1.9.13" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="jersey-media-moxy-2.17" level="project" />
+    <orderEntry type="library" exported="" name="cxf-core-3.0.4" level="project" />
+    <orderEntry type="library" exported="" name="jackson-jaxrs-1.9.13" level="project" />
+    <orderEntry type="library" exported="" name="hk2-locator-2.4.0-b10" level="project" />
+    <orderEntry type="library" exported="" name="completeStrength-api-0.1" level="project" />
+    <orderEntry type="library" exported="" name="stax2-api-3.1.4" level="project" />
+    <orderEntry type="library" exported="" name="org.eclipse.persistence.moxy-2.5.0" level="project" />
+    <orderEntry type="library" exported="" name="javassist-3.18.1-GA" level="project" />
+    <orderEntry type="library" exported="" name="jersey-guava-2.17" level="project" />
+    <orderEntry type="library" exported="" name="aopalliance-repackaged-2.4.0-b10" level="project" />
+    <orderEntry type="library" exported="" name="cxf-rt-frontend-jaxrs-3.0.4" level="project" />
+    <orderEntry type="library" exported="" name="osgi-resource-locator-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="org.eclipse.persistence.core-2.5.0" level="project" />
+    <orderEntry type="library" exported="" name="jersey-entity-filtering-2.17" level="project" />
+    <orderEntry type="library" exported="" name="commons-lang3-3.3.2" level="project" />
+    <orderEntry type="library" exported="" name="hk2-api-2.4.0-b10" level="project" />
+    <orderEntry type="library" exported="" name="org.eclipse.persistence.asm-2.5.0" level="project" />
+    <orderEntry type="library" exported="" name="slf4j-api-1.7.10" level="project" />
+    <orderEntry type="library" exported="" name="jackson-mapper-asl-1.9.13" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
+    <orderEntry type="library" exported="" name="jersey-common-2.17" level="project" />
+    <orderEntry type="library" exported="" name="cxf-rt-rs-client-3.0.4" level="project" />
+    <orderEntry type="library" exported="" name="jersey-client-2.17" level="project" />
   </component>
 </module>
 
