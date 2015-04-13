@@ -30,6 +30,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import completeconceptstrength.user.model.impl.Athlete;
+
 
 /**
  * A login screen that offers login via email/password.
