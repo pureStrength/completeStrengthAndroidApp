@@ -1,11 +1,10 @@
-package com.completeconceptstrength;
+package com.completeconceptstrength.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -27,10 +26,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.completeconceptstrength.R;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import completeconceptstrength.user.model.impl.Athlete;
 
 
 /**
@@ -307,7 +306,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     public void registerPage(View view){
-        Intent intent = new Intent(this, Registration.class);
+        Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
     }
 }

@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,20 +27,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Registration"
+            android:name=".activity.RegistrationActivity"
             android:label="@string/title_activity_registration"
-            android:parentActivityName=".LoginActivity" >
+            android:parentActivityName=".activity.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.completeconceptstrength.LaunchActivity" />
+                android:value=".activity.LaunchActivity" />
         </activity>
         <activity
-            android:name=".CoachHomeActivity"
+            android:name=".activity.CoachHomeActivity"
             android:label="@string/title_activity_coach_home"
-            android:parentActivityName=".LoginActivity" >
+            android:parentActivityName=".activity.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.completeconceptstrength.LaunchActivity" />
+                android:value=".activity.LaunchActivity" />
         </activity>
 
         <meta-data

@@ -1,29 +1,26 @@
-package com.completeconceptstrength;
+package com.completeconceptstrength.activity;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
+
+import com.completeconceptstrength.R;
 
 
-public class LaunchActivity extends ActionBarActivity {
-
-    public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
+public class AthleteHomeActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_launch);
+        setContentView(R.layout.activity_athlete_home);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_launch, menu);
+        getMenuInflater().inflate(R.menu.menu_athlete_home, menu);
         return true;
     }
 
@@ -40,10 +37,5 @@ public class LaunchActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void registerPage(View view){
-        Intent intent = new Intent(this, Registration.class);
-        startActivity(intent);
     }
 }
