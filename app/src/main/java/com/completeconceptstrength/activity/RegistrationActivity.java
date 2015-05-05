@@ -16,15 +16,18 @@ import android.widget.RadioButton;
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.config.LocalServer;
 
+import javax.ws.rs.core.MediaType;
+
+import completeconceptstrength.serialization.CustomJsonSerializer;
 import completeconceptstrength.services.impl.AthleteClientService;
-import completeconceptstrength.services.utils.ServiceClientHttp;
+import completeconceptstrength.services.utils.ServiceClient;
 import completeconceptstrength.user.model.impl.Athlete;
 
 
 public class RegistrationActivity extends ActionBarActivity {
 
     // Service classes
-    ServiceClientHttp serviceClient;
+    ServiceClient serviceClient;
     AthleteClientService athleteService;
 
     // UI references.
@@ -43,7 +46,7 @@ public class RegistrationActivity extends ActionBarActivity {
         Log.d("onCreate", "Creating services");
         // Set service classes
         // Create the service client
-        serviceClient = new ServiceClientHttp();
+        serviceClient = new ServiceClient();
 
         // Create the athlete service
         athleteService = new AthleteClientService(serviceClient, LocalServer.IP_ADDRESS);
