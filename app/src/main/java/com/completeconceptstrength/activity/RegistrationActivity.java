@@ -14,21 +14,30 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.application.GlobalContext;
 import com.completeconceptstrength.config.LocalServer;
 
 import javax.ws.rs.core.MediaType;
 
 import completeconceptstrength.serialization.CustomJsonSerializer;
-import completeconceptstrength.services.impl.AthleteClientService;
+import completeconceptstrength.services.impl.UserClientService;
+import completeconceptstrength.services.utils.IServiceClientWrapper;
 import completeconceptstrength.services.utils.ServiceClient;
 import completeconceptstrength.user.model.impl.Athlete;
+import completeconceptstrength.user.model.impl.User;
+import completeconceptstrength.user.model.impl.UserType;
 
 
 public class RegistrationActivity extends ActionBarActivity {
 
+    // Global context
+    GlobalContext globalContext;
+
+    // Properties
+    private static final Boolean _REQUIRE_VERIFICATION = false;
+
     // Service classes
-    ServiceClient serviceClient;
-    AthleteClientService athleteService;
+    UserClientService userService;
 
     // UI references.
     private EditText textFieldName;
@@ -44,12 +53,17 @@ public class RegistrationActivity extends ActionBarActivity {
         setContentView(R.layout.activity_registration);
 
         Log.d("onCreate", "Creating services");
+
+        // Get the global context
+        globalContext = (GlobalContext)getApplicationContext();
+
         // Set service classes
         // Create the service client
-        serviceClient = new ServiceClient();
+        IServiceClientWrapper serviceClient = globalContext.getServiceClient();
 
         // Create the athlete service
-        athleteService = new AthleteClientService(serviceClient, LocalServer.IP_ADDRESS);
+        userService = new UserClientService(serviceClient, LocalServer.IP_ADDRESS,
+                LocalServer.IP_PORT);
 
         Log.d("onCreate", "ServiceClient: " + serviceClient.toString());
 
@@ -98,21 +112,26 @@ public class RegistrationActivity extends ActionBarActivity {
 
         Log.i("attemptRegistration", "Attempting to get values from fields...");
 
-        // Create user with fields from the UI
-        final Athlete athlete = new Athlete();
-        athlete.setFirstName(textFieldName.getText().toString());
-        athlete.setLastName(textFieldName.getText().toString());
-        athlete.setEmail(textFieldEmail.getText().toString());
-        athlete.setPassword(textFieldPassword.getText().toString());
-
-        // Set the UserType (only needed if doing the baseUser approach
-        // TODO Determine if the baseUser approach will be used
+        // Set the user type for this user
+        UserType userType = null;
         if(radioButtonAthlete.isChecked()) {
-
+            userType = UserType.ATHLETE;
+        } else if(radioButtonTrainer.isChecked()) {
+            userType = UserType.COACH;
+        } else {
+            Log.e("RegistrationActivity", "Unable to determine user type");
         }
 
+        // Create user with fields from the UI
+        final User user = new User(userType);
+        user.setFirstName(textFieldName.getText().toString());
+        user.setLastName(textFieldName.getText().toString());
+        user.setEmail(textFieldEmail.getText().toString());
+        user.setPassword(textFieldPassword.getText().toString());
+        user.setOrganization(textFieldOrganization.getText().toString());
+
         // Execute the registration task
-        final RegistrationTask registrationTask = new RegistrationTask(athlete);
+        final RegistrationTask registrationTask = new RegistrationTask(user);
         registrationTask.execute((Void) null);
     }
 
@@ -122,34 +141,26 @@ public class RegistrationActivity extends ActionBarActivity {
      */
     public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
-        private Athlete localAthlete;
+        private User localUser;
 
-        RegistrationTask(final Athlete athlete) {
-            localAthlete = athlete;
+        RegistrationTask(final User user) {
+            localUser = user;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             Boolean result = false;
 
-            Log.i("doInBackground", "Athlete: " + localAthlete);
+            Log.i("doInBackground", "User to register: " + localUser);
 
             // Run the service
-            Athlete dbResult = null;
-            if(athleteService != null) {
-                dbResult = athleteService.register(localAthlete);
+            if(userService != null) {
+                result = userService.register(localUser, _REQUIRE_VERIFICATION);
             } else {
-                Log.e("doInBackground", "AthleteService is null");
+                Log.e("doInBackground", "userService is null");
             }
 
-            Log.d("doInBackground", "dbResult: " + dbResult);
-
-            // Check if an object was returned
-            if(dbResult != null) {
-                result = true;
-            } else {
-                Log.w("doInBackground", "dbResult is null");
-            }
+            Log.d("doInBackground", "result: " + result);
 
             return result;
         }
