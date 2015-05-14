@@ -1,5 +1,7 @@
 package com.completeconceptstrength.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -17,15 +19,17 @@ import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
 import com.completeconceptstrength.config.LocalServer;
 
+import org.apache.http.HttpResponse;
+
 import javax.ws.rs.core.MediaType;
 
 import completeconceptstrength.serialization.CustomJsonSerializer;
 import completeconceptstrength.services.impl.UserClientService;
 import completeconceptstrength.services.utils.IServiceClientWrapper;
 import completeconceptstrength.services.utils.ServiceClient;
-import completeconceptstrength.user.model.impl.Athlete;
-import completeconceptstrength.user.model.impl.User;
-import completeconceptstrength.user.model.impl.UserType;
+import completeconceptstrength.model.user.impl.Athlete;
+import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.model.user.impl.UserType;
 
 
 public class RegistrationActivity extends ActionBarActivity {
@@ -142,6 +146,9 @@ public class RegistrationActivity extends ActionBarActivity {
     public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
         private User localUser;
+        private String alertTitle;
+        private String alertMessage;
+        private int alertIconNumber;
 
         RegistrationTask(final User user) {
             localUser = user;
@@ -162,17 +169,71 @@ public class RegistrationActivity extends ActionBarActivity {
 
             Log.d("doInBackground", "result: " + result);
 
+            // Check the result of the service call and set the variables accordingly
+            if(result == false) {
+                alertTitle = "Unable to register";
+                alertIconNumber = android.R.drawable.ic_dialog_alert;
+
+                final HttpResponse response = userService.getLastResponse();
+                if (response != null) {
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        Log.i("doInBackground", "User attempted to register an already existing email");
+                        alertMessage = "A user already exists with that email";
+                    } else {
+                        Log.e("doInBackground", "Error registering user with status code: " + response.getStatusLine().getStatusCode());
+                        alertMessage = "Error registering, \nPlease try again later.\n";
+                    }
+
+                } else {
+                    Log.e("doInBackground", "Registration response is null");
+                    alertMessage = "Unable to access server";
+                }
+
+            } else {
+                alertIconNumber = android.R.drawable.ic_dialog_info;
+                if(_REQUIRE_VERIFICATION) {
+                    alertTitle = "Registration almost complete";
+                    alertMessage = "Please check your email to complete registration";
+                } else {
+                    alertTitle = "Registration complete";
+                    alertMessage = "You may now login to access your account";
+                }
+            }
+
             return result;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
 
-            if (success) {
-                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
+            // Alert the user that the request was made (the values are set in doInBackground)
+            new AlertDialog.Builder(RegistrationActivity.this)
+                    .setTitle(alertTitle)
+                    .setMessage(alertMessage)
+                    .setIcon(alertIconNumber)
+                    .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                        /**
+                         * Once the user reads the message and clicks the button, this method is called
+                         * @param dialog the dialog which the button appears
+                         * @param which the id of the button clicked
+                         */
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            // If successful, return to the login page
+                            if (success) {
+                                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                // Allow the user to attempt to register again
+                            }
+
+                        }
+
+                    })
+                    .show();
+
         }
 
         @Override
