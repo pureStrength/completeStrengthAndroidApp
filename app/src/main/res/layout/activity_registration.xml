@@ -101,4 +101,12 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal" />
     </RadioGroup>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:id="@+id/progressRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
 </RelativeLayout>

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
 import com.completeconceptstrength.R;
@@ -50,35 +51,23 @@ public class RegistrationActivity extends ActionBarActivity {
     private EditText textFieldOrganization;
     private RadioButton radioButtonAthlete;
     private RadioButton radioButtonTrainer;
+    private ProgressBar progressRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        Log.d("onCreate", "Creating services");
-
-        // Get the global context
-        globalContext = (GlobalContext)getApplicationContext();
-
-        // Set service classes
-        // Create the service client
-        IServiceClientWrapper serviceClient = globalContext.getServiceClient();
-
-        // Create the athlete service
-        userService = new UserClientService(serviceClient, LocalServer.IP_ADDRESS,
-                LocalServer.IP_PORT);
-
-        Log.d("onCreate", "ServiceClient: " + serviceClient.toString());
-
         Log.d("onCreate", "Setting UI references");
+
         // Set UI references
-        textFieldName = (EditText) findViewById(R.id.textFieldName);
-        textFieldEmail = (EditText) findViewById(R.id.textFieldEmail);
-        textFieldPassword = (EditText) findViewById(R.id.textFieldPassword);
+        textFieldName         = (EditText) findViewById(R.id.textFieldName);
+        textFieldEmail        = (EditText) findViewById(R.id.textFieldEmail);
+        textFieldPassword     = (EditText) findViewById(R.id.textFieldPassword);
         textFieldOrganization = (EditText) findViewById(R.id.textFieldOrganization);
-        radioButtonAthlete = (RadioButton) findViewById(R.id.radioButtonAthlete);
-        radioButtonTrainer = (RadioButton) findViewById(R.id.radioButtonTrainer);
+        radioButtonAthlete    = (RadioButton) findViewById(R.id.radioButtonAthlete);
+        radioButtonTrainer    = (RadioButton) findViewById(R.id.radioButtonTrainer);
+        progressRegister      = (ProgressBar) findViewById(R.id.progressRegister);
 
         // Setup register button
         Button registerButton = (Button) findViewById(R.id.buttonRegister);
@@ -155,10 +144,33 @@ public class RegistrationActivity extends ActionBarActivity {
         }
 
         @Override
+        protected void onPreExecute() {
+            // Start the progress wheel spinner
+            progressRegister.setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected Boolean doInBackground(Void... params) {
             Boolean result = false;
 
             Log.i("doInBackground", "User to register: " + localUser);
+
+            // Create the service object
+            // Get the global context
+            if(globalContext == null) {
+                globalContext = (GlobalContext)getApplicationContext();
+            }
+
+            // Set service classes
+            // Create the service client
+            if(userService == null) {
+                final IServiceClientWrapper serviceClient = globalContext.getServiceClient();
+
+                // Create the athlete service
+                userService = new UserClientService(serviceClient, LocalServer.IP_ADDRESS,
+                        LocalServer.IP_PORT);
+            }
+
 
             // Run the service
             if(userService != null) {
@@ -205,6 +217,9 @@ public class RegistrationActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
+
+            // Stop the progress wheel from spinning
+            progressRegister.setVisibility(View.GONE);
 
             // Alert the user that the request was made (the values are set in doInBackground)
             new AlertDialog.Builder(RegistrationActivity.this)
