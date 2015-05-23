@@ -2,6 +2,7 @@ package com.completeconceptstrength.application;
 
 import android.app.Application;
 
+import completeconceptstrength.model.user.IUser;
 import completeconceptstrength.model.user.impl.Athlete;
 import completeconceptstrength.model.user.impl.Coach;
 import completeconceptstrength.model.user.impl.User;
@@ -22,15 +23,7 @@ public class GlobalContext extends Application {
     /**
      * Store the logged in user so they can be accessed in any activity
      */
-    private User _loggedInUser;
-    /**
-     * Store the logged in Athlete so they can be accessed in any activity
-     */
-    private Athlete _loggedInAthlete;
-    /**
-     * Store the logged in Coach so they can be accessed in any activity
-     */
-    private Coach _loggedInCoach;
+    private IUser _loggedInUser;
 
     /**
      * Default constructor
@@ -62,7 +55,7 @@ public class GlobalContext extends Application {
      * Get the logged in user
      * @return logged in user
      */
-    public User getLoggedInUser() {
+    public IUser getLoggedInUser() {
         return _loggedInUser;
     }
 
@@ -70,39 +63,7 @@ public class GlobalContext extends Application {
      * Set the logged in user
      * @param user the logged in user
      */
-    public void setLoggedInUser(final User user) {
+    public void setLoggedInUser(final IUser user) {
         _loggedInUser = user;
-    }
-
-    /**
-     * Get the logged in athlete
-     * @return logged in athlete
-     */
-    public Athlete getLoggedInAthlete() {
-        return _loggedInAthlete;
-    }
-
-    /**
-     * Set the logged in athlete
-     * @param athlete logged in athlete
-     */
-    public void setLoggedInAthlete(final Athlete athlete) {
-        _loggedInAthlete = athlete;
-    }
-
-    /**
-     * Get the logged in coach
-     * @return logged in coach
-     */
-    public Coach getLoggedInCoach() {
-        return _loggedInCoach;
-    }
-
-    /**
-     * Set the logged in coach
-     * @param coach logged in coach
-     */
-    public void setLoggedInCoach(final Coach coach) {
-        _loggedInCoach = coach;
     }
 }
