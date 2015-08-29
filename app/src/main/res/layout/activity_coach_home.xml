@@ -45,6 +45,7 @@
             android:text="Settings"
             android:id="@+id/settings_button"
             android:layout_gravity="center_horizontal"
+            android:onClick="openSettings"
             android:textSize="20dp" />
 
         <Button
