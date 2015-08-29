@@ -43,6 +43,7 @@
             android:clickable="true"
             android:layout_weight="0.07"
             android:textSize="20dp"
+            android:onClick="openSettings"
             android:layout_gravity="center_horizontal" />
 
         <Button

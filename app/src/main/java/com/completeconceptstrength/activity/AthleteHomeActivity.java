@@ -1,9 +1,11 @@
 package com.completeconceptstrength.activity;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.completeconceptstrength.R;
 
@@ -37,5 +39,10 @@ public class AthleteHomeActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void openSettings(View view){
+        Intent intent = new Intent(this, AthleteSettings.class);
+        startActivity(intent);
     }
 }
