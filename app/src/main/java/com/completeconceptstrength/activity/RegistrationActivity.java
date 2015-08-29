@@ -248,7 +248,6 @@ public class RegistrationActivity extends ActionBarActivity {
 
                     })
                     .show();
-
         }
 
         @Override

@@ -53,6 +53,10 @@
             android:name=".activity.CoachSettings"
             android:label="@string/title_activity_coach_settings" >
         </activity>
+        <activity
+            android:name=".activity.AthleteSettings"
+            android:label="@string/title_activity_athlete_settings" >
+        </activity>
     </application>
 
 </manifest>
