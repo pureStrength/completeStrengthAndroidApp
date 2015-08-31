@@ -21,6 +21,7 @@
             android:text="Athletes"
             android:id="@+id/athletes_button"
             android:layout_gravity="center_horizontal"
+            android:onClick="openAthletesList"
             android:textSize="20dp" />
 
         <Button
@@ -29,6 +30,7 @@
             android:text="Workouts"
             android:id="@+id/workout_button"
             android:layout_gravity="center_horizontal"
+            android:onClick="openWorkouts"
             android:textSize="20dp" />
 
         <Button
@@ -37,6 +39,7 @@
             android:text="Connections"
             android:id="@+id/connections_button"
             android:layout_gravity="center_horizontal"
+            android:onClick="openConnections"
             android:textSize="20dp" />
 
         <Button

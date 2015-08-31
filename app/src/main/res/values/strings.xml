@@ -8,5 +8,10 @@
     <string name="title_activity_coach_home">Home</string>
     <string name="title_activity_coach_settings">CoachSettings</string>
     <string name="title_activity_athlete_settings">Athlete Settings</string>
+    <string name="title_activity_athlete_workouts">Athlete Workouts</string>
+    <string name="title_activity_athlete_connections">AthleteConnections</string>
+    <string name="title_activity_coach_athletes">Athletes</string>
+    <string name="title_activity_coach_workouts">Workouts</string>
+    <string name="title_activity_coach_connections">Connections</string>
 
 </resources>

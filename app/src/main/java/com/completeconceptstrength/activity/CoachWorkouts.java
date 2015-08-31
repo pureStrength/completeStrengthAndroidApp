@@ -1,28 +1,24 @@
 package com.completeconceptstrength.activity;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.completeconceptstrength.R;
 
-
-public class AthleteHomeActivity extends ActionBarActivity {
+public class CoachWorkouts extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_athlete_home);
+        setContentView(R.layout.activity_coach_workouts);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_athlete_home, menu);
+        getMenuInflater().inflate(R.menu.menu_coach_workouts, menu);
         return true;
     }
 
@@ -39,20 +35,5 @@ public class AthleteHomeActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void openSettings(View view){
-        Intent intent = new Intent(this, AthleteSettings.class);
-        startActivity(intent);
-    }
-
-    public void openWorkouts(View view){
-        Intent intent = new Intent(this, AthleteWorkouts.class);
-        startActivity(intent);
-    }
-
-    public void openConnections(View view){
-        Intent intent = new Intent(this, AthleteConnections.class);
-        startActivity(intent);
     }
 }

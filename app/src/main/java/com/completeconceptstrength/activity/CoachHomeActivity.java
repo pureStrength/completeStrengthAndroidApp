@@ -41,6 +41,21 @@ public class CoachHomeActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void openAthletesList(View view){
+        Intent intent = new Intent(this, CoachAthletesActivity.class);
+        startActivity(intent);
+    }
+
+    public void openWorkouts(View view){
+        Intent intent = new Intent(this, CoachWorkouts.class);
+        startActivity(intent);
+    }
+
+    public void openConnections(View view){
+        Intent intent = new Intent(this, CoachConnections.class);
+        startActivity(intent);
+    }
+
     public void openSettings(View view){
         Intent intent = new Intent(this, CoachSettings.class);
         startActivity(intent);
