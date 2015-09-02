@@ -18,7 +18,7 @@ import android.widget.RadioButton;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
-import com.completeconceptstrength.config.LocalServer;
+import com.completeconceptstrength.config.TestServer;
 
 import org.apache.http.HttpResponse;
 
@@ -166,9 +166,9 @@ public class RegistrationActivity extends ActionBarActivity {
             if(userService == null) {
                 final IServiceClientWrapper serviceClient = globalContext.getServiceClient();
 
-                // Create the athlete service
-                userService = new UserClientService(serviceClient, LocalServer.IP_ADDRESS,
-                        LocalServer.IP_PORT);
+                // Create the user service
+                userService = new UserClientService(serviceClient, TestServer.IP_ADDRESS,
+                        TestServer.IP_PORT);
             }
 
 
