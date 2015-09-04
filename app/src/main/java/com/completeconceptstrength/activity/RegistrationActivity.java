@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,17 +17,11 @@ import android.widget.RadioButton;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
-import com.completeconceptstrength.config.TestServer;
 
 import org.apache.http.HttpResponse;
 
-import javax.ws.rs.core.MediaType;
-
-import completeconceptstrength.serialization.CustomJsonSerializer;
 import completeconceptstrength.services.impl.UserClientService;
-import completeconceptstrength.services.utils.IServiceClientWrapper;
-import completeconceptstrength.services.utils.ServiceClient;
-import completeconceptstrength.model.user.impl.Athlete;
+import completeconceptstrength.services.utils.IServiceClient;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserType;
 
@@ -155,20 +148,15 @@ public class RegistrationActivity extends ActionBarActivity {
 
             Log.i("doInBackground", "User to register: " + localUser);
 
-            // Create the service object
-            // Get the global context
-            if(globalContext == null) {
-                globalContext = (GlobalContext)getApplicationContext();
-            }
-
-            // Set service classes
-            // Create the service client
+            // Set service class
             if(userService == null) {
-                final IServiceClientWrapper serviceClient = globalContext.getServiceClient();
 
-                // Create the user service
-                userService = new UserClientService(serviceClient, TestServer.IP_ADDRESS,
-                        TestServer.IP_PORT);
+                // Get the global context
+                if(globalContext == null) {
+                    globalContext = (GlobalContext)getApplicationContext();
+                }
+
+                userService = globalContext.getUserClientService();
             }
 
 

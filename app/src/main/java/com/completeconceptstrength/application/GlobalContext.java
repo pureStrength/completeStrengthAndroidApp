@@ -2,11 +2,11 @@ package com.completeconceptstrength.application;
 
 import android.app.Application;
 
+import com.completeconceptstrength.config.ServerConfig;
+
 import completeconceptstrength.model.user.IUser;
-import completeconceptstrength.model.user.impl.Athlete;
-import completeconceptstrength.model.user.impl.Coach;
-import completeconceptstrength.model.user.impl.User;
-import completeconceptstrength.services.utils.IServiceClientWrapper;
+import completeconceptstrength.services.impl.UserClientService;
+import completeconceptstrength.services.utils.IServiceClient;
 import completeconceptstrength.services.utils.ServiceClient;
 
 /**
@@ -15,10 +15,8 @@ import completeconceptstrength.services.utils.ServiceClient;
  */
 public class GlobalContext extends Application {
 
-    /**
-     * The service client is used to provide functionality for the client services
-     */
-    private IServiceClientWrapper _serviceClient;
+
+    private ServerConfig _serverConfig = ServerConfig.TEST_SERVER;
 
     /**
      * Store the logged in user so they can be accessed in any activity
@@ -26,29 +24,15 @@ public class GlobalContext extends Application {
     private IUser _loggedInUser;
 
     /**
+     * The service client is used to provide functionality for the client services
+     */
+    private IServiceClient _serviceClient;
+
+    /**
      * Default constructor
      */
     public GlobalContext() {
 
-    }
-
-    /**
-     * Get the service client
-     * @return ServiceClient
-     */
-    public IServiceClientWrapper getServiceClient() {
-        if(_serviceClient == null) {
-            setServiceClient(new ServiceClient());
-        }
-        return _serviceClient;
-    }
-
-    /**
-     * Set the service client
-     * @param serviceClient the ServiceClient to set
-     */
-    public void setServiceClient(final IServiceClientWrapper serviceClient) {
-        _serviceClient = serviceClient;
     }
 
     /**
@@ -65,5 +49,32 @@ public class GlobalContext extends Application {
      */
     public void setLoggedInUser(final IUser user) {
         _loggedInUser = user;
+    }
+
+    /**
+     * Get the service client
+     * @return ServiceClient
+     */
+    public IServiceClient getServiceClient() {
+        if(_serviceClient == null) {
+            setServiceClient(new ServiceClient());
+        }
+        return _serviceClient;
+    }
+
+    /**
+     * Set the service client
+     * @param serviceClient the ServiceClient to set
+     */
+    public void setServiceClient(final IServiceClient serviceClient) {
+        _serviceClient = serviceClient;
+    }
+
+    /**
+     * Get the user client service
+     * @return
+     */
+    public UserClientService getUserClientService() {
+        return new UserClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
     }
 }
