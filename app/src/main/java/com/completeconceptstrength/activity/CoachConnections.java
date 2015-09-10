@@ -16,7 +16,7 @@ import com.completeconceptstrength.R;
 public class CoachConnections extends AppCompatActivity {
 
     ViewPager pager;
-   CoachConnectionsViewPagerAdapter adapter;
+    CoachConnectionsViewPagerAdapter adapter;
     SlidingTabLayout tabs;
     CharSequence Titles[]={"Connections","Find"};
     int Numboftabs =2;
@@ -86,7 +86,7 @@ public class CoachConnections extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View v =inflater.inflate(R.layout.tab_1,container,false);
+            View v =inflater.inflate(R.layout.coach_connections_tab_1,container,false);
             return v;
         }
     }
@@ -94,7 +94,7 @@ public class CoachConnections extends AppCompatActivity {
     public static class CoachConnectionsTab2 extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.tab_2,container,false);
+            View v = inflater.inflate(R.layout.coach_connections_tab_2,container,false);
             return v;
         }
     }
