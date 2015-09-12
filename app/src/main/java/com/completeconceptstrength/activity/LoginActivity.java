@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +28,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.application.GlobalContext;
+
+import org.apache.http.HttpResponse;
+
+import completeconceptstrength.services.IUserService;
+import completeconceptstrength.services.impl.UserClientService;
+import completeconceptstrength.services.utils.IServiceClient;
+import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.model.user.impl.UserType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +46,12 @@ import java.util.List;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
+
+    // Global context
+    GlobalContext globalContext;
+
+    //Service classes
+    UserClientService userService;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -254,33 +270,61 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mEmail;
         private final String mPassword;
+        User user;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
+            user = null;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            Boolean result = false;
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            // Set service class
+            if(userService == null) {
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                // Get the global context
+                if(globalContext == null) {
+                    globalContext = (GlobalContext)getApplicationContext();
                 }
+
+                userService = globalContext.getUserClientService();
             }
 
-            // TODO: register the new account here.
-            return true;
+
+            // Run the service
+            if(userService != null) {
+                user = userService.authenticate(mEmail, mPassword);
+            } else {
+                Log.e("doInBackground", "userService is null");
+            }
+
+            Log.d("doInBackground", "result: " + result);
+
+            if(user != null){
+                result = true;
+            }
+
+//
+//            try {
+//                // Simulate network access.
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                return false;
+//            }
+//
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(mEmail)) {
+//                    // Account exists, return true if the password matches.
+//                    return pieces[1].equals(mPassword);
+//                }
+//            }
+//
+//            // TODO: register the new account here.
+            return result;
         }
 
         @Override
@@ -290,8 +334,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 // TODO: Get user type, then create intent object based on user type
-
-                Intent intent = new Intent(LoginActivity.this, CoachHomeActivity.class);
+                Intent intent = null;
+                if(user.getUserType() == UserType.ATHLETE){
+                    intent = new Intent(LoginActivity.this, AthleteHomeActivity.class);
+                }
+                else {
+                    intent = new Intent(LoginActivity.this, CoachHomeActivity.class);
+                }
                 startActivity(intent);
                 finish();
             } else {

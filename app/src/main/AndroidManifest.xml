@@ -44,6 +44,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.LaunchActivity" />
         </activity>
+        <activity
+            android:name=".activity.AthleteHomeActivity"
+            android:label="@string/title_activity_athlete_home"
+            android:parentActivityName=".activity.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.LaunchActivity" />
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
