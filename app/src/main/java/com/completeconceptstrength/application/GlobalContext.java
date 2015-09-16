@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.completeconceptstrength.config.ServerConfig;
 
-import completeconceptstrength.model.user.IUser;
+import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.services.impl.UserClientService;
 import completeconceptstrength.services.utils.IServiceClient;
 import completeconceptstrength.services.utils.ServiceClient;
@@ -21,7 +21,7 @@ public class GlobalContext extends Application {
     /**
      * Store the logged in user so they can be accessed in any activity
      */
-    private IUser _loggedInUser;
+    private User _loggedInUser;
 
     /**
      * The service client is used to provide functionality for the client services
@@ -39,7 +39,7 @@ public class GlobalContext extends Application {
      * Get the logged in user
      * @return logged in user
      */
-    public IUser getLoggedInUser() {
+    public User getLoggedInUser() {
         return _loggedInUser;
     }
 
@@ -47,7 +47,7 @@ public class GlobalContext extends Application {
      * Set the logged in user
      * @param user the logged in user
      */
-    public void setLoggedInUser(final IUser user) {
+    public void setLoggedInUser(final User user) {
         _loggedInUser = user;
     }
 

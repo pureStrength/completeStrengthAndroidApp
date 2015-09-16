@@ -341,7 +341,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 else {
                     intent = new Intent(LoginActivity.this, CoachHomeActivity.class);
                 }
+
                 startActivity(intent);
+                globalContext.setLoggedInUser(user);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

@@ -8,14 +8,25 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.application.GlobalContext;
+
+import completeconceptstrength.model.user.impl.User;
 
 
 public class AthleteHomeActivity extends AppCompatActivity {
+
+    GlobalContext globalContext;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_athlete_home);
+
+        globalContext = (GlobalContext)getApplicationContext();
+        user = globalContext.getLoggedInUser();
+        setTitle(welcomeString());
+
     }
 
 
@@ -54,5 +65,9 @@ public class AthleteHomeActivity extends AppCompatActivity {
     public void openConnections(View view){
         Intent intent = new Intent(this, AthleteConnections.class);
         startActivity(intent);
+    }
+
+    public String welcomeString(){
+        return "Welcome " + user.getFirstName() + "!";
     }
 }
