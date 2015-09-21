@@ -6,6 +6,7 @@ import com.completeconceptstrength.config.ServerConfig;
 
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.services.impl.UserClientService;
+import completeconceptstrength.services.impl.UserConnectionClientService;
 import completeconceptstrength.services.utils.IServiceClient;
 import completeconceptstrength.services.utils.ServiceClient;
 
@@ -76,5 +77,13 @@ public class GlobalContext extends Application {
      */
     public UserClientService getUserClientService() {
         return new UserClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
+    }
+
+    /**
+     * Get the user connection client service
+     * @return
+     */
+    public UserConnectionClientService getUserConnectionClientService() {
+        return new UserConnectionClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
     }
 }

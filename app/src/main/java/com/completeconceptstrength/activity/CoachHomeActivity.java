@@ -1,21 +1,31 @@
 package com.completeconceptstrength.activity;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.application.GlobalContext;
+
+import completeconceptstrength.model.user.impl.User;
 
 
-public class CoachHomeActivity extends ActionBarActivity {
+public class CoachHomeActivity extends AppCompatActivity {
+
+    GlobalContext globalContext;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coach_home);
+
+        globalContext = (GlobalContext)getApplicationContext();
+        user = globalContext.getLoggedInUser();
+        setTitle(welcomeString());
     }
 
 
@@ -59,5 +69,15 @@ public class CoachHomeActivity extends ActionBarActivity {
     public void openSettings(View view){
         Intent intent = new Intent(this, CoachSettings.class);
         startActivity(intent);
+    }
+
+    public void logout(View view){
+        globalContext.setLoggedInUser(null);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public String welcomeString(){
+        return "Welcome " + user.getFirstName() + "!";
     }
 }

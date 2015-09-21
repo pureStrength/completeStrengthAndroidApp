@@ -67,6 +67,12 @@ public class AthleteHomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void logout(View view){
+        globalContext.setLoggedInUser(null);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     public String welcomeString(){
         return "Welcome " + user.getFirstName() + "!";
     }

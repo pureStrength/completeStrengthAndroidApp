@@ -96,11 +96,17 @@ public class AthleteSettings extends AppCompatActivity {
 
 // TODO need get height function inside user
     public String getAthleteHeight() {
-        return "";
+        if(a.getAthleteProfile().getHeight() != null){
+            return a.getAthleteProfile().getHeight().toString();
+        }
+        return "N/A";
     }
 
     public String getAthleteWeight() {
-        return "";
+        if(a.getAthleteProfile().getMostRecentWeight() != null){
+            return a.getAthleteProfile().getMostRecentWeight().toString();
+        }
+        return "N/A";
     }
 
     public String getAthleteDOB() {

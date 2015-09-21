@@ -7,14 +7,22 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.application.GlobalContext;
+
+import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.services.impl.UserConnectionClientService;
 
 public class AthleteConnections extends AppCompatActivity {
 
+    GlobalContext globalContext;
+    UserConnectionClientService connectionService;
+    User user;
     ViewPager pager;
     AthleteConnectionsViewPagerAdapter adapter;
     SlidingTabLayout tabs;
@@ -25,6 +33,14 @@ public class AthleteConnections extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_athlete_connections);
+
+        globalContext = (GlobalContext)getApplicationContext();
+        user = globalContext.getLoggedInUser();
+        connectionService = globalContext.getUserConnectionClientService();
+        if(!connectionService.requestUserConnection(user.getId(), 2L))
+        {
+            Log.e("onCreate", "Failed to pull connection");
+        }
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter =  new AthleteConnectionsViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);

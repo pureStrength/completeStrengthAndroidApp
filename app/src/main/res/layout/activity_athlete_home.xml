@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:text="Logout"
             android:id="@+id/logout_button"
+            android:onClick="logout"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_weight="0.07"
             android:textSize="20dp"
