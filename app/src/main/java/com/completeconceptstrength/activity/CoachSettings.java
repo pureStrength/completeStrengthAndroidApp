@@ -1,5 +1,6 @@
 package com.completeconceptstrength.activity;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -136,11 +137,81 @@ public class CoachSettings extends ActionBarActivity {
         saveButton.setEnabled(false);
 
         globalContext.setLoggedInUser(user);
-        //returns a boolean
-        if(!userService.update(user.getId(), user)){
-            Log.e("saveProfile", "Unable to update user");
-            HttpResponse serviceResponse = userService.getLastResponse();
-            //Log.e("saveProfile", serviceResponse.getStatusLine().getStatusCode());
+
+        final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+        updateTask.execute((Void) null);
+    }
+
+    /**
+     * Represents an asynchronous login/registration task used to authenticate
+     * the user.
+     */
+    public class UpdateProfileTask extends AsyncTask<Void, Void, Boolean> {
+
+        private User localUser;
+        private String alertTitle;
+        private String alertMessage;
+        private int alertIconNumber;
+
+        UpdateProfileTask(final User user) {
+            localUser = user;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Start the progress wheel spinner
+            //progressRegister.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Boolean result = false;
+
+            Log.i("doInBackground", "User to update: " + localUser);
+
+            // Set service class
+            if(userService == null) {
+
+                // Get the global context
+                if(globalContext == null) {
+                    globalContext = (GlobalContext)getApplicationContext();
+                }
+
+                userService = globalContext.getUserClientService();
+            }
+
+
+            // Run the service
+            if(userService != null) {
+                result = userService.update(localUser.getId(), localUser);
+            } else {
+                Log.e("doInBackground", "userService is null");
+            }
+
+            Log.d("doInBackground", "result: " + result);
+
+            // Check the result of the service call and set the variables accordingly
+            if(result == false) {
+                alertTitle = "Unable to update settings";
+                alertIconNumber = android.R.drawable.ic_dialog_alert;
+
+                final HttpResponse response = userService.getLastResponse();
+                if (response != null) {
+                    Log.e("doInBackground", "Error updating user with status code: " + response.getStatusLine().getStatusCode());
+                    alertMessage = "Error updating, \nPlease try again later.\n";
+                }
+                else {
+                    Log.e("doInBackground", "Update user response is null");
+                    alertMessage = "Unable to access server";
+                }
+
+            } else {
+                alertIconNumber = android.R.drawable.ic_dialog_info;
+                alertTitle = "Changes saved";
+                alertMessage = "Settings have been updated";
+            }
+
+            return result;
         }
     }
 

@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +26,7 @@ import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserType;
 
 
-public class RegistrationActivity extends ActionBarActivity {
+public class RegistrationActivity extends AppCompatActivity {
 
     // Global context
     GlobalContext globalContext;
@@ -38,7 +38,8 @@ public class RegistrationActivity extends ActionBarActivity {
     UserClientService userService;
 
     // UI references.
-    private EditText textFieldName;
+    private EditText textFieldFirstName;
+    private EditText textFieldLastName;
     private EditText textFieldEmail;
     private EditText textFieldPassword;
     private EditText textFieldOrganization;
@@ -54,7 +55,8 @@ public class RegistrationActivity extends ActionBarActivity {
         Log.d("onCreate", "Setting UI references");
 
         // Set UI references
-        textFieldName         = (EditText) findViewById(R.id.textFieldName);
+        textFieldFirstName         = (EditText) findViewById(R.id.textFieldFirstName);
+        textFieldLastName = (EditText) findViewById(R.id.textFieldLastName);
         textFieldEmail        = (EditText) findViewById(R.id.textFieldEmail);
         textFieldPassword     = (EditText) findViewById(R.id.textFieldPassword);
         textFieldOrganization = (EditText) findViewById(R.id.textFieldOrganization);
@@ -110,8 +112,8 @@ public class RegistrationActivity extends ActionBarActivity {
 
         // Create user with fields from the UI
         final User user = new User(userType);
-        user.setFirstName(textFieldName.getText().toString());
-        user.setLastName(textFieldName.getText().toString());
+        user.setFirstName(textFieldFirstName.getText().toString());
+        user.setLastName(textFieldLastName.getText().toString());
         user.setEmail(textFieldEmail.getText().toString());
         user.setPassword(textFieldPassword.getText().toString());
         user.setOrganization(textFieldOrganization.getText().toString());

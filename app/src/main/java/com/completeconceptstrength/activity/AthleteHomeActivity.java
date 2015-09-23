@@ -38,6 +38,14 @@ public class AthleteHomeActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        globalContext = (GlobalContext)getApplicationContext();
+        user = globalContext.getLoggedInUser();
+        setTitle(welcomeString());
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long

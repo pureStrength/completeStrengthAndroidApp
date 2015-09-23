@@ -28,6 +28,13 @@ public class CoachHomeActivity extends AppCompatActivity {
         setTitle(welcomeString());
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        globalContext = (GlobalContext)getApplicationContext();
+        user = globalContext.getLoggedInUser();
+        setTitle(welcomeString());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
