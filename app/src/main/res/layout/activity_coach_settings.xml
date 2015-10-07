@@ -32,6 +32,32 @@
         android:layout_toRightOf="@+id/coachFirstName"
         android:layout_alignParentTop="true"/>
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/coachEmail"
+        android:layout_marginTop="10dp"
+        android:textColor="#000040"
+        android:background="#00000000"
+        android:layout_below="@+id/coachFirstName"
+        android:enabled="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/changePassword"
+        android:text="Change Password"
+        android:onClick="changeCoachPassword"
+        android:textColor="#1aa0a1"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/coachEmail"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +65,7 @@
         android:id="@+id/organization"
         android:text="Organization: "
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/coachFirstName"
+        android:layout_below="@+id/changeCoachPassword"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -52,37 +78,14 @@
         android:textColor="#000040"
         android:background="#00000000"
         android:enabled="false"
-        android:layout_below="@+id/coachLastName"
+        android:layout_below="@+id/changeCoachPassword"
         android:layout_toRightOf="@+id/organization"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/emailText"
-        android:text="Email: "
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/organization"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/coachEmail"
-        android:layout_marginTop="10dp"
-        android:textColor="#000040"
-        android:background="#00000000"
-        android:layout_below="@+id/organization"
-        android:layout_toRightOf="@+id/emailText"
-        android:enabled="false" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/emailText"
-        android:id="@+id/radioGroupUserType"
+        android:layout_below="@+id/organization"
+        android:id="@+id/coachRadioGroup"
         android:layout_alignParentTop="false"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
@@ -95,7 +98,7 @@
             android:textSize="15dp"
             android:id="@+id/radioButtonMetric"
             android:checked="true"
-            android:layout_below="@+id/emailText"
+            android:layout_below="@+id/organization"
             android:layout_gravity="left" />
 
         <RadioButton
@@ -105,7 +108,7 @@
             android:textSize="15dp"
             android:id="@+id/radioButtonImperial"
             android:checked="false"
-            android:layout_below="@+id/emailText"
+            android:layout_below="@+id/organization"
             android:layout_toRightOf="@+id/radioButtonMetric"
             android:enabled="true"
             android:layout_gravity="left" />

@@ -4,8 +4,8 @@
     android:layout_height="match_parent">
 
 
-    <CalendarView
-        android:id="@+id/calendar"
+    <FrameLayout
+        android:id="@+id/calendar_frag"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

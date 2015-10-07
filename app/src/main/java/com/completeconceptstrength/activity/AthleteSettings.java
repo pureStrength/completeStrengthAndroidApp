@@ -1,7 +1,10 @@
 package com.completeconceptstrength.activity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,11 +16,17 @@ import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
 
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import org.apache.http.HttpResponse;
 
+import completeconceptstrength.model.exercise.impl.PreferenceUnitType;
 import completeconceptstrength.model.user.impl.Athlete;
 import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.model.user.impl.UserType;
 import completeconceptstrength.services.impl.UserClientService;
 
 public class AthleteSettings extends AppCompatActivity {
@@ -26,6 +35,7 @@ public class AthleteSettings extends AppCompatActivity {
     UserClientService userService;
     User user;
     Athlete a;
+    private UserVerifyTask mAuthTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +79,8 @@ public class AthleteSettings extends AppCompatActivity {
     }
 
     public void setUserDetails(){
+        ImageView userProfilePic = (ImageView) findViewById(R.id.athleteProfPic);
+
         EditText userFirstName = (EditText) findViewById(R.id.athleteFirstName);
         userFirstName.setText(user.getFirstName());
 
@@ -100,7 +112,6 @@ public class AthleteSettings extends AppCompatActivity {
         }
     }
 
-// TODO need get height function inside user
     public String getAthleteHeight() {
         if(a.getAthleteProfile().getHeight() != null){
             return a.getAthleteProfile().getHeight().toString();
@@ -188,6 +199,15 @@ public class AthleteSettings extends AppCompatActivity {
         }
         athleteEmail.setEnabled(false);
 
+        RadioGroup unitsOfMeasurement = (RadioGroup) findViewById(R.id.athleteRadioGroup);
+        int selectedID = unitsOfMeasurement.getCheckedRadioButtonId();
+        if(selectedID == R.id.radioButtonImperial){
+            user.setPreferenceUnitType(PreferenceUnitType.IMPERIAL);
+        }
+        else {
+            user.setPreferenceUnitType(PreferenceUnitType.METRIC);
+        }
+
         EditText dob = (EditText) findViewById(R.id.athleteDOB);
         dob.setEnabled(false);
 
@@ -203,9 +223,64 @@ public class AthleteSettings extends AppCompatActivity {
         updateTask.execute((Void) null);
     }
 
+    public void changePassword(View view){
+        final AlertDialog.Builder changePass = new AlertDialog.Builder(this);
+
+        final EditText currPassword = new EditText(this);
+        currPassword.setHint("Current Password");
+        final EditText newPassword = new EditText(this);
+        newPassword.setHint("New Password");
+        final EditText verifyNewPassword = new EditText(this);
+        verifyNewPassword.setHint("Verify New Password");
+
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(currPassword);
+        linearLayout.addView(newPassword);
+        linearLayout.addView(verifyNewPassword);
+
+        changePass.setView(linearLayout);
+
+        changePass.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String currP = currPassword.getText().toString().trim();
+
+                String newP = newPassword.getText().toString().trim();
+                String vNewP = verifyNewPassword.getText().toString().trim();
+
+                mAuthTask = new UserVerifyTask(user.getEmail(), currP);
+                mAuthTask.execute((Void) null);
+
+                if (!newP.equals(vNewP)) {
+                    // can't update because new passwords aren't the same
+                } else if (mAuthTask == null) {
+                    Log.e("changePassword", "Could not authenticate");
+                } else {
+                    user.setPassword(newP);
+                    globalContext.setLoggedInUser(user);
+
+                    final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+                    updateTask.execute((Void) null);
+                }
+            }
+        });
+
+        changePass.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        changePass.setTitle("Change Password")
+                .setCancelable(true)
+                .show();
+    }
+
     /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
+     * Represents an asynchronous profile update task used to update
+     * the user's details.
      */
     public class UpdateProfileTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -275,4 +350,63 @@ public class AthleteSettings extends AppCompatActivity {
             return result;
         }
     }
+
+    private class UserVerifyTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mEmail;
+        private final String mPassword;
+        User user;
+
+        UserVerifyTask(String email, String password) {
+            mEmail = email;
+            mPassword = password;
+            user = null;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Boolean result = false;
+
+            // Set service class
+            if(userService == null) {
+
+                // Get the global context
+                if(globalContext == null) {
+                    globalContext = (GlobalContext)getApplicationContext();
+                }
+
+                userService = globalContext.getUserClientService();
+            }
+
+            // Run the service
+            if(userService != null) {
+                user = userService.authenticate(mEmail, mPassword);
+            } else {
+                Log.e("doInBackground", "userService is null");
+            }
+
+            Log.d("doInBackground", "result: " + result);
+
+            if(user != null){
+                result = true;
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+
+            if (success) {
+                globalContext.setLoggedInUser(user);
+                finish();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
+    }
+
 }
