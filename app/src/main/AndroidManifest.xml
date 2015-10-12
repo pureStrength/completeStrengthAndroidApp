@@ -70,7 +70,7 @@
             android:label="@string/title_activity_athlete_workouts" >
         </activity>
         <activity
-            android:name=".activity.AthleteConnections"
+            android:name=".activity.Connections"
             android:label="@string/title_activity_athlete_connections" >
         </activity>
         <activity
@@ -80,10 +80,6 @@
         <activity
             android:name=".activity.CoachWorkouts"
             android:label="@string/title_activity_coach_workouts" >
-        </activity>
-        <activity
-            android:name=".activity.CoachConnections"
-            android:label="@string/title_activity_coach_connections" >
         </activity>
     </application>
 
