@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="First Name"
+        android:hint="First Name"
         android:ems="10"
         android:id="@+id/textFieldFirstName"
         android:layout_below="@+id/textViewTitle"
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Last Name"
+        android:hint="Last Name"
         android:ems="10"
         android:id="@+id/textFieldLastName"
         android:layout_below="@+id/textFieldFirstName"
@@ -46,7 +46,7 @@
         android:layout_below="@+id/textFieldLastName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"
-        android:text="Email" />
+        android:hint="Email" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -56,13 +56,13 @@
         android:id="@+id/textFieldPassword"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:text="Password" />
+        android:hint="Password" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textFieldOrganization"
-        android:text="Organization"
+        android:hint="Organization"
         android:layout_below="@+id/textFieldPassword"
         android:layout_marginTop="40dp"
         android:layout_alignLeft="@+id/textFieldPassword"
