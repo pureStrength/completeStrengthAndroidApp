@@ -71,7 +71,7 @@ public class AthleteHomeActivity extends AppCompatActivity {
     }
 
     public void openConnections(View view){
-        Intent intent = new Intent(this, AthleteConnections.class);
+        Intent intent = new Intent(this, Connections.class);
         startActivity(intent);
     }
 
