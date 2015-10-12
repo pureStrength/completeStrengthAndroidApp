@@ -38,8 +38,10 @@ public class Connections extends AppCompatActivity {
     SlidingTabLayout tabs;
     CharSequence Titles[]={"Connections","Find"};
     int Numboftabs =2;
-    public Set<UserConnectionResponse> connections;
+    public Set<UserConnectionResponse> pendingConnections;
     public ArrayList<String> pendingConnect;
+    public Set<UserConnectionResponse> existingConnections;
+    public ArrayList<String> existingConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +53,6 @@ public class Connections extends AppCompatActivity {
         connectionService = globalContext.getUserConnectionClientService();
         final GetUserConnections getConnTask = new GetUserConnections(user);
         getConnTask.execute((Void) null);
-
-        pendingConnect = getConnectedNames(connections);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter =  new AthleteConnectionsViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
@@ -197,8 +197,12 @@ public class Connections extends AppCompatActivity {
 
             // Run the service
             if(connectionService != null) {
-                connections = connectionService.getAllConnections(localUser.getId());
-                result = connections != null;
+                pendingConnections = connectionService.getPendingConnections(localUser.getId());
+                existingConnections = connectionService.getExistingConnections(localUser.getId());
+
+                if(pendingConnections!= null && existingConnections!=null) {
+                    result = true;
+                }
             } else {
                 Log.e("doInBackground", "userConnectionService is null");
             }
@@ -229,8 +233,26 @@ public class Connections extends AppCompatActivity {
             return result;
         }
 
-        public Set<UserConnectionResponse> getConnections(){
-            return connections;
+        @Override
+        protected void onPostExecute(final Boolean success){
+            if(success){
+                pendingConnect = getConnectedNames(pendingConnections);
+                ArrayAdapter<Object> pendAdapter = new ArrayAdapter<>(Connections.this,
+                        android.R.layout.simple_list_item_1, pendingConnect.toArray());
+
+                ListView pendingList = (ListView) findViewById(R.id.pendingList);
+                pendingList.setAdapter(pendAdapter);
+
+                existingConnect = getConnectedNames(existingConnections);
+                ArrayAdapter<Object> existAdapter = new ArrayAdapter<>(Connections.this,
+                        android.R.layout.simple_list_item_1, existingConnect.toArray());
+
+                ListView existingList = (ListView) findViewById(R.id.existingList);
+                existingList.setAdapter(existAdapter);
+            }
+            else {
+                Log.e("onPostExecute", "Execute unsuccessful");
+            }
         }
     }
 
