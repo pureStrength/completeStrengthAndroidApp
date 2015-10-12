@@ -39,7 +39,7 @@ public class Connections extends AppCompatActivity {
     CharSequence Titles[]={"Connections","Find"};
     int Numboftabs =2;
     public Set<UserConnectionResponse> pendingConnections;
-    public ArrayList<String> pendingConnect;
+    public ArrayList<ConnectedUser> pendingConnect;
     public Set<UserConnectionResponse> existingConnections;
     public ArrayList<String> existingConnect;
 
@@ -83,6 +83,22 @@ public class Connections extends AppCompatActivity {
         }
 
         return namesList;
+    }
+
+    public ArrayList<ConnectedUser> getConnUsers(Set<UserConnectionResponse> connUsers){
+        ArrayList<ConnectedUser> cUsers = new ArrayList<ConnectedUser>();
+
+        if(connUsers.isEmpty()){
+            Log.e("getConnectedNames","No Connections pulled from server");
+            return null;
+        }
+
+        for(UserConnectionResponse u: connUsers){
+            String name = u.getUser().getFirstName() + " " + u.getUser().getLastName();
+            cUsers.add(new ConnectedUser(name, u.getUser().getEmail(), u.getUser().getOrganization()));
+        }
+
+        return cUsers;
     }
 
     static class AthleteConnectionsViewPagerAdapter extends FragmentStatePagerAdapter
@@ -166,25 +182,16 @@ public class Connections extends AppCompatActivity {
     public class GetUserConnections extends AsyncTask<Void, Void, Boolean> {
 
         private User localUser;
-        private String alertTitle;
-        private String alertMessage;
-        private int alertIconNumber;
 
         GetUserConnections(final User user) {
             localUser = user;
         }
 
         @Override
-        protected void onPreExecute() {
-            // Start the progress wheel spinner
-            //progressRegister.setVisibility(View.VISIBLE);
-        }
-
-        @Override
         protected Boolean doInBackground(Void... params) {
             Boolean result = false;
 
-            Log.i("doInBackground", "User to update: " + localUser);
+            Log.i("doInBackground", "User to get connections: " + localUser);
 
             // Set service class
             if(connectionService == null) {
@@ -198,7 +205,7 @@ public class Connections extends AppCompatActivity {
             // Run the service
             if(connectionService != null) {
                 pendingConnections = connectionService.getPendingConnections(localUser.getId());
-                existingConnections = connectionService.getExistingConnections(localUser.getId());
+                existingConnections = connectionService.getExistingConnections(localUser.getId(), null);
 
                 if(pendingConnections!= null && existingConnections!=null) {
                     result = true;
@@ -211,23 +218,13 @@ public class Connections extends AppCompatActivity {
 
             // Check the result of the service call and set the variables accordingly
             if(result == false) {
-                alertTitle = "Unable to find connections";
-                alertIconNumber = android.R.drawable.ic_dialog_alert;
-
                 final HttpResponse response = connectionService.getLastResponse();
                 if (response != null) {
                     Log.e("doInBackground", "Error getting user connections with status code: " + response.getStatusLine().getStatusCode());
-                    alertMessage = "Error updating, \nPlease try again later.\n";
                 }
                 else {
                     Log.e("doInBackground", "Get user connections response is null");
-                    alertMessage = "Unable to access server";
                 }
-
-            } else {
-                alertIconNumber = android.R.drawable.ic_dialog_info;
-                alertTitle = "Connections pulled";
-                alertMessage = "Connections have been found";
             }
 
             return result;
@@ -236,12 +233,16 @@ public class Connections extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success){
             if(success){
-                pendingConnect = getConnectedNames(pendingConnections);
-                ArrayAdapter<Object> pendAdapter = new ArrayAdapter<>(Connections.this,
-                        android.R.layout.simple_list_item_1, pendingConnect.toArray());
+                pendingConnect = getConnUsers(pendingConnections);
+                ConnectionsAdapter pendAdapter = new ConnectionsAdapter(Connections.this,
+                        R.layout.connection_entry_item);
 
                 ListView pendingList = (ListView) findViewById(R.id.pendingList);
                 pendingList.setAdapter(pendAdapter);
+
+                for(final ConnectedUser u : pendingConnect) {
+                    pendAdapter.add(u);
+                }
 
                 existingConnect = getConnectedNames(existingConnections);
                 ArrayAdapter<Object> existAdapter = new ArrayAdapter<>(Connections.this,
