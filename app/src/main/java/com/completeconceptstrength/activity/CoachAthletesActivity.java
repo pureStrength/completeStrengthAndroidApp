@@ -1,5 +1,6 @@
 package com.completeconceptstrength.activity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,19 +16,39 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.application.GlobalContext;
+
+import org.apache.http.HttpResponse;
+
+import java.util.Set;
+
+import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.model.user.impl.UserConnectionResponse;
+import completeconceptstrength.model.user.impl.UserType;
+import completeconceptstrength.services.impl.UserConnectionClientService;
 
 public class CoachAthletesActivity extends AppCompatActivity {
 
+    GlobalContext globalContext;
+    UserConnectionClientService connectionService;
+    User user;
     ViewPager pager;
     CoachAthletesViewPagerAdapter adapter;
     SlidingTabLayout tabs;
     CharSequence Titles[]={"A-Z","Recent","Starred"};
     int Numboftabs =3;
+    public Set<UserConnectionResponse> connections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coach_athletes);
+
+        globalContext = (GlobalContext)getApplicationContext();
+        user = globalContext.getLoggedInUser();
+        connectionService = globalContext.getUserConnectionClientService();
+        final GetUserConnections getConnTask = new GetUserConnections(user);
+        getConnTask.execute((Void) null);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter =  new CoachAthletesViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
@@ -111,6 +133,73 @@ public class CoachAthletesActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.coach_athletes_tab_3,container,false);
             return v;
+        }
+    }
+
+    /**
+     * Represents an asynchronous profile update task used to update
+     * the user's details.
+     */
+    public class GetUserConnections extends AsyncTask<Void, Void, Boolean> {
+
+        private User localUser;
+
+        GetUserConnections(final User user) {
+            localUser = user;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Start the progress wheel spinner
+            //progressRegister.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Boolean result = false;
+
+            Log.i("doInBackground", "Starting to get coach's athletes");
+
+            // Set service class
+            if(connectionService == null) {
+                // Get the global context
+                if(globalContext == null) {
+                    globalContext = (GlobalContext)getApplicationContext();
+                }
+                connectionService = globalContext.getUserConnectionClientService();
+            }
+
+            // Run the service
+            if(connectionService != null) {
+                connections = connectionService.getExistingConnections(localUser.getId(), UserType.ATHLETE);
+                result = connections != null;
+            } else {
+                Log.e("doInBackground", "userConnectionService is null");
+            }
+
+            Log.d("doInBackground", "result: " + result);
+
+            // Check the result of the service call and set the variables accordingly
+            if(result == false) {
+
+                final HttpResponse response = connectionService.getLastResponse();
+                if (response != null) {
+                    Log.e("doInBackground", "Error getting user connections with status code: " + response.getStatusLine().getStatusCode());
+                }
+                else {
+                    Log.e("doInBackground", "Get user connections response is null");
+                }
+
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+
+
+
         }
     }
 }
