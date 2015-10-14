@@ -20,6 +20,7 @@ import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
 
+import java.util.List;
 import java.util.Set;
 
 import completeconceptstrength.model.user.impl.User;
@@ -37,7 +38,7 @@ public class CoachAthletesActivity extends AppCompatActivity {
     SlidingTabLayout tabs;
     CharSequence Titles[]={"A-Z","Recent","Starred"};
     int Numboftabs =3;
-    public Set<UserConnectionResponse> connections;
+    public List<UserConnectionResponse> connections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

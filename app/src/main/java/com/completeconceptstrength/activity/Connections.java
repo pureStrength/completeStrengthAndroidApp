@@ -22,6 +22,7 @@ import com.completeconceptstrength.application.GlobalContext;
 import org.apache.http.HttpResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import completeconceptstrength.model.user.impl.User;
@@ -38,9 +39,9 @@ public class Connections extends AppCompatActivity {
     SlidingTabLayout tabs;
     CharSequence Titles[]={"Connections","Find"};
     int Numboftabs =2;
-    public Set<UserConnectionResponse> pendingConnections;
+    public List<UserConnectionResponse> pendingConnections;
     public ArrayList<ConnectedUser> pendingConnect;
-    public Set<UserConnectionResponse> existingConnections;
+    public List<UserConnectionResponse> existingConnections;
     public ArrayList<String> existingConnect;
 
     @Override
@@ -70,7 +71,7 @@ public class Connections extends AppCompatActivity {
 
     }
 
-    public ArrayList<String> getConnectedNames(Set<UserConnectionResponse> connUsers){
+    public ArrayList<String> getConnectedNames(List<UserConnectionResponse> connUsers){
         ArrayList<String> namesList = new ArrayList<String>();
 
         if(connUsers.isEmpty()){
@@ -85,7 +86,7 @@ public class Connections extends AppCompatActivity {
         return namesList;
     }
 
-    public ArrayList<ConnectedUser> getConnUsers(Set<UserConnectionResponse> connUsers){
+    public ArrayList<ConnectedUser> getConnUsers(List<UserConnectionResponse> connUsers){
         ArrayList<ConnectedUser> cUsers = new ArrayList<ConnectedUser>();
 
         if(connUsers.isEmpty()){
