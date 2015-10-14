@@ -42,7 +42,7 @@ public class Connections extends AppCompatActivity {
     public List<UserConnectionResponse> pendingConnections;
     public ArrayList<ConnectedUser> pendingConnect;
     public List<UserConnectionResponse> existingConnections;
-    public ArrayList<String> existingConnect;
+    public ArrayList<ConnectedUser> existingConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,12 +245,16 @@ public class Connections extends AppCompatActivity {
                     pendAdapter.add(u);
                 }
 
-                existingConnect = getConnectedNames(existingConnections);
-                ArrayAdapter<Object> existAdapter = new ArrayAdapter<>(Connections.this,
-                        android.R.layout.simple_list_item_1, existingConnect.toArray());
+                existingConnect = getConnUsers(existingConnections);
+                ConnectionsAdapter existAdapter = new ConnectionsAdapter(Connections.this,
+                        R.layout.connection_entry_item);
 
                 ListView existingList = (ListView) findViewById(R.id.existingList);
                 existingList.setAdapter(existAdapter);
+
+                for(final ConnectedUser u : existingConnect){
+                    existAdapter.add(u);
+                }
             }
             else {
                 Log.e("onPostExecute", "Execute unsuccessful");
