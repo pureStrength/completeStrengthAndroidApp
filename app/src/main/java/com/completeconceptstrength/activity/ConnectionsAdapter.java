@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.completeconceptstrength.R;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserConnectionResponse;
 
-public final class ConnectionsAdapter extends ArrayAdapter<ConnectedUser> {
+public final class ConnectionsAdapter extends ArrayAdapter<ConnectedUser> implements Filterable {
 
     private final int layout_resource;
 

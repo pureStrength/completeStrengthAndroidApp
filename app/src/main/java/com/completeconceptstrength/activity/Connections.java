@@ -3,18 +3,21 @@ package com.completeconceptstrength.activity;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
@@ -23,7 +26,6 @@ import org.apache.http.HttpResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserConnectionResponse;
@@ -43,6 +45,10 @@ public class Connections extends AppCompatActivity {
     public ArrayList<ConnectedUser> pendingConnect;
     public List<UserConnectionResponse> existingConnections;
     public ArrayList<ConnectedUser> existingConnect;
+    public List<UserConnectionResponse> queryResults;
+    public ArrayList<ConnectedUser> queryUserResults;
+    public ListView searchList;
+    public SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,28 +68,48 @@ public class Connections extends AppCompatActivity {
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
 
-        // Assiging the Sliding Tab Layout View
+        // Assigning the Sliding Tab Layout View
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
+        View inflatedView = getLayoutInflater().inflate(R.layout.connections_tab_2, null);
+        searchView = (SearchView) inflatedView.findViewById(R.id.searchView1);
+        searchView.setQueryHint("Search Here");
+        searchList = (ListView) findViewById(R.id.searchList);
+
+        getSearchQuery();
     }
 
-    public ArrayList<String> getConnectedNames(List<UserConnectionResponse> connUsers){
-        ArrayList<String> namesList = new ArrayList<String>();
+    public void getSearchQuery() {
+        Log.i("getSearchQuery", "entered getSearchQuery function");
 
-        if(connUsers.isEmpty()){
-            Log.e("getConnectedNames","No Connections pulled from server");
-            return null;
-        }
+        searchView.setIconifiedByDefault(false);
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setQueryHint("Search Here");
 
-        for (UserConnectionResponse u: connUsers) {
-            namesList.add(u.getUser().getFirstName() + " " + u.getUser().getLastName());
-        }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-        return namesList;
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Log.i("getSearchQuery", "onQueryTextSubmit");
+                //GetSearchResults getSearchResults = new GetSearchResults(user, query);
+                //getSearchResults.execute((Void) null);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                //GetSearchResults getSearchResults = new GetSearchResults(user, query);
+                //getSearchResults.execute((Void) null);
+
+                Log.i("getSearchQuery", "onQueryTextChange");
+                return false;
+            }
+        });
     }
 
     public ArrayList<ConnectedUser> getConnUsers(List<UserConnectionResponse> connUsers){
@@ -101,6 +127,7 @@ public class Connections extends AppCompatActivity {
 
         return cUsers;
     }
+
 
     static class AthleteConnectionsViewPagerAdapter extends FragmentStatePagerAdapter
     {
@@ -144,29 +171,16 @@ public class Connections extends AppCompatActivity {
 
     public static class AthleteConnectionsTab1 extends Fragment {
 
+        public View v;
+
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View v =inflater.inflate(R.layout.connections_tab_1,container,false);
+            View v = inflater.inflate(R.layout.connections_tab_1,container,false);
+            this.v = v;
             return v;
         }
+
     }
-
-    /*// TODO Example ListFragment
-    public class MessagesFragment extends ListFragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.connections_tab_1, container,
-                    false);
-
-            String[] values = new String[] { "Message1", "Message2", "Message3" };
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1, values);
-            setListAdapter(adapter);
-            return rootView;
-        }
-    }*/
 
     public static class AthleteConnectionsTab2 extends Fragment {
         @Override
@@ -176,6 +190,75 @@ public class Connections extends AppCompatActivity {
         }
     }
 
+    public class GetSearchResults extends AsyncTask<Void, Void, Boolean> {
+        private User localUser;
+        private String query;
+
+        GetSearchResults(final User user, String query) {localUser = user; this.query = query; }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Boolean result = false;
+            Log.i("doInBackground", "User currently searching: " + localUser);
+
+            // Set service class
+            if(connectionService == null) {
+                // Get the global context
+                if(globalContext == null) {
+                    globalContext = (GlobalContext)getApplicationContext();
+                }
+                connectionService = globalContext.getUserConnectionClientService();
+            }
+
+            // Run the service
+            if(connectionService != null) {
+                //String query = searchView.getQuery().toString();
+                queryResults = connectionService.searchConnectionsByUser(localUser.getId(), query);
+
+                if(queryResults!= null) {
+                    result = true;
+                }
+            } else {
+                Log.e("doInBackground", "userConnectionService is null");
+            }
+
+            Log.d("doInBackground", "result: " + result);
+
+            // Check the result of the service call and set the variables accordingly
+            if(result == false) {
+                final HttpResponse response = connectionService.getLastResponse();
+                if (response != null) {
+                    Log.e("doInBackground", "Error getting query results with status code: " + response.getStatusLine().getStatusCode());
+                }
+                else {
+                    Log.e("doInBackground", "Get search results response is null");
+                }
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success){
+            if(success){
+                queryUserResults = getConnUsers(queryResults);
+                ConnectionsAdapter pendAdapter = new ConnectionsAdapter(Connections.this,
+                        R.layout.connection_entry_item);
+
+                searchList = (ListView) findViewById(R.id.searchList);
+                searchList.setTextFilterEnabled(true);
+                searchList.setAdapter(pendAdapter);
+
+                for(final ConnectedUser u : queryUserResults) {
+                    pendAdapter.add(u);
+                }
+
+            }
+            else {
+                Log.e("onPostExecute", "Execute unsuccessful");
+            }
+        }
+    }
     /**
      * Represents an asynchronous profile update task used to update
      * the user's details.

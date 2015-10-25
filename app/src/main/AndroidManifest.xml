@@ -81,6 +81,18 @@
             android:name=".activity.CoachWorkouts"
             android:label="@string/title_activity_coach_workouts" >
         </activity>
+        <activity
+            android:name=".activity.ConnectionsButtons"
+            android:label="@string/title_activity_connections_buttons" >
+        </activity>
+        <activity
+            android:name=".activity.ConnectionsList"
+            android:label="@string/title_activity_connections_list" >
+        </activity>
+        <activity
+            android:name=".activity.ConnectionSearch"
+            android:label="@string/title_activity_connection_search" >
+        </activity>
     </application>
 
 </manifest>

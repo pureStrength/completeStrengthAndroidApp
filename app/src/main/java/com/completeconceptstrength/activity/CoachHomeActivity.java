@@ -69,7 +69,7 @@ public class CoachHomeActivity extends AppCompatActivity {
     }
 
     public void openConnections(View view){
-        Intent intent = new Intent(this, Connections.class);
+        Intent intent = new Intent(this, ConnectionsButtons.class);
         startActivity(intent);
     }
 
