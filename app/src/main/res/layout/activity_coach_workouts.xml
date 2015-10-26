@@ -6,7 +6,33 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.completeconceptstrength.activity.CoachWorkouts">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/lifts_button"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:text="Lifts"
+        android:layout_gravity="center_horizontal"
+        android:onClick="openLiftsList"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/sets_button"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@+id/lifts_button"
+        android:text="Sets"
+        android:layout_gravity="center_horizontal"
+        android:onClick="openSetsList"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/prescriptions_button"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@+id/sets_button"
+        android:text="Prescriptions"
+        android:layout_gravity="center_horizontal"
+        android:onClick="openPrescription"
+        android:textSize="20dp" />
 
 </RelativeLayout>

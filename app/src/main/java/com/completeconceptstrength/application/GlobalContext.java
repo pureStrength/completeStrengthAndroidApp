@@ -4,7 +4,10 @@ import android.app.Application;
 
 import com.completeconceptstrength.config.ServerConfig;
 
+import completeconceptstrength.model.exercise.impl.MainLiftDefinition;
 import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.services.impl.MainLiftDefinitionClientService;
+import completeconceptstrength.services.impl.MainLiftSetClientService;
 import completeconceptstrength.services.impl.PrescriptionDefinitionClientService;
 import completeconceptstrength.services.impl.PrescriptionInstanceClientService;
 import completeconceptstrength.services.impl.UserClientService;
@@ -95,5 +98,21 @@ public class GlobalContext extends Application {
      */
     public PrescriptionInstanceClientService getPrescriptionInstanceClientService() {
         return new PrescriptionInstanceClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
+    }
+
+    /**
+     * Get main lift definition service
+     * @return
+     */
+    public MainLiftDefinitionClientService getMainLiftDefinitionClientService() {
+        return new MainLiftDefinitionClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
+    }
+
+    /**
+     * Get main lift set definition service
+     * @return
+     */
+    public MainLiftSetClientService getMainLiftSetClientService() {
+        return new MainLiftSetClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
     }
 }

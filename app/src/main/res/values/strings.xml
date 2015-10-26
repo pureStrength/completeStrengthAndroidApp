@@ -22,5 +22,8 @@
     <string name="title_activity_connection_search">ConnectionSearch</string>
     <string name="title_activity_athlete_workout_list">AthleteWorkoutList</string>
     <string name="title_activity_athlete_workout_calendar">AthleteWorkoutCalendar</string>
+    <string name="title_activity_coach_workouts_lifts">CoachWorkoutsLifts</string>
+    <string name="title_activity_coach_workouts_sets">CoachWorkoutsSets</string>
+    <string name="title_activity_coach_workouts_prescriptions">CoachWorkoutsPrescriptions</string>
 
 </resources>

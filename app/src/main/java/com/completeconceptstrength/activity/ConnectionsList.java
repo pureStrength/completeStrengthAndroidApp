@@ -46,15 +46,6 @@ public class ConnectionsList extends AppCompatActivity {
         getConnTask.execute((Void) null);
     }
 
-    public void delete(View v){
-        ListView listview1 = (ListView) findViewById(R.id.existingList);
-
-        final int position = listview1.getPositionForView((View) v.getParent());
-        existingConnections.remove(position);
-        existAdapter.notifyDataSetChanged();
-
-    }
-
     /**
      * Represents an asynchronous profile update task used to update
      * the user's details.

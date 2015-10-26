@@ -97,6 +97,18 @@
             android:name=".activity.AthleteWorkoutCalendar"
             android:label="@string/title_activity_athlete_workout_calendar" >
         </activity>
+        <activity
+            android:name=".activity.CoachWorkoutsLifts"
+            android:label="@string/title_activity_coach_workouts_lifts" >
+        </activity>
+        <activity
+            android:name=".activity.CoachWorkoutsSets"
+            android:label="@string/title_activity_coach_workouts_sets" >
+        </activity>
+        <activity
+            android:name=".activity.CoachWorkoutsPrescriptions"
+            android:label="@string/title_activity_coach_workouts_prescriptions" >
+        </activity>
     </application>
 
 </manifest>
