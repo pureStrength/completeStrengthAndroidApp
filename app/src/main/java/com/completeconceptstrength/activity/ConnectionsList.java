@@ -115,7 +115,7 @@ public class ConnectionsList extends AppCompatActivity {
             if(success){
                 if(pendingConnections != null && !pendingConnections.isEmpty()){
                     pendAdapter = new ConnectionsAdapter(ConnectionsList.this,
-                            R.layout.connection_entry_item);
+                            R.layout.connection_entry_item, localUser, globalContext);
 
                     ListView pendingList = (ListView) findViewById(R.id.pendingList);
                     pendingList.setAdapter(pendAdapter);
@@ -127,7 +127,7 @@ public class ConnectionsList extends AppCompatActivity {
 
                 if(existingConnections != null && !existingConnections.isEmpty()) {
                     existAdapter = new ConnectionsAdapter(ConnectionsList.this,
-                            R.layout.connection_entry_item);
+                            R.layout.connection_entry_item, localUser, globalContext);
 
                     ListView existingList = (ListView) findViewById(R.id.existingList);
                     existingList.setAdapter(existAdapter);

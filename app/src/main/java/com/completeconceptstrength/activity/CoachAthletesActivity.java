@@ -111,7 +111,7 @@ public class CoachAthletesActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             if(success && athleteConnections != null && !athleteConnections.isEmpty()){
                 ConnectionsAdapter athleteAdapter = new ConnectionsAdapter(CoachAthletesActivity.this,
-                        R.layout.connection_entry_item);
+                        R.layout.connection_entry_item, localUser, globalContext);
 
                 ListView athleteList = (ListView) findViewById(R.id.athleteList);
                 athleteList.setAdapter(athleteAdapter);

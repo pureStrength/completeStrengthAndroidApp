@@ -2,7 +2,6 @@ package com.completeconceptstrength.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListView;
@@ -13,10 +12,8 @@ import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserConnectionResponse;
 import completeconceptstrength.services.impl.UserConnectionClientService;
@@ -43,9 +40,6 @@ public class ConnectionSearch extends AppCompatActivity {
         searchView = (SearchView) findViewById(R.id.searchView1);
         searchList = (ListView) findViewById(R.id.searchList);
         getSearchQuery();
-
-        /*final GetUserConnections getConnTask = new GetUserConnections(user);
-        getConnTask.execute((Void) null);*/
     }
 
     public void getSearchQuery() {
@@ -129,7 +123,7 @@ public class ConnectionSearch extends AppCompatActivity {
         protected void onPostExecute(final Boolean success){
             if(success && queryResults != null && !queryResults.isEmpty()){
                 ConnectionsAdapter queryAdapter = new ConnectionsAdapter(ConnectionSearch.this,
-                        R.layout.connection_entry_item);
+                        R.layout.connection_entry_item, localUser, globalContext);
 
                 searchList = (ListView) findViewById(R.id.searchList);
                 searchList.setTextFilterEnabled(true);

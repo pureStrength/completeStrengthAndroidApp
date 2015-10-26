@@ -1,6 +1,8 @@
 package com.completeconceptstrength.activity;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +14,27 @@ import android.widget.TextView;
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
 
+import org.apache.http.HttpResponse;
+
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserConnectionResponse;
 import completeconceptstrength.model.user.impl.UserConnectionStatus;
+import completeconceptstrength.services.impl.UserConnectionClientService;
 
 public final class ConnectionsAdapter extends ArrayAdapter<UserConnectionResponse> implements Filterable {
 
     private final int layout_resource;
+    GlobalContext globalContext;
+    UserConnectionClientService connectionService;
+    User user;
 
-    public ConnectionsAdapter(final Context context, final int layout_resource) {
+    public ConnectionsAdapter(final Context context, final int layout_resource, User u, GlobalContext gc) {
         super(context, 0);
         this.layout_resource = layout_resource;
+
+        globalContext = gc;
+        user = globalContext.getLoggedInUser();
+        connectionService = globalContext.getUserConnectionClientService();
     }
 
     @Override
@@ -34,43 +46,28 @@ public final class ConnectionsAdapter extends ArrayAdapter<UserConnectionRespons
         viewHolder.nameView.setText(connUser.getUser().getFirstName() + " " + connUser.getUser().getLastName());
         viewHolder.orgView.setText(connUser.getUser().getOrganization());
 
-        UserConnectionStatus connectionType = connUser.getUserConnectionStatus();
+        final UserConnectionStatus connectionType = connUser.getUserConnectionStatus();
         if(connectionType == UserConnectionStatus.CONNECTION_INTACT){
             viewHolder.actionButton.setText("Remove");
-            viewHolder.actionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Remove connected user from current user's connection list and connected user's list
-                }
-            });
         }
         else if(connectionType == UserConnectionStatus.CONNECTION_REQUEST_SENT){
-            viewHolder.actionButton.setText("Cancel");
-            viewHolder.actionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Remove connection request from current user's connection list and requested user's list
-                }
-            });
+            viewHolder.actionButton.setText("Accept");
         }
         else if(connectionType == UserConnectionStatus.CONNECTION_REQUEST_AVAILABLE){
-            viewHolder.actionButton.setText("Accept");
-            viewHolder.actionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Accept user and add to current user's connection list and accepted user's connection list
-                }
-            });
+            viewHolder.actionButton.setText("Cancel");
         }
         else {
             viewHolder.actionButton.setText("Send");
-            viewHolder.actionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Accept user and add to current user's connection list and accepted user's connection list
-                }
-            });
         }
+
+        viewHolder.actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Accept user and add to current user's connection list and accepted user's connection list
+                ButtonActions getButtonActions = new ButtonActions(user, connUser, connectionType);
+                getButtonActions.execute((Void) null);
+            }
+        });
 
         return view;
     }
@@ -122,4 +119,67 @@ public final class ConnectionsAdapter extends ArrayAdapter<UserConnectionRespons
 
     }
 
+    public class ButtonActions extends AsyncTask<Void, Void, Boolean> {
+        private User localUser;
+        private UserConnectionResponse connUser;
+        private UserConnectionStatus status;
+
+        ButtonActions(final User user, UserConnectionResponse connUser, UserConnectionStatus status) {
+            localUser = user;
+            this.connUser = connUser;
+            this.status = status;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Boolean result = false;
+            Log.i("doInBackground", "User currently searching: " + localUser);
+
+            // Set service class
+            if (connectionService == null) {
+                // Get the global context
+                if (globalContext == null) {
+                    return result;
+                }
+                connectionService = globalContext.getUserConnectionClientService();
+            }
+
+            // Run the service
+            if (connectionService != null) {
+                boolean success;
+                if(status == UserConnectionStatus.CONNECTION_INTACT){
+                    success = connectionService.disconnectUsers(localUser.getId(), connUser.getUser().getId());
+                }
+                else if(status == UserConnectionStatus.CONNECTION_REQUEST_AVAILABLE){
+                    success = connectionService.denyUserConnection(localUser.getId(), connUser.getUser().getId());
+                }
+                else if(status == UserConnectionStatus.CONNECTION_REQUEST_SENT){
+                    success = connectionService.acceptUserConnection(localUser.getId(), connUser.getUser().getId());
+                }
+                else{
+                    success = connectionService.requestUserConnection(localUser.getId(), connUser.getUser().getId());
+                }
+
+                if (success) {
+                    result = true;
+                }
+            } else {
+                Log.e("doInBackground", "userConnectionService is null");
+            }
+
+            Log.d("doInBackground", "result: " + result);
+
+            // Check the result of the service call and set the variables accordingly
+            if (result == false) {
+                final HttpResponse response = connectionService.getLastResponse();
+                if (response != null) {
+                    Log.e("doInBackground", "Error getting query results with status code: " + response.getStatusLine().getStatusCode());
+                } else {
+                    Log.e("doInBackground", "Get search results response is null");
+                }
+            }
+
+            return result;
+        }
+    }
 }
