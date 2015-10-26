@@ -46,7 +46,7 @@ public class ConnectionsList extends AppCompatActivity {
     public ArrayList<ConnectedUser> getConnUsers(List<UserConnectionResponse> connUsers){
         ArrayList<ConnectedUser> cUsers = new ArrayList<ConnectedUser>();
 
-        if(connUsers.isEmpty()){
+        if(connUsers == null || connUsers.isEmpty()){
             Log.e("getConnectedNames","No Connections pulled from server");
             return null;
         }
@@ -117,26 +117,30 @@ public class ConnectionsList extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success){
             if(success){
-                pendingConnect = getConnUsers(pendingConnections);
-                ConnectionsAdapter pendAdapter = new ConnectionsAdapter(ConnectionsList.this,
-                        R.layout.connection_entry_item);
+                if(pendingConnections != null && !pendingConnections.isEmpty()){
+                    pendingConnect = getConnUsers(pendingConnections);
+                    ConnectionsAdapter pendAdapter = new ConnectionsAdapter(ConnectionsList.this,
+                            R.layout.connection_entry_item);
 
-                ListView pendingList = (ListView) findViewById(R.id.pendingList);
-                pendingList.setAdapter(pendAdapter);
+                    ListView pendingList = (ListView) findViewById(R.id.pendingList);
+                    pendingList.setAdapter(pendAdapter);
 
-                for(final ConnectedUser u : pendingConnect) {
-                    pendAdapter.add(u);
+                    for(final ConnectedUser u : pendingConnect) {
+                        pendAdapter.add(u);
+                    }
                 }
 
-                existingConnect = getConnUsers(existingConnections);
-                ConnectionsAdapter existAdapter = new ConnectionsAdapter(ConnectionsList.this,
-                        R.layout.connection_entry_item);
+                if(existingConnections != null && !existingConnections.isEmpty()) {
+                    existingConnect = getConnUsers(existingConnections);
+                    ConnectionsAdapter existAdapter = new ConnectionsAdapter(ConnectionsList.this,
+                            R.layout.connection_entry_item);
 
-                ListView existingList = (ListView) findViewById(R.id.existingList);
-                existingList.setAdapter(existAdapter);
+                    ListView existingList = (ListView) findViewById(R.id.existingList);
+                    existingList.setAdapter(existAdapter);
 
-                for(final ConnectedUser u : existingConnect){
-                    existAdapter.add(u);
+                    for (final ConnectedUser u : existingConnect) {
+                        existAdapter.add(u);
+                    }
                 }
             }
             else {

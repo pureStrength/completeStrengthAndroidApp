@@ -14,12 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -33,12 +35,9 @@ public class CoachAthletesActivity extends AppCompatActivity {
     GlobalContext globalContext;
     UserConnectionClientService connectionService;
     User user;
-    ViewPager pager;
-    CoachAthletesViewPagerAdapter adapter;
-    SlidingTabLayout tabs;
-    CharSequence Titles[]={"A-Z","Recent","Starred"};
-    int Numboftabs =3;
     public List<UserConnectionResponse> connections;
+    public List<UserConnectionResponse> athleteConnections;
+    public ArrayList<ConnectedUser> athleteConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,90 +50,22 @@ public class CoachAthletesActivity extends AppCompatActivity {
         final GetUserConnections getConnTask = new GetUserConnections(user);
         getConnTask.execute((Void) null);
 
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new CoachAthletesViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
-
-        // Assigning ViewPager View and setting the adapter
-        pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-
-        // Assiging the Sliding Tab Layout View
-        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-        // Setting the ViewPager For the SlidingTabsLayout
-        tabs.setViewPager(pager);
-
     }
 
-    static class CoachAthletesViewPagerAdapter extends FragmentStatePagerAdapter
-    {
-        CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
-        int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
+    public ArrayList<ConnectedUser> getConnUsers(List<UserConnectionResponse> connUsers){
+        ArrayList<ConnectedUser> cUsers = new ArrayList<ConnectedUser>();
 
-        // Build a Constructor and assign the passed Values to appropriate values in the class
-        public CoachAthletesViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb) {
-            super(fm);
-            this.Titles = mTitles;
-            this.NumbOfTabs = mNumbOfTabsumb;
+        if(connUsers == null || connUsers.isEmpty()){
+            Log.e("getConnectedNames","No Connections pulled from server");
+            return null;
         }
 
-        //This method return the fragment for the every position in the View Pager
-        @Override
-        public Fragment getItem(int position) {
-            if(position == 0) // if the position is 0 we are returning the First tab
-            {
-                CoachAthletesTab1 alphabetical = new CoachAthletesTab1();
-                return alphabetical;
-            }
-            else if(position == 1)             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
-            {
-                CoachAthletesTab2 recent = new CoachAthletesTab2();
-                return recent;
-            }
-            else
-            {
-                CoachAthletesTab3 starred = new CoachAthletesTab3();
-                return starred;
-            }
+        for(UserConnectionResponse u: connUsers){
+            String name = u.getUser().getFirstName() + " " + u.getUser().getLastName();
+            cUsers.add(new ConnectedUser(name, u.getUser().getEmail(), u.getUser().getOrganization()));
         }
 
-        // This method return the titles for the Tabs in the Tab Strip
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return Titles[position];
-        }
-
-        // This method return the Number of tabs for the tabs Strip
-        @Override
-        public int getCount() {
-            return NumbOfTabs;
-        }
-    }
-
-    public static class CoachAthletesTab1 extends Fragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View v =inflater.inflate(R.layout.coach_athletes_tab_1,container,false);
-            return v;
-        }
-    }
-
-    public static class CoachAthletesTab2 extends Fragment {
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.coach_athletes_tab_2,container,false);
-            return v;
-        }
-    }
-
-    public static class CoachAthletesTab3 extends Fragment {
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.coach_athletes_tab_3,container,false);
-            return v;
-        }
+        return cUsers;
     }
 
     /**
@@ -147,12 +78,6 @@ public class CoachAthletesActivity extends AppCompatActivity {
 
         GetUserConnections(final User user) {
             localUser = user;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            // Start the progress wheel spinner
-            //progressRegister.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -172,8 +97,12 @@ public class CoachAthletesActivity extends AppCompatActivity {
 
             // Run the service
             if(connectionService != null) {
-                connections = connectionService.getExistingConnections(localUser.getId(), UserType.ATHLETE);
-                result = connections != null;
+                athleteConnections = connectionService.getExistingConnections(localUser.getId(), UserType.ATHLETE);
+
+                if(athleteConnections!=null) {
+                    Log.i("doInBackground","No connected athletes");
+                    result = true;
+                }
             } else {
                 Log.e("doInBackground", "userConnectionService is null");
             }
@@ -198,9 +127,21 @@ public class CoachAthletesActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            if(success && athleteConnections != null && !athleteConnections.isEmpty()){
+                athleteConnect = getConnUsers(athleteConnections);
+                ConnectionsAdapter athleteAdapter = new ConnectionsAdapter(CoachAthletesActivity.this,
+                        R.layout.connection_entry_item);
 
+                ListView athleteList = (ListView) findViewById(R.id.athleteList);
+                athleteList.setAdapter(athleteAdapter);
 
-
+                for(final ConnectedUser u : athleteConnect) {
+                    athleteAdapter.add(u);
+                }
+            }
+            else {
+                Log.e("onPostExecute", "Execute unsuccessful");
+            }
         }
     }
 }
