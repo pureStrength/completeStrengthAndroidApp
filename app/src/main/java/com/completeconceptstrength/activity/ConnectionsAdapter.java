@@ -5,17 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.completeconceptstrength.R;
-
-import java.util.ArrayList;
+import com.completeconceptstrength.application.GlobalContext;
 
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserConnectionResponse;
+import completeconceptstrength.model.user.impl.UserConnectionStatus;
 
-public final class ConnectionsAdapter extends ArrayAdapter<ConnectedUser> implements Filterable {
+public final class ConnectionsAdapter extends ArrayAdapter<UserConnectionResponse> implements Filterable {
 
     private final int layout_resource;
 
@@ -28,10 +29,48 @@ public final class ConnectionsAdapter extends ArrayAdapter<ConnectedUser> implem
     public View getView(final int position, final View convertView, final ViewGroup parent){
         final View view = getWorkingView(convertView);
         final ViewHolder viewHolder = getViewHolder(view);
-        final ConnectedUser connUser = getItem(position);
+        final UserConnectionResponse connUser = getItem(position);
 
-        viewHolder.nameView.setText(connUser.getName());
-        viewHolder.orgView.setText(connUser.getOrganization());
+        viewHolder.nameView.setText(connUser.getUser().getFirstName() + " " + connUser.getUser().getLastName());
+        viewHolder.orgView.setText(connUser.getUser().getOrganization());
+
+        UserConnectionStatus connectionType = connUser.getUserConnectionStatus();
+        if(connectionType == UserConnectionStatus.CONNECTION_INTACT){
+            viewHolder.actionButton.setText("Remove");
+            viewHolder.actionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Remove connected user from current user's connection list and connected user's list
+                }
+            });
+        }
+        else if(connectionType == UserConnectionStatus.CONNECTION_REQUEST_SENT){
+            viewHolder.actionButton.setText("Cancel");
+            viewHolder.actionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Remove connection request from current user's connection list and requested user's list
+                }
+            });
+        }
+        else if(connectionType == UserConnectionStatus.CONNECTION_REQUEST_AVAILABLE){
+            viewHolder.actionButton.setText("Accept");
+            viewHolder.actionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Accept user and add to current user's connection list and accepted user's connection list
+                }
+            });
+        }
+        else {
+            viewHolder.actionButton.setText("Send");
+            viewHolder.actionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Accept user and add to current user's connection list and accepted user's connection list
+                }
+            });
+        }
 
         return view;
     }
@@ -63,9 +102,9 @@ public final class ConnectionsAdapter extends ArrayAdapter<ConnectedUser> implem
 
         if(null == tag || !(tag instanceof ViewHolder)) {
 
-
             viewHolder.nameView = (TextView) workingView.findViewById(R.id.connName);
             viewHolder.orgView = (TextView) workingView.findViewById(R.id.connOrganization);
+            viewHolder.actionButton = (Button) workingView.findViewById(R.id.actionButton);
 
             workingView.setTag(viewHolder);
 
@@ -79,6 +118,8 @@ public final class ConnectionsAdapter extends ArrayAdapter<ConnectedUser> implem
     private static class ViewHolder {
         public TextView nameView;
         public TextView orgView;
+        public Button actionButton;
+
     }
 
 }

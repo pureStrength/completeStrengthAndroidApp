@@ -35,9 +35,7 @@ public class CoachAthletesActivity extends AppCompatActivity {
     GlobalContext globalContext;
     UserConnectionClientService connectionService;
     User user;
-    public List<UserConnectionResponse> connections;
     public List<UserConnectionResponse> athleteConnections;
-    public ArrayList<ConnectedUser> athleteConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,22 +48,6 @@ public class CoachAthletesActivity extends AppCompatActivity {
         final GetUserConnections getConnTask = new GetUserConnections(user);
         getConnTask.execute((Void) null);
 
-    }
-
-    public ArrayList<ConnectedUser> getConnUsers(List<UserConnectionResponse> connUsers){
-        ArrayList<ConnectedUser> cUsers = new ArrayList<ConnectedUser>();
-
-        if(connUsers == null || connUsers.isEmpty()){
-            Log.e("getConnectedNames","No Connections pulled from server");
-            return null;
-        }
-
-        for(UserConnectionResponse u: connUsers){
-            String name = u.getUser().getFirstName() + " " + u.getUser().getLastName();
-            cUsers.add(new ConnectedUser(name, u.getUser().getEmail(), u.getUser().getOrganization()));
-        }
-
-        return cUsers;
     }
 
     /**
@@ -128,14 +110,13 @@ public class CoachAthletesActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if(success && athleteConnections != null && !athleteConnections.isEmpty()){
-                athleteConnect = getConnUsers(athleteConnections);
                 ConnectionsAdapter athleteAdapter = new ConnectionsAdapter(CoachAthletesActivity.this,
                         R.layout.connection_entry_item);
 
                 ListView athleteList = (ListView) findViewById(R.id.athleteList);
                 athleteList.setAdapter(athleteAdapter);
 
-                for(final ConnectedUser u : athleteConnect) {
+                for(final UserConnectionResponse u : athleteConnections) {
                     athleteAdapter.add(u);
                 }
             }

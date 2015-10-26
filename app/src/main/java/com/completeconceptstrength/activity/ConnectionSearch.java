@@ -28,7 +28,6 @@ public class ConnectionSearch extends AppCompatActivity {
     UserConnectionClientService connectionService;
     User user;
     public List<UserConnectionResponse> queryResults;
-    public ArrayList<ConnectedUser> queryUserResults;
     public ListView searchList;
     public SearchView searchView;
 
@@ -64,7 +63,7 @@ public class ConnectionSearch extends AppCompatActivity {
                 Log.i("getSearchQuery", "onQueryTextSubmit");
                 GetSearchResults getSearchResults = new GetSearchResults(user, query);
                 getSearchResults.execute((Void) null);
-                return false;
+                return true;
             }
 
             @Override
@@ -73,27 +72,10 @@ public class ConnectionSearch extends AppCompatActivity {
                 getSearchResults.execute((Void) null);
 
                 Log.i("getSearchQuery", "onQueryTextChange");
-                return false;
+                return true;
             }
         });
     }
-
-    public ArrayList<ConnectedUser> getConnUsers(List<UserConnectionResponse> connUsers){
-        ArrayList<ConnectedUser> cUsers = new ArrayList<ConnectedUser>();
-
-        if(connUsers.isEmpty()){
-            Log.e("getConnectedNames","No Connections pulled from server");
-            return null;
-        }
-
-        for(UserConnectionResponse u: connUsers){
-            String name = u.getUser().getFirstName() + " " + u.getUser().getLastName();
-            cUsers.add(new ConnectedUser(name, u.getUser().getEmail(), u.getUser().getOrganization()));
-        }
-
-        return cUsers;
-    }
-
 
     public class GetSearchResults extends AsyncTask<Void, Void, Boolean> {
         private User localUser;
@@ -145,22 +127,20 @@ public class ConnectionSearch extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success){
-            if(success){
-                queryUserResults = getConnUsers(queryResults);
-                ConnectionsAdapter pendAdapter = new ConnectionsAdapter(ConnectionSearch.this,
+            if(success && queryResults != null && !queryResults.isEmpty()){
+                ConnectionsAdapter queryAdapter = new ConnectionsAdapter(ConnectionSearch.this,
                         R.layout.connection_entry_item);
 
                 searchList = (ListView) findViewById(R.id.searchList);
                 searchList.setTextFilterEnabled(true);
-                searchList.setAdapter(pendAdapter);
+                searchList.setAdapter(queryAdapter);
 
-                for(final ConnectedUser u : queryUserResults) {
-                    pendAdapter.add(u);
+                for(final UserConnectionResponse u : queryResults) {
+                    queryAdapter.add(u);
                 }
-
             }
             else {
-                Log.e("onPostExecute", "Execute unsuccessful");
+                Log.e("onPostExecute", "Execute unsuccessful or no results found");
             }
         }
     }

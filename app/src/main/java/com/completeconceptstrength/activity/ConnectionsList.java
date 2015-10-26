@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.completeconceptstrength.R;
@@ -26,10 +27,12 @@ public class ConnectionsList extends AppCompatActivity {
     GlobalContext globalContext;
     UserConnectionClientService connectionService;
     User user;
+
+    public ConnectionsAdapter pendAdapter;
     public List<UserConnectionResponse> pendingConnections;
-    public ArrayList<ConnectedUser> pendingConnect;
+
+    ConnectionsAdapter existAdapter;
     public List<UserConnectionResponse> existingConnections;
-    public ArrayList<ConnectedUser> existingConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +46,13 @@ public class ConnectionsList extends AppCompatActivity {
         getConnTask.execute((Void) null);
     }
 
-    public ArrayList<ConnectedUser> getConnUsers(List<UserConnectionResponse> connUsers){
-        ArrayList<ConnectedUser> cUsers = new ArrayList<ConnectedUser>();
+    public void delete(View v){
+        ListView listview1 = (ListView) findViewById(R.id.existingList);
 
-        if(connUsers == null || connUsers.isEmpty()){
-            Log.e("getConnectedNames","No Connections pulled from server");
-            return null;
-        }
+        final int position = listview1.getPositionForView((View) v.getParent());
+        existingConnections.remove(position);
+        existAdapter.notifyDataSetChanged();
 
-        for(UserConnectionResponse u: connUsers){
-            String name = u.getUser().getFirstName() + " " + u.getUser().getLastName();
-            cUsers.add(new ConnectedUser(name, u.getUser().getEmail(), u.getUser().getOrganization()));
-        }
-
-        return cUsers;
     }
 
     /**
@@ -118,27 +114,25 @@ public class ConnectionsList extends AppCompatActivity {
         protected void onPostExecute(final Boolean success){
             if(success){
                 if(pendingConnections != null && !pendingConnections.isEmpty()){
-                    pendingConnect = getConnUsers(pendingConnections);
-                    ConnectionsAdapter pendAdapter = new ConnectionsAdapter(ConnectionsList.this,
+                    pendAdapter = new ConnectionsAdapter(ConnectionsList.this,
                             R.layout.connection_entry_item);
 
                     ListView pendingList = (ListView) findViewById(R.id.pendingList);
                     pendingList.setAdapter(pendAdapter);
 
-                    for(final ConnectedUser u : pendingConnect) {
+                    for(final UserConnectionResponse u : pendingConnections) {
                         pendAdapter.add(u);
                     }
                 }
 
                 if(existingConnections != null && !existingConnections.isEmpty()) {
-                    existingConnect = getConnUsers(existingConnections);
-                    ConnectionsAdapter existAdapter = new ConnectionsAdapter(ConnectionsList.this,
+                    existAdapter = new ConnectionsAdapter(ConnectionsList.this,
                             R.layout.connection_entry_item);
 
                     ListView existingList = (ListView) findViewById(R.id.existingList);
                     existingList.setAdapter(existAdapter);
 
-                    for (final ConnectedUser u : existingConnect) {
+                    for (final UserConnectionResponse u : existingConnections) {
                         existAdapter.add(u);
                     }
                 }
