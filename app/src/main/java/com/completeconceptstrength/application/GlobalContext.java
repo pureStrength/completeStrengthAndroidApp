@@ -5,6 +5,8 @@ import android.app.Application;
 import com.completeconceptstrength.config.ServerConfig;
 
 import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.services.impl.PrescriptionDefinitionClientService;
+import completeconceptstrength.services.impl.PrescriptionInstanceClientService;
 import completeconceptstrength.services.impl.UserClientService;
 import completeconceptstrength.services.impl.UserConnectionClientService;
 import completeconceptstrength.services.utils.IServiceClient;
@@ -85,5 +87,13 @@ public class GlobalContext extends Application {
      */
     public UserConnectionClientService getUserConnectionClientService() {
         return new UserConnectionClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
+    }
+
+    /**
+     * Get prescription definition service
+     * @return
+     */
+    public PrescriptionInstanceClientService getPrescriptionInstanceClientService() {
+        return new PrescriptionInstanceClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
     }
 }

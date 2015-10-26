@@ -3,11 +3,12 @@ package com.completeconceptstrength.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.completeconceptstrength.R;
 
-public class ConnectionsButtons extends ActionBarActivity {
+public class ConnectionsButtons extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +17,6 @@ public class ConnectionsButtons extends ActionBarActivity {
 
         setTitle("Connections");
     }
-
 
     public void openConnectedList(View view){
         Intent intent = new Intent(this, ConnectionsList.class);

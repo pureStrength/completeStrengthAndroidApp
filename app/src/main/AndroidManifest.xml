@@ -89,6 +89,14 @@
             android:name=".activity.ConnectionSearch"
             android:label="@string/title_activity_connection_search" >
         </activity>
+        <activity
+            android:name=".activity.AthleteWorkoutList"
+            android:label="@string/title_activity_athlete_workout_list" >
+        </activity>
+        <activity
+            android:name=".activity.AthleteWorkoutCalendar"
+            android:label="@string/title_activity_athlete_workout_calendar" >
+        </activity>
     </application>
 
 </manifest>

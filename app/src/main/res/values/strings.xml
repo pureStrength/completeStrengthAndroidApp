@@ -20,5 +20,7 @@
     <string name="title_activity_connections_buttons">ConnectionsButtons</string>
     <string name="title_activity_connections_list">ConnectionsList</string>
     <string name="title_activity_connection_search">ConnectionSearch</string>
+    <string name="title_activity_athlete_workout_list">AthleteWorkoutList</string>
+    <string name="title_activity_athlete_workout_calendar">AthleteWorkoutCalendar</string>
 
 </resources>
