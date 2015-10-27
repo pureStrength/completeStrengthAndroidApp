@@ -308,7 +308,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                // TODO: Get user type, then create intent object based on user type
+
                 Intent intent = null;
                 if(user.getUserType() == UserType.ATHLETE){
                     intent = new Intent(LoginActivity.this, AthleteHomeActivity.class);

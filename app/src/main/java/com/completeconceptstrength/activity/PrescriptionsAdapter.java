@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.completeconceptstrength.R;
 
 import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
+import completeconceptstrength.serialization.DateSerializer;
 
 /**
  * Created by Jessica on 10/26/2015.
@@ -30,7 +31,7 @@ public class PrescriptionsAdapter extends ArrayAdapter<PrescriptionInstance> {
         final ViewHolder viewHolder = getViewHolder(view);
         final PrescriptionInstance prescription = getItem(position);
 
-        viewHolder.prescriptionDate.setText(prescription.getDateAssigned().toString());
+        viewHolder.prescriptionDate.setText(DateSerializer.formatDateWithDay(prescription.getDateAssigned()));
 
         return view;
     }
