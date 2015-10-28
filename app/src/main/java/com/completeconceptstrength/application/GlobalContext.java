@@ -115,4 +115,8 @@ public class GlobalContext extends Application {
     public MainLiftSetClientService getMainLiftSetClientService() {
         return new MainLiftSetClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
     }
+
+    public PrescriptionDefinitionClientService getPrescriptionDefinitionClientService() {
+        return new PrescriptionDefinitionClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
+    }
 }

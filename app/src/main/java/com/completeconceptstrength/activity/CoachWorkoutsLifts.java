@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.completeconceptstrength.R;
@@ -38,6 +39,10 @@ public class CoachWorkoutsLifts extends AppCompatActivity {
 
         final GetLiftDefinitions getLiftsTask = new GetLiftDefinitions(user);
         getLiftsTask.execute((Void) null);
+    }
+
+    public View openNewLift(View v){
+        return v;
     }
 
     public class GetLiftDefinitions extends AsyncTask<Void, Void, Boolean> {

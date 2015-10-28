@@ -11,15 +11,17 @@ import android.widget.TextView;
 import com.completeconceptstrength.R;
 
 import completeconceptstrength.model.exercise.impl.MainLiftSet;
+import completeconceptstrength.model.exercise.impl.PrescriptionDefinition;
+import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
 
 /**
- * Created by Jessica on 10/26/2015.
+ * Created by Jessica on 10/27/2015.
  */
-public class SetAdapter extends ArrayAdapter<MainLiftSet> {
+public class CoachPrescriptionsAdapter extends ArrayAdapter<PrescriptionDefinition> {
 
     private final int layout_resource;
 
-    public SetAdapter(Context context, final int layout_resource){
+    public CoachPrescriptionsAdapter(Context context, final int layout_resource){
         super(context, 0);
         this.layout_resource = layout_resource;
     }
@@ -28,9 +30,9 @@ public class SetAdapter extends ArrayAdapter<MainLiftSet> {
     public View getView(final int position, final View convertView, final ViewGroup parent){
         final View view = getWorkingView(convertView);
         final ViewHolder viewHolder = getViewHolder(view);
-        final MainLiftSet set = getItem(position);
+        final PrescriptionDefinition prescriptionDefinition = getItem(position);
 
-        viewHolder.setName.setText(set.getName());
+        viewHolder.rxName.setText(prescriptionDefinition.getName());
 
         return view;
     }
@@ -62,9 +64,9 @@ public class SetAdapter extends ArrayAdapter<MainLiftSet> {
 
         if(null == tag || !(tag instanceof ViewHolder)) {
 
-            viewHolder.setName = (TextView) workingView.findViewById(R.id.setName);
-            viewHolder.editButton = (Button) workingView.findViewById(R.id.editSetButton);
-            viewHolder.deleteButton = (Button) workingView.findViewById(R.id.deleteSetButton);
+            viewHolder.rxName = (TextView) workingView.findViewById(R.id.rxName);
+            viewHolder.editButton = (Button) workingView.findViewById(R.id.editRxButton);
+            viewHolder.deleteButton = (Button) workingView.findViewById(R.id.deleteRxButton);
 
             workingView.setTag(viewHolder);
 
@@ -76,10 +78,11 @@ public class SetAdapter extends ArrayAdapter<MainLiftSet> {
     }
 
     private static class ViewHolder {
-        public TextView setName;
+        public TextView rxName;
         public Button editButton;
         public Button deleteButton;
 
     }
+
 
 }
