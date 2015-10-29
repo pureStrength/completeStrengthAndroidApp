@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
+import com.completeconceptstrength.application.PrescriptionsAdapter;
 
 import org.apache.http.HttpResponse;
 
@@ -15,7 +16,6 @@ import java.util.List;
 
 import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
 import completeconceptstrength.model.user.impl.User;
-import completeconceptstrength.model.user.impl.UserConnectionResponse;
 import completeconceptstrength.services.impl.PrescriptionInstanceClientService;
 
 public class AthleteWorkoutList extends AppCompatActivity {

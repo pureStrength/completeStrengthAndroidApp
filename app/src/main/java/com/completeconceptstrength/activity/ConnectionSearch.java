@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.application.ConnectionsAdapter;
 import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;

@@ -1,4 +1,4 @@
-package com.completeconceptstrength.activity;
+package com.completeconceptstrength.application;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,18 +10,16 @@ import android.widget.TextView;
 
 import com.completeconceptstrength.R;
 
-import completeconceptstrength.model.exercise.impl.MainLiftDefinition;
-import completeconceptstrength.model.user.impl.UserConnectionResponse;
-import completeconceptstrength.model.user.impl.UserConnectionStatus;
+import completeconceptstrength.model.exercise.impl.MainLiftSet;
 
 /**
  * Created by Jessica on 10/26/2015.
  */
-public class LiftAdapter extends ArrayAdapter<MainLiftDefinition> {
+public class SetAdapter extends ArrayAdapter<MainLiftSet> {
 
     private final int layout_resource;
 
-    public LiftAdapter(final Context context, final int layout_resource){
+    public SetAdapter(Context context, final int layout_resource){
         super(context, 0);
         this.layout_resource = layout_resource;
     }
@@ -30,9 +28,9 @@ public class LiftAdapter extends ArrayAdapter<MainLiftDefinition> {
     public View getView(final int position, final View convertView, final ViewGroup parent){
         final View view = getWorkingView(convertView);
         final ViewHolder viewHolder = getViewHolder(view);
-        final MainLiftDefinition lift = getItem(position);
+        final MainLiftSet set = getItem(position);
 
-        viewHolder.liftName.setText(lift.getName());
+        viewHolder.setName.setText(set.getName());
 
         return view;
     }
@@ -64,9 +62,9 @@ public class LiftAdapter extends ArrayAdapter<MainLiftDefinition> {
 
         if(null == tag || !(tag instanceof ViewHolder)) {
 
-            viewHolder.liftName = (TextView) workingView.findViewById(R.id.liftName);
-            viewHolder.editButton = (Button) workingView.findViewById(R.id.editLiftButton);
-            viewHolder.deleteButton = (Button) workingView.findViewById(R.id.deleteLiftButton);
+            viewHolder.setName = (TextView) workingView.findViewById(R.id.setName);
+            viewHolder.editButton = (Button) workingView.findViewById(R.id.editSetButton);
+            viewHolder.deleteButton = (Button) workingView.findViewById(R.id.deleteSetButton);
 
             workingView.setTag(viewHolder);
 
@@ -78,7 +76,7 @@ public class LiftAdapter extends ArrayAdapter<MainLiftDefinition> {
     }
 
     private static class ViewHolder {
-        public TextView liftName;
+        public TextView setName;
         public Button editButton;
         public Button deleteButton;
 

@@ -1,12 +1,18 @@
 package com.completeconceptstrength.activity;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
@@ -14,38 +20,81 @@ import com.completeconceptstrength.application.LiftAdapter;
 
 import org.apache.http.HttpResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import completeconceptstrength.model.exercise.impl.MainLiftDefinition;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.services.impl.MainLiftDefinitionClientService;
 
-public class CoachWorkoutsLifts extends AppCompatActivity {
+public class CustomSetsActivity extends AppCompatActivity {
 
     GlobalContext globalContext;
     User user;
     MainLiftDefinitionClientService liftService;
-    LiftAdapter liftAdapter;
 
     List<MainLiftDefinition> customLifts;
+    ArrayList<String> liftNames;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coach_workouts_lifts);
-        setTitle("Lifts");
+        setContentView(R.layout.activity_custom_sets);
 
         globalContext = (GlobalContext)getApplicationContext();
         user = globalContext.getLoggedInUser();
         liftService = globalContext.getMainLiftDefinitionClientService();
 
+        liftNames = new ArrayList<String>();
+
         final GetLiftDefinitions getLiftsTask = new GetLiftDefinitions(user);
         getLiftsTask.execute((Void) null);
     }
 
-    public void openNewLift(View v){
-        Intent intent = new Intent(this, CustomLiftActivity.class);
-        startActivity(intent);
+    public void setLiftNames(List<MainLiftDefinition> liftList){
+
+        if(liftList == null || !liftList.isEmpty()){
+            return;
+        }
+
+        for(MainLiftDefinition l : liftList){
+            liftNames.add(l.getName());
+        }
+    }
+
+    public void addRep(View v){
+        TableLayout table = (TableLayout) findViewById(R.id.the_table);
+        TableRow row = new TableRow(this);
+
+        EditText et1 = new EditText(this);
+        et1.setHint("Number of Reps");
+
+        EditText et2 = new EditText(this);
+        et2.setHint("% 1RM");
+
+        Button b = new Button(this);
+        b.setText("Remove");
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View bRow = (View) v.getParent();
+                ViewGroup container = (ViewGroup) bRow.getParent();
+                container.removeView(bRow);
+                container.invalidate();
+            }
+        });
+
+        row.addView(et1);
+        row.addView(et2);
+        row.addView(b);
+
+        table.addView(row);
+    }
+
+    public void clearTable(View v){
+        TableLayout table = (TableLayout)findViewById(R.id.the_table);
+        table.removeAllViews();
     }
 
     public class GetLiftDefinitions extends AsyncTask<Void, Void, Boolean> {
@@ -100,16 +149,16 @@ public class CoachWorkoutsLifts extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success){
-            if(success){
-                liftAdapter = new LiftAdapter(CoachWorkoutsLifts.this,
-                        R.layout.lift_entry_item);
+            if(success && customLifts != null && !customLifts.isEmpty()){
+                //setLiftNames(customLifts);
 
-                ListView liftList = (ListView) findViewById(R.id.liftList);
-                liftList.setAdapter(liftAdapter);
+                Spinner dropdown = (Spinner)findViewById(R.id.liftSpinner);
+                adapter = new ArrayAdapter<String>(CustomSetsActivity.this, android.R.layout.simple_spinner_dropdown_item);
+                dropdown.setAdapter(adapter);
 
                 if(customLifts != null && !customLifts.isEmpty()) {
                     for (final MainLiftDefinition l : customLifts) {
-                        liftAdapter.add(l);
+                        adapter.add(l.getName());
                     }
                 }
             }
@@ -118,6 +167,5 @@ public class CoachWorkoutsLifts extends AppCompatActivity {
             }
         }
     }
-
 
 }

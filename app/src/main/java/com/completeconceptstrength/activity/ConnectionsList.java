@@ -2,23 +2,20 @@ package com.completeconceptstrength.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ListView;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.application.ConnectionsAdapter;
 import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import completeconceptstrength.model.user.impl.User;
 
-import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserConnectionResponse;
 import completeconceptstrength.services.impl.UserConnectionClientService;
 

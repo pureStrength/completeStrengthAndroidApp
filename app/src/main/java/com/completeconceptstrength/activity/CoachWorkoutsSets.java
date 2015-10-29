@@ -1,5 +1,6 @@
 package com.completeconceptstrength.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.ListView;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
+import com.completeconceptstrength.application.SetAdapter;
 
 import org.apache.http.HttpResponse;
 
@@ -42,8 +44,9 @@ public class CoachWorkoutsSets extends AppCompatActivity {
         getSetsTask.execute((Void) null);
     }
 
-    public View openNewSet(View v){
-        return v;
+    public void openNewSet(View v){
+        Intent intent = new Intent(this, CustomSetsActivity.class);
+        startActivity(intent);
     }
 
     public class GetSetDefinitions extends AsyncTask<Void, Void, Boolean> {

@@ -109,6 +109,12 @@
             android:name=".activity.CoachWorkoutsPrescriptions"
             android:label="@string/title_activity_coach_workouts_prescriptions" >
         </activity>
+        <activity android:name=".activity.CustomPrescriptionActivity" >
+        </activity>
+        <activity android:name=".activity.CustomLiftActivity" >
+        </activity>
+        <activity android:name=".activity.CustomSetsActivity" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,26 +1,25 @@
 package com.completeconceptstrength.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.application.CoachPrescriptionsAdapter;
 import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
-import completeconceptstrength.model.exercise.impl.MainLiftSet;
 import completeconceptstrength.model.exercise.impl.PrescriptionDefinition;
-import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.services.impl.PrescriptionDefinitionClientService;
-import completeconceptstrength.services.impl.PrescriptionInstanceClientService;
 
 public class CoachWorkoutsPrescriptions extends AppCompatActivity {
 
@@ -45,8 +44,9 @@ public class CoachWorkoutsPrescriptions extends AppCompatActivity {
         getRxTask.execute((Void) null);
     }
 
-    public View openNewRx(View v){
-        return v;
+    public void openNewRx(View v){
+        Intent intent = new Intent(this, CustomPrescriptionActivity.class);
+        startActivity(intent);
     }
 
     public class GetRxDefinitions extends AsyncTask<Void, Void, Boolean> {

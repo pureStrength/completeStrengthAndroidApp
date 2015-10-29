@@ -1,4 +1,4 @@
-package com.completeconceptstrength.activity;
+package com.completeconceptstrength.application;
 
 import android.content.Context;
 import android.view.LayoutInflater;
