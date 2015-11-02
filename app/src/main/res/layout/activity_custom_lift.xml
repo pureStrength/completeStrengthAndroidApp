@@ -30,6 +30,7 @@
     <Button
         android:id="@+id/submitCustomLift"
         android:text="Submit"
+        android:onClick="submitCustomLift"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/liftDescription"/>
