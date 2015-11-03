@@ -119,6 +119,4 @@ public class CoachWorkoutsSets extends AppCompatActivity {
             }
         }
     }
-
-
 }

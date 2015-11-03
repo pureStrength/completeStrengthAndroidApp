@@ -40,11 +40,18 @@
         android:stretchColumns="*">
     </TableLayout>
 
+    <EditText
+        android:id="@+id/setDescription"
+        android:hint="Enter a description for this set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/the_table"/>
+
     <Button
         android:id="@+id/add_row_to_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/the_table"
+        android:layout_below="@+id/setDescription"
         android:onClick="addRep"
         android:text="Add Rep"/>
 
@@ -58,6 +65,7 @@
 
     <Button
         android:id="@+id/submit_table"
+        android:onClick="submitCustomSet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/clear_table"
