@@ -13,4 +13,77 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_below="@+id/prescriptionName"
+        android:background="#000000" />
+
+    <TextView
+        android:id="@+id/selectSet"
+        android:text="Select Set:"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prescriptionName"
+        android:textSize="18dp"/>
+
+    <Spinner
+        android:id="@+id/setSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectSet"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:id="@+id/selectLift"
+        android:text="Select Lift:"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setSpinner"
+        android:textSize="18dp"/>
+
+    <Spinner
+        android:id="@+id/liftSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectLift"
+        android:spinnerMode="dropdown" />
+
+    <EditText
+        android:id="@+id/prescriptionDescription"
+        android:hint="Enter a description for this prescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/liftSpinner"/>
+
+    <Button
+        android:id="@+id/addRepetitionButton"
+        android:text="Add Rep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prescriptionDescription"/>
+
+    <Button
+        android:id="@+id/addSetButton"
+        android:text="Add Set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addRepetitionButton"/>
+
+    <Button
+        android:id="@+id/clearSetButton"
+        android:text="Clear Set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addSetButton"/>
+
+    <Button
+        android:id="@+id/submitPrescriptionButton"
+        android:text="Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clearSetButton"/>
+
 </RelativeLayout>

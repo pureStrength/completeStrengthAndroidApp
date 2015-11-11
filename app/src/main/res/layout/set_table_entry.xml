@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/selectSet"
+        android:text="Select Set:"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"/>
+
+    <Spinner
+        android:id="@+id/setSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectSet"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:id="@+id/selectLift"
+        android:text="Select Lift:"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setSpinner"
+        android:textSize="18dp"/>
+
+    <Spinner
+        android:id="@+id/liftSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectLift"
+        android:spinnerMode="dropdown" />
+
+    <TableLayout
+        android:id="@+id/the_table"
+        android:layout_margin="12dip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/liftSpinner"
+        android:scrollbars="vertical"
+        android:paddingBottom="3dip"
+        android:stretchColumns="*">
+    </TableLayout>
+
+    <Button
+        android:id="@+id/add_row_to_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/the_table"
+        android:onClick="addRep"
+        android:text="Add Rep"/>
+
+    <Button
+        android:id="@+id/clear_table"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_row_to_end"
+        android:onClick="clearTable"
+        android:text="Clear Table"/>
+
+</LinearLayout>

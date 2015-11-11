@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/resultLayout"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        tools:context="com.completeconceptstrength.activity.AthleteWorkoutResults">
+
+        <TableLayout
+            android:id="@+id/setTable"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"></TableLayout>
+
+        <TextView
+            android:id="@+id/sleepRating"
+            android:text="Sleep"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/setTable"/>
+
+        <SeekBar
+            android:id="@+id/sleepBar"
+            android:max="10"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sleepRating"/>
+
+        <TextView
+            android:id="@+id/sleepValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/sleepBar"
+            android:layout_below="@+id/sleepRating"/>
+
+        <TextView
+            android:id="@+id/motivationRating"
+            android:text="Motivation"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sleepBar"/>
+
+        <SeekBar
+            android:id="@+id/motivationBar"
+            android:max="10"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/motivationRating"/>
+
+        <TextView
+            android:id="@+id/motivationValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/motivationBar"
+            android:layout_below="@+id/motivationRating"/>
+
+        <TextView
+            android:id="@+id/nutritionRating"
+            android:text="Nutrition"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/motivationBar"/>
+
+        <SeekBar
+            android:id="@+id/nutritionBar"
+            android:max="10"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nutritionRating"/>
+
+        <TextView
+            android:id="@+id/nutritionValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/nutritionBar"
+            android:layout_below="@+id/nutritionRating"/>
+
+        <TextView
+            android:id="@+id/sorenessRating"
+            android:text="Soreness"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nutritionBar"/>
+
+        <SeekBar
+            android:id="@+id/sorenessBar"
+            android:max="10"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sorenessRating"/>
+
+        <TextView
+            android:id="@+id/sorenessValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/sorenessBar"
+            android:layout_below="@+id/sorenessRating"/>
+
+        <TextView
+            android:id="@+id/stressRating"
+            android:text="Stress"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sorenessBar"/>
+
+        <SeekBar
+            android:id="@+id/stressBar"
+            android:max="10"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/stressRating"/>
+
+        <TextView
+            android:id="@+id/stressValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/stressBar"
+            android:layout_below="@+id/stressRating"/>
+
+        <Button
+            android:id="@+id/resultButton"
+            android:text="Submit Results"
+            android:onClick="submitWorkoutResults"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stressBar"/>
+
+    </RelativeLayout>
+</ScrollView>

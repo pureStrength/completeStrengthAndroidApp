@@ -1,6 +1,7 @@
 package com.completeconceptstrength.application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.activity.AthleteWorkoutList;
+import com.completeconceptstrength.activity.AthleteWorkoutResults;
+
+import org.codehaus.jackson.map.ext.JodaSerializers;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
 import completeconceptstrength.serialization.DateSerializer;
@@ -19,9 +29,11 @@ import completeconceptstrength.serialization.DateSerializer;
 public class PrescriptionsAdapter extends ArrayAdapter<PrescriptionInstance> {
 
     private final int layout_resource;
+    private Context context;
 
     public PrescriptionsAdapter(Context context, int resource) {
         super(context, 0);
+        this.context = context;
         layout_resource = resource;
     }
 
@@ -32,6 +44,15 @@ public class PrescriptionsAdapter extends ArrayAdapter<PrescriptionInstance> {
         final PrescriptionInstance prescription = getItem(position);
 
         viewHolder.prescriptionDate.setText(DateSerializer.formatDateWithDay(prescription.getDateAssigned()));
+
+        viewHolder.viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AthleteWorkoutResults.class);
+                intent.putExtra("prescription", prescription.getId());
+                context.startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -64,6 +85,7 @@ public class PrescriptionsAdapter extends ArrayAdapter<PrescriptionInstance> {
         if(null == tag || !(tag instanceof ViewHolder)) {
 
             viewHolder.prescriptionDate = (TextView) workingView.findViewById(R.id.prescriptionDate);
+            viewHolder.viewButton = (Button) workingView.findViewById(R.id.viewButton);
 
             workingView.setTag(viewHolder);
 
@@ -76,6 +98,7 @@ public class PrescriptionsAdapter extends ArrayAdapter<PrescriptionInstance> {
 
     private static class ViewHolder {
         public TextView prescriptionDate;
+        public Button viewButton;
     }
 
 }

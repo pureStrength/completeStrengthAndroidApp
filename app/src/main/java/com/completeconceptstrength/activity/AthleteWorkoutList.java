@@ -1,9 +1,11 @@
 package com.completeconceptstrength.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.completeconceptstrength.R;
@@ -65,8 +67,6 @@ public class AthleteWorkoutList extends AppCompatActivity {
                 //String query = searchView.getQuery().toString();
                 prescriptions = prescriptionService.getByAthlete(localUser.getId());
 
-                Log.i("doInBackground", String.valueOf(prescriptions.size()));
-
                 if(prescriptions!= null) {
                     result = true;
                 }
@@ -108,6 +108,12 @@ public class AthleteWorkoutList extends AppCompatActivity {
                 Log.e("onPostExecute", "Execute unsuccessful or no results found");
             }
         }
+    }
+
+    public void openResults(View v){
+        Intent intent = new Intent(this, AthleteWorkoutResults.class);
+        intent.putExtra("prescription", prescriptions.get(1).getId());
+        startActivity(intent);
     }
 
 }

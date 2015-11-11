@@ -115,6 +115,10 @@
         </activity>
         <activity android:name=".activity.CustomSetsActivity" >
         </activity>
+        <activity
+            android:name=".activity.AthleteWorkoutResults"
+            android:label="@string/title_activity_athlete_workout_results" >
+        </activity>
     </application>
 
 </manifest>

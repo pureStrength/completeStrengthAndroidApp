@@ -46,7 +46,6 @@ public class CustomSetsActivity extends AppCompatActivity {
     MainLiftSetClientService setService;
 
     List<MainLiftDefinition> customLifts;
-    ArrayList<String> liftNames;
     ArrayAdapter<String> adapter;
 
     @Override
@@ -59,21 +58,8 @@ public class CustomSetsActivity extends AppCompatActivity {
         liftService = globalContext.getMainLiftDefinitionClientService();
         setService = globalContext.getMainLiftSetClientService();
 
-        liftNames = new ArrayList<String>();
-
         final GetLiftDefinitions getLiftsTask = new GetLiftDefinitions(user);
         getLiftsTask.execute((Void) null);
-    }
-
-    public void setLiftNames(List<MainLiftDefinition> liftList){
-
-        if(liftList == null || !liftList.isEmpty()){
-            return;
-        }
-
-        for(MainLiftDefinition l : liftList){
-            liftNames.add(l.getName());
-        }
     }
 
     public void addRep(View v){
@@ -218,8 +204,6 @@ public class CustomSetsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success){
             if(success && customLifts != null && !customLifts.isEmpty()){
-                //setLiftNames(customLifts);
-
                 Spinner dropdown = (Spinner)findViewById(R.id.liftSpinner);
                 adapter = new ArrayAdapter<String>(CustomSetsActivity.this, android.R.layout.simple_spinner_dropdown_item);
                 dropdown.setAdapter(adapter);
