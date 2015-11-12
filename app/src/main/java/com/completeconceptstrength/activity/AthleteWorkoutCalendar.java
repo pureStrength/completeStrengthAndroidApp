@@ -1,17 +1,20 @@
 package com.completeconceptstrength.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
 import com.completeconceptstrength.application.PrescriptionsAdapter;
 import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
 
 import org.apache.http.HttpResponse;
 
@@ -57,6 +60,27 @@ public class AthleteWorkoutCalendar extends AppCompatActivity {
 
         final GetPrescriptionResults getPrescriptionResults = new GetPrescriptionResults(user);
         getPrescriptionResults.execute((Void) null);
+
+        final CaldroidListener caldroidListener = new CaldroidListener() {
+            @Override
+            public void onSelectDate(Date date, View view) {
+                    Log.i("onSelectDate", "clickclick");
+                //List<PrescriptionInstance> prescriptionInstances = getPrescriptionsOnDate(date);
+
+                //if(prescriptionInstances != null && !prescriptionInstances.isEmpty()){
+                    Intent intent = new Intent(AthleteWorkoutCalendar.this, AthleteWorkoutDateList.class);
+                    intent.putExtra("prescriptionDate", date);
+                    startActivity(intent);
+                //}
+            }
+        };
+        caldroidFragment.setCaldroidListener(caldroidListener);
+    }
+
+    public List<PrescriptionInstance> getPrescriptionsOnDate(Date date){
+        List<PrescriptionInstance> prescriptionInstancesOnDate = new ArrayList<PrescriptionInstance>();
+
+        return prescriptionInstancesOnDate;
     }
 
     public class GetPrescriptionResults extends AsyncTask<Void, Void, Boolean> {

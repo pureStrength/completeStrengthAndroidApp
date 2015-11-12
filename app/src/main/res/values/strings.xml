@@ -26,5 +26,6 @@
     <string name="title_activity_coach_workouts_sets">CoachWorkoutsSets</string>
     <string name="title_activity_coach_workouts_prescriptions">CoachWorkoutsPrescriptions</string>
     <string name="title_activity_athlete_workout_results">AthleteWorkoutResults</string>
+    <string name="title_activity_athlete_workout_date_list">AthleteWorkoutDateList</string>
 
 </resources>
