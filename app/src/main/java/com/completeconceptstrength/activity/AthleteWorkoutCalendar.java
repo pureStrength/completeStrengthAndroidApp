@@ -40,6 +40,7 @@ public class AthleteWorkoutCalendar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_athlete_workout_calendar);
+        setTitle("Prescription Calendar");
 
         globalContext = (GlobalContext)getApplicationContext();
         user = globalContext.getLoggedInUser();
@@ -140,7 +141,10 @@ public class AthleteWorkoutCalendar extends AppCompatActivity {
 
     private void setCalendarDates() {
         for(int i = 0; i < prescriptions.size(); i++){
-            caldroidFragment.setBackgroundResourceForDate(R.color.accent_material_dark, prescriptions.get(i).getDateAssigned());
+            if(prescriptions.get(i).getWasPerformed())
+                caldroidFragment.setBackgroundResourceForDate(R.color.accent_material_dark, prescriptions.get(i).getDateAssigned());
+            else
+                caldroidFragment.setBackgroundResourceForDate(R.color.accent_material_light, prescriptions.get(i).getDateAssigned());
         }
         caldroidFragment.refreshView();
     }

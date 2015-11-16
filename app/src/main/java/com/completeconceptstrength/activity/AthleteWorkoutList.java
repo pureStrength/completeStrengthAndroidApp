@@ -14,6 +14,8 @@ import com.completeconceptstrength.application.PrescriptionsAdapter;
 
 import org.apache.http.HttpResponse;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +47,11 @@ public class AthleteWorkoutList extends AppCompatActivity {
                 date = new Date();
                 date.setTime(time);
             }
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d");
+            setTitle(sdf.format(date));
+        }
+        else{
+            setTitle("Prescriptions");
         }
 
         globalContext = (GlobalContext)getApplicationContext();
