@@ -142,5 +142,6 @@ public class AthleteWorkoutCalendar extends AppCompatActivity {
         for(int i = 0; i < prescriptions.size(); i++){
             caldroidFragment.setBackgroundResourceForDate(R.color.accent_material_dark, prescriptions.get(i).getDateAssigned());
         }
+        caldroidFragment.refreshView();
     }
 }
