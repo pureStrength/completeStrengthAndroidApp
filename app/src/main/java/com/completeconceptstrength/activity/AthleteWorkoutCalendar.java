@@ -54,27 +54,25 @@ public class AthleteWorkoutCalendar extends AppCompatActivity {
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
         caldroidFragment.setArguments(args);
 
-        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.calendar1, caldroidFragment);
-        t.commit();
-
+        //TODO these don't show up on calendar unless you change the month and then change it back
         final GetPrescriptionResults getPrescriptionResults = new GetPrescriptionResults(user);
         getPrescriptionResults.execute((Void) null);
 
         final CaldroidListener caldroidListener = new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                    Log.i("onSelectDate", "clickclick");
-                //List<PrescriptionInstance> prescriptionInstances = getPrescriptionsOnDate(date);
-
                 //if(prescriptionInstances != null && !prescriptionInstances.isEmpty()){
-                    Intent intent = new Intent(AthleteWorkoutCalendar.this, AthleteWorkoutDateList.class);
-                    intent.putExtra("prescriptionDate", date);
+                    Intent intent = new Intent(AthleteWorkoutCalendar.this, AthleteWorkoutList.class);
+                    intent.putExtra("prescriptionDate", date.getTime());
                     startActivity(intent);
                 //}
             }
         };
         caldroidFragment.setCaldroidListener(caldroidListener);
+
+        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.calendar1, caldroidFragment);
+        t.commit();
     }
 
     public List<PrescriptionInstance> getPrescriptionsOnDate(Date date){

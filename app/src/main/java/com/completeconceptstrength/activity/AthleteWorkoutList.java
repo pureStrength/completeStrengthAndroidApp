@@ -14,6 +14,8 @@ import com.completeconceptstrength.application.PrescriptionsAdapter;
 
 import org.apache.http.HttpResponse;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
@@ -27,11 +29,23 @@ public class AthleteWorkoutList extends AppCompatActivity {
     PrescriptionInstanceClientService prescriptionService;
     List<PrescriptionInstance> prescriptions;
     ListView rxList;
+    Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_athlete_workout_list);
+
+        date = null;
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            if (extras.containsKey("prescriptionDate")) {
+                Long time = extras.getLong("prescriptionDate");
+                date = new Date();
+                date.setTime(time);
+            }
+        }
 
         globalContext = (GlobalContext)getApplicationContext();
         user = globalContext.getLoggedInUser();
@@ -101,7 +115,9 @@ public class AthleteWorkoutList extends AppCompatActivity {
                 rxList.setAdapter(rxAdapter);
 
                 for(final PrescriptionInstance p : prescriptions) {
-                    rxAdapter.add(p);
+                    if(date == null || (date != null && rxMidnightDate(p.getDateAssigned()).equals(date))) {
+                        rxAdapter.add(p);
+                    }
                 }
             }
             else {
@@ -110,10 +126,16 @@ public class AthleteWorkoutList extends AppCompatActivity {
         }
     }
 
-    public void openResults(View v){
-        Intent intent = new Intent(this, AthleteWorkoutResults.class);
-        intent.putExtra("prescription", prescriptions.get(1).getId());
-        startActivity(intent);
+    public Date rxMidnightDate(Date rxDate){
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(rxDate);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTime();
     }
 
 }

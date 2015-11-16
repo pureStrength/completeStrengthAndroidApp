@@ -119,10 +119,6 @@
             android:name=".activity.AthleteWorkoutResults"
             android:label="@string/title_activity_athlete_workout_results" >
         </activity>
-        <activity
-            android:name=".activity.AthleteWorkoutDateList"
-            android:label="@string/title_activity_athlete_workout_date_list" >
-        </activity>
     </application>
 
 </manifest>
