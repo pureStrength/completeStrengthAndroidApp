@@ -1,5 +1,6 @@
 package com.completeconceptstrength.activity;
 
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -163,6 +164,8 @@ public class AthleteWorkoutResults extends AppCompatActivity {
 
             TextView liftNameTV = new TextView(this);
             liftNameTV.setText(liftName);
+            liftNameTV.setTypeface(null, Typeface.BOLD);
+            liftNameTV.setTextSize(14);
             row2.addView(liftNameTV);
             setTable.addView(row2);
 
@@ -365,7 +368,15 @@ public class AthleteWorkoutResults extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success){
             if(success){
-               addPrescriptionToView();
+                setTitle(prescriptionInstance.getPrescriptionName());
+
+                TextView coachName = (TextView) findViewById(R.id.coachName);
+                coachName.setText("Assigned by : " + prescriptionInstance.getCoach().getFirstName() + " " + prescriptionInstance.getCoach().getLastName());
+
+                TextView rxDate = (TextView) findViewById(R.id.rxDate);
+                rxDate.setText(prescriptionInstance.getDateAssigned().toString());
+
+                addPrescriptionToView();
             }
             else {
                 Log.e("onPostExecute", "Execute unsuccessful");

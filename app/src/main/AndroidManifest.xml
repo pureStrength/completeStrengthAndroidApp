@@ -29,20 +29,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.RegistrationActivity"
-            android:label="@string/title_activity_registration"
-            android:parentActivityName=".activity.LoginActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.LaunchActivity" />
-        </activity>
-        <activity
             android:name=".activity.CoachHomeActivity"
             android:label="@string/title_activity_coach_home"
             android:parentActivityName=".activity.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.LaunchActivity" />
+                android:value=".activity.LoginActivity" />
         </activity>
         <activity
             android:name=".activity.AthleteHomeActivity"
@@ -50,7 +42,7 @@
             android:parentActivityName=".activity.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.LaunchActivity" />
+                android:value=".activity.LoginActivity" />
         </activity>
 
         <meta-data

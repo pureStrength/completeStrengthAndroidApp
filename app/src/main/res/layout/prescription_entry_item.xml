@@ -4,16 +4,28 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/rxName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textSize="14sp"
+        android:textStyle="bold"/>
+
+    <TextView
         android:id="@+id/prescriptionDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp" />
+        android:layout_alignLeft="@id/rxName"
+        android:layout_below="@id/rxName"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/viewButton"
         android:text="View"
-        android:layout_below="@+id/prescriptionDate"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

@@ -10,15 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.completeconceptstrength.R;
-import com.completeconceptstrength.activity.AthleteWorkoutList;
 import com.completeconceptstrength.activity.AthleteWorkoutResults;
-
-import org.codehaus.jackson.map.ext.JodaSerializers;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
 import completeconceptstrength.serialization.DateSerializer;
@@ -43,6 +35,7 @@ public class PrescriptionsAdapter extends ArrayAdapter<PrescriptionInstance> {
         final ViewHolder viewHolder = getViewHolder(view);
         final PrescriptionInstance prescription = getItem(position);
 
+        viewHolder.rxName.setText(prescription.getPrescriptionName());
         viewHolder.prescriptionDate.setText(DateSerializer.formatDateWithDay(prescription.getDateAssigned()));
 
         viewHolder.viewButton.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +77,7 @@ public class PrescriptionsAdapter extends ArrayAdapter<PrescriptionInstance> {
 
         if(null == tag || !(tag instanceof ViewHolder)) {
 
+            viewHolder.rxName = (TextView) workingView.findViewById(R.id.rxName);
             viewHolder.prescriptionDate = (TextView) workingView.findViewById(R.id.prescriptionDate);
             viewHolder.viewButton = (Button) workingView.findViewById(R.id.viewButton);
 
@@ -97,8 +91,8 @@ public class PrescriptionsAdapter extends ArrayAdapter<PrescriptionInstance> {
     }
 
     private static class ViewHolder {
+        public TextView rxName;
         public TextView prescriptionDate;
         public Button viewButton;
     }
-
 }

@@ -1,7 +1,9 @@
 package com.completeconceptstrength.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,6 +81,10 @@ public class CoachHomeActivity extends AppCompatActivity {
     }
 
     public void logout(View view){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove("username");
+
         globalContext.setLoggedInUser(null);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

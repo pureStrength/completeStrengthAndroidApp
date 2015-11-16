@@ -13,10 +13,28 @@
         android:orientation="vertical"
         tools:context="com.completeconceptstrength.activity.AthleteWorkoutResults">
 
+        <TextView
+            android:id="@+id/coachName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/rxDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/coachName" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:layout_below="@+id/rxDate"
+            android:background="#000000" />
+
         <TableLayout
             android:id="@+id/setTable"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"></TableLayout>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rxDate"></TableLayout>
 
         <TextView
             android:id="@+id/sleepRating"

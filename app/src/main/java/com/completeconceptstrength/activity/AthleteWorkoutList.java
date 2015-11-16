@@ -72,7 +72,6 @@ public class AthleteWorkoutList extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             Boolean result = false;
-            Log.i("doInBackground", "User currently searching: " + localUser);
 
             // Set service class
             if(prescriptionService == null) {
