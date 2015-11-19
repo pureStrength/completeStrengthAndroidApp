@@ -13,7 +13,7 @@
         android:layout_marginBottom="8dp" android:visibility="gone" />
 
     <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:layout_gravity="center_vertical">
+        android:layout_height="match_parent" >
 
         <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical">
@@ -56,17 +56,15 @@
                 android:layout_height="wrap_content" />
 
             <Button
+                android:id="@+id/registerButton"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_gravity="center"
                 android:text="Register"
                 android:textStyle="bold"
-                android:layout_gravity="center"
-                android:id="@+id/registerButton"
                 android:textColor="#ffffff"
                 android:onClick="registerPage"
-                android:linksClickable="false"
-                android:clickable="true"
                 android:backgroundTint="#06e006" />
 
         </LinearLayout>

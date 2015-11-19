@@ -42,6 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText textFieldLastName;
     private EditText textFieldEmail;
     private EditText textFieldPassword;
+    private EditText verifyPassword;
     private EditText textFieldOrganization;
     private RadioButton radioButtonAthlete;
     private RadioButton radioButtonTrainer;
@@ -59,6 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
         textFieldLastName = (EditText) findViewById(R.id.textFieldLastName);
         textFieldEmail        = (EditText) findViewById(R.id.textFieldEmail);
         textFieldPassword     = (EditText) findViewById(R.id.textFieldPassword);
+        verifyPassword = (EditText) findViewById(R.id.verifyPassword);
         textFieldOrganization = (EditText) findViewById(R.id.textFieldOrganization);
         radioButtonAthlete    = (RadioButton) findViewById(R.id.radioButtonAthlete);
         radioButtonTrainer    = (RadioButton) findViewById(R.id.radioButtonTrainer);
@@ -115,7 +117,29 @@ public class RegistrationActivity extends AppCompatActivity {
         user.setFirstName(textFieldFirstName.getText().toString());
         user.setLastName(textFieldLastName.getText().toString());
         user.setEmail(textFieldEmail.getText().toString());
-        user.setPassword(textFieldPassword.getText().toString());
+
+        if(textFieldPassword.getText().toString().equals(verifyPassword.getText().toString())){
+            user.setPassword(textFieldPassword.getText().toString());
+        }
+        else{
+            new AlertDialog.Builder(RegistrationActivity.this)
+                    .setTitle("Unverified Password")
+                    .setMessage("Your verification password did not match, please retype it.")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                        /**
+                         * Once the user reads the message and clicks the button, this method is called
+                         * @param dialog the dialog which the button appears
+                         * @param which the id of the button clicked
+                         */
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+
+                    })
+                    .show();
+        }
+
         user.setOrganization(textFieldOrganization.getText().toString());
 
         // Execute the registration task

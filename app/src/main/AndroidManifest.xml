@@ -29,6 +29,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.RegistrationActivity"
+            android:label="@string/title_activity_registration" >
+        </activity>
+        <activity
             android:name=".activity.CoachHomeActivity"
             android:label="@string/title_activity_coach_home"
             android:parentActivityName=".activity.LoginActivity" >
