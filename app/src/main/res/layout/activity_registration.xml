@@ -24,7 +24,7 @@
         android:id="@+id/textFieldFirstName"
         android:layout_below="@+id/textViewTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp" />
+        android:layout_marginTop="20dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
         android:id="@+id/textFieldLastName"
         android:layout_below="@+id/textFieldFirstName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp" />
+        android:layout_marginTop="10dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
         android:id="@+id/textFieldEmail"
         android:layout_below="@+id/textFieldLastName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="10dp"
         android:hint="Email" />
 
     <EditText
@@ -56,35 +56,50 @@
         android:id="@+id/textFieldPassword"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textFieldEmail"
+        android:layout_marginTop="10dp"
         android:hint="Password" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textFieldOrganization"
-        android:hint="Organization"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/verifyPassword"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/textFieldPassword"
-        android:layout_marginTop="40dp"
-        android:layout_alignLeft="@+id/textFieldPassword"
-        android:layout_alignStart="@+id/textFieldPassword"
-        android:layout_alignRight="@+id/textFieldPassword"
-        android:layout_alignEnd="@+id/textFieldPassword" />
+        android:layout_marginTop="10dp"
+        android:hint="Verify Password" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textFieldOrganization"
+        android:hint="Organization (optional)"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:layout_below="@+id/verifyPassword"
+        android:layout_marginTop="10dp" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Register!"
         android:id="@+id/buttonRegister"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
     <RadioGroup
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignRight="@+id/textFieldOrganization"
-        android:layout_alignEnd="@+id/textFieldOrganization"
-        android:layout_alignLeft="@+id/textFieldOrganization"
-        android:layout_alignStart="@+id/textFieldOrganization"
+        android:orientation="horizontal"
+        android:gravity="center"
         android:layout_below="@+id/textFieldOrganization"
         android:layout_above="@+id/buttonRegister"
         android:id="@+id/radioGroupUserType"
@@ -99,6 +114,7 @@
             android:checked="true"
             android:layout_below="@+id/textFieldOrganization"
             android:layout_centerHorizontal="true"
+            android:layout_marginRight="20dp"
             android:enabled="true"
             android:layout_gravity="center_horizontal" />
 
