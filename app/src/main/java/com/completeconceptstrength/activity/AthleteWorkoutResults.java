@@ -1,12 +1,15 @@
 package com.completeconceptstrength.activity;
 
+import android.app.ActionBar;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -34,6 +37,8 @@ public class AthleteWorkoutResults extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_athlete_workout_results);
+
+        setTitle("Post Results");
 
         Bundle extras = getIntent().getExtras();
         long prescriptionResultID = extras.getLong("prescription");
@@ -145,12 +150,18 @@ public class AthleteWorkoutResults extends AppCompatActivity {
 
     public void addPrescriptionToView(){
         TableLayout setTable = (TableLayout) findViewById(R.id.setTable);
+
+        TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+
+        //setTable.setLayoutParams(tableParams);
+
         TableRow row1 = new TableRow(this);
+        row1.setLayoutParams(tableParams);
 
         TextView prescriptionDate = new TextView(this);
         prescriptionDate.setText(prescriptionInstance.getDateAssigned().toString());
         row1.addView(prescriptionDate);
-        //setTable.addView(row1);
 
         prescriptionInstance.getCoach().getFirstName();
         prescriptionInstance.getPrescriptionName();
@@ -158,6 +169,7 @@ public class AthleteWorkoutResults extends AppCompatActivity {
         Log.i("addprescription", "Number sets " + Integer.toString(prescriptionInstance.getRecordedSets().size()));
         for(int i = 0; i < prescriptionInstance.getRecordedSets().size(); i++){
             TableRow row2 = new TableRow(this);
+            row2.setLayoutParams(tableParams);
 
             MainLiftSet set = prescriptionInstance.getRecordedSets().get(i);
             String liftName = set.getMainLiftDefinition().getName();
@@ -172,8 +184,9 @@ public class AthleteWorkoutResults extends AppCompatActivity {
             Log.i("addprescription", "set Row children " + row2.getChildCount() );
             Log.i("addprescription", "Set" + i + "Number lifts " + Integer.toString(set.getMainLifts().size()));
 
-            for(int j = 0; j < set.getMainLifts().size(); j++){
+            for (int j = 0; j < set.getMainLifts().size(); j++) {
                 TableRow row3 = new TableRow(this);
+                row3.setLayoutParams(tableParams);
 
                 MainLiftInstance liftInstance = set.getMainLifts().get(j);
                 int reps = liftInstance.getPerformedRepetitions();
@@ -186,6 +199,7 @@ public class AthleteWorkoutResults extends AppCompatActivity {
 
                 TextView repText = new TextView(this);
                 repText.setText("Reps:");
+                repText.setWidth(20);
 
                 EditText liftReps = new EditText(this);
                 liftReps.setText(Integer.toString(reps));
@@ -196,16 +210,35 @@ public class AthleteWorkoutResults extends AppCompatActivity {
                 EditText liftWeight = new EditText(this);
                 liftWeight.setText(Double.toString(weight));
 
+                TextView pounds = new TextView(this);
+                pounds.setText("lbs");
+
                 row3.addView(repText);
                 row3.addView(liftReps);
                 row3.addView(wtText);
                 row3.addView(liftWeight);
+                row3.addView(pounds);
 
                 setTable.addView(row3);
                 Log.i("addprescription", "lift Row children " + row3.getChildCount());
             }
 
         }
+
+        SeekBar sleepSB = (SeekBar) findViewById(R.id.sleepBar);
+        sleepSB.setProgress(prescriptionInstance.getWellnessSleep());
+
+        SeekBar stressSB = (SeekBar) findViewById(R.id.stressBar);
+        stressSB.setProgress(prescriptionInstance.getWellnessStress());
+
+        SeekBar motivationSB = (SeekBar) findViewById(R.id.motivationBar);
+        motivationSB.setProgress(prescriptionInstance.getWellnessMotivation());
+
+        SeekBar nutritionSB = (SeekBar) findViewById(R.id.nutritionBar);
+        nutritionSB.setProgress(prescriptionInstance.getWellnessNutrition());
+
+        SeekBar sorenessSB = (SeekBar) findViewById(R.id.sorenessBar);
+        sorenessSB.setProgress(prescriptionInstance.getWellnessSoreness());
     }
 
     public void submitWorkoutResults(View v){

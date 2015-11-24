@@ -1,9 +1,12 @@
 package com.completeconceptstrength.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.completeconceptstrength.R;
@@ -36,9 +39,17 @@ public class ConnectionsList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connections_list);
 
+        setTitle("Connections");
+
         globalContext = (GlobalContext)getApplicationContext();
         user = globalContext.getLoggedInUser();
         connectionService = globalContext.getUserConnectionClientService();
+
+        pendAdapter = new ConnectionsAdapter(ConnectionsList.this,
+                R.layout.connection_entry_item, user, globalContext);
+        existAdapter = new ConnectionsAdapter(ConnectionsList.this,
+                R.layout.connection_entry_item, user, globalContext);
+
         final GetUserConnections getConnTask = new GetUserConnections(user);
         getConnTask.execute((Void) null);
     }
@@ -102,9 +113,6 @@ public class ConnectionsList extends AppCompatActivity {
         protected void onPostExecute(final Boolean success){
             if(success){
                 if(pendingConnections != null && !pendingConnections.isEmpty()){
-                    pendAdapter = new ConnectionsAdapter(ConnectionsList.this,
-                            R.layout.connection_entry_item, localUser, globalContext);
-
                     ListView pendingList = (ListView) findViewById(R.id.pendingList);
                     pendingList.setAdapter(pendAdapter);
 
@@ -114,9 +122,6 @@ public class ConnectionsList extends AppCompatActivity {
                 }
 
                 if(existingConnections != null && !existingConnections.isEmpty()) {
-                    existAdapter = new ConnectionsAdapter(ConnectionsList.this,
-                            R.layout.connection_entry_item, localUser, globalContext);
-
                     ListView existingList = (ListView) findViewById(R.id.existingList);
                     existingList.setAdapter(existAdapter);
 

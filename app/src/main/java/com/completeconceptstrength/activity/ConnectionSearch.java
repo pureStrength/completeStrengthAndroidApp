@@ -34,6 +34,8 @@ public class ConnectionSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connection_search);
 
+        setTitle("Find Connections");
+
         globalContext = (GlobalContext)getApplicationContext();
         user = globalContext.getLoggedInUser();
         connectionService = globalContext.getUserConnectionClientService();

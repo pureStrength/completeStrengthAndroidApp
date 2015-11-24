@@ -25,22 +25,27 @@
             android:layout_below="@+id/coachName" />
 
         <View
-            android:layout_width="fill_parent"
+            android:id="@+id/spaceLine"
+            android:layout_width="match_parent"
             android:layout_height="1dip"
             android:layout_below="@+id/rxDate"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="#000000" />
 
         <TableLayout
             android:id="@+id/setTable"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rxDate"></TableLayout>
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            android:layout_below="@+id/spaceLine"></TableLayout>
 
         <TextView
             android:id="@+id/sleepRating"
             android:text="Sleep"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/setTable"/>
 
@@ -62,7 +67,7 @@
             android:id="@+id/motivationRating"
             android:text="Motivation"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/sleepBar"/>
 
@@ -84,7 +89,7 @@
             android:id="@+id/nutritionRating"
             android:text="Nutrition"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/motivationBar"/>
 
@@ -106,7 +111,7 @@
             android:id="@+id/sorenessRating"
             android:text="Soreness"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/nutritionBar"/>
 
@@ -128,7 +133,7 @@
             android:id="@+id/stressRating"
             android:text="Stress"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/sorenessBar"/>
 
@@ -150,7 +155,7 @@
             android:id="@+id/resultButton"
             android:text="Submit Results"
             android:onClick="submitWorkoutResults"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/stressBar"/>
 

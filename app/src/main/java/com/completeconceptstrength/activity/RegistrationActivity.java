@@ -21,7 +21,6 @@ import com.completeconceptstrength.application.GlobalContext;
 import org.apache.http.HttpResponse;
 
 import completeconceptstrength.services.impl.UserClientService;
-import completeconceptstrength.services.utils.IServiceClient;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserType;
 
@@ -56,11 +55,11 @@ public class RegistrationActivity extends AppCompatActivity {
         Log.d("onCreate", "Setting UI references");
 
         // Set UI references
-        textFieldFirstName         = (EditText) findViewById(R.id.textFieldFirstName);
-        textFieldLastName = (EditText) findViewById(R.id.textFieldLastName);
+        textFieldFirstName    = (EditText) findViewById(R.id.textFieldFirstName);
+        textFieldLastName     = (EditText) findViewById(R.id.textFieldLastName);
         textFieldEmail        = (EditText) findViewById(R.id.textFieldEmail);
         textFieldPassword     = (EditText) findViewById(R.id.textFieldPassword);
-        verifyPassword = (EditText) findViewById(R.id.verifyPassword);
+        verifyPassword        = (EditText) findViewById(R.id.verifyPassword);
         textFieldOrganization = (EditText) findViewById(R.id.textFieldOrganization);
         radioButtonAthlete    = (RadioButton) findViewById(R.id.radioButtonAthlete);
         radioButtonTrainer    = (RadioButton) findViewById(R.id.radioButtonTrainer);
@@ -120,31 +119,27 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if(textFieldPassword.getText().toString().equals(verifyPassword.getText().toString())){
             user.setPassword(textFieldPassword.getText().toString());
+
+            user.setOrganization(textFieldOrganization.getText().toString());
+
+            // Execute the registration task
+            final RegistrationTask registrationTask = new RegistrationTask(user);
+            registrationTask.execute((Void) null);
         }
         else{
+
+            String alertTitle = "Unable to register";
+            String alertMessage = "Your verification password did not match, please retype it.";
+            int alertIconNumber = android.R.drawable.ic_dialog_alert;
+
             new AlertDialog.Builder(RegistrationActivity.this)
-                    .setTitle("Unverified Password")
-                    .setMessage("Your verification password did not match, please retype it.")
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                        /**
-                         * Once the user reads the message and clicks the button, this method is called
-                         * @param dialog the dialog which the button appears
-                         * @param which the id of the button clicked
-                         */
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-
-                    })
+                    .setTitle(alertTitle)
+                    .setMessage(alertMessage)
+                    .setIcon(alertIconNumber)
                     .show();
         }
 
-        user.setOrganization(textFieldOrganization.getText().toString());
 
-        // Execute the registration task
-        final RegistrationTask registrationTask = new RegistrationTask(user);
-        registrationTask.execute((Void) null);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.completeconceptstrength.application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,9 +13,12 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.activity.ConnectionsButtons;
+import com.completeconceptstrength.activity.ConnectionsList;
 import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
+import org.codehaus.jackson.node.BooleanNode;
 
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserConnectionResponse;
@@ -180,6 +184,12 @@ public final class ConnectionsAdapter extends ArrayAdapter<UserConnectionRespons
             }
 
             return result;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success){
+            Intent intent = new Intent(getContext(), ConnectionsList.class);
+            getContext().startActivity(intent);
         }
     }
 }
