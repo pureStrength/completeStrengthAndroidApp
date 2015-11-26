@@ -24,7 +24,10 @@
             android:clickable="true"
             android:layout_weight="0.07"
             android:onClick="openWorkouts"
-            android:textSize="20dp" />
+            android:textAppearance="?android:textAppearanceLarge"
+            android:backgroundTint="#3384ff"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="fill_parent"
@@ -33,9 +36,12 @@
             android:id="@+id/connections_button"
             android:clickable="true"
             android:layout_weight="0.07"
-            android:textSize="20dp"
             android:onClick="openConnections"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:backgroundTint="#3384ff"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="fill_parent"
@@ -44,9 +50,12 @@
             android:id="@+id/settings_button"
             android:clickable="true"
             android:layout_weight="0.07"
-            android:textSize="20dp"
             android:onClick="openSettings"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:backgroundTint="#3384ff"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -57,7 +66,11 @@
             android:onClick="logout"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_weight="0.07"
-            android:textSize="20dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:backgroundTint="#ff3333"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
     </LinearLayout>
 </RelativeLayout>

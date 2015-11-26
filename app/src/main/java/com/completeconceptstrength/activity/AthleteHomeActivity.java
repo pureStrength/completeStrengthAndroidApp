@@ -88,6 +88,6 @@ public class AthleteHomeActivity extends AppCompatActivity {
     }
 
     public String welcomeString(){
-        return "Welcome " + user.getFirstName() + "!";
+        return user.getFirstName() + " " + user.getLastName();
     }
 }
