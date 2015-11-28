@@ -1,16 +1,12 @@
 package com.completeconceptstrength.activity;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;

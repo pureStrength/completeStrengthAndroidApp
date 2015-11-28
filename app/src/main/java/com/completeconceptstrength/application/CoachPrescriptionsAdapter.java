@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.completeconceptstrength.R;
 
-import completeconceptstrength.model.exercise.impl.MainLiftSet;
 import completeconceptstrength.model.exercise.impl.PrescriptionDefinition;
-import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
 
 /**
  * Created by Jessica on 10/27/2015.

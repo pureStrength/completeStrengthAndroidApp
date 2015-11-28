@@ -13,12 +13,9 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.completeconceptstrength.R;
-import com.completeconceptstrength.activity.ConnectionsButtons;
 import com.completeconceptstrength.activity.ConnectionsList;
-import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
-import org.codehaus.jackson.node.BooleanNode;
 
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserConnectionResponse;

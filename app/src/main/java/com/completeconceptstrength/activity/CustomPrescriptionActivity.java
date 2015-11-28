@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
-import com.completeconceptstrength.application.SetAdapter;
 
 import org.apache.http.HttpResponse;
 

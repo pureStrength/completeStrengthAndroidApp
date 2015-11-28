@@ -15,7 +15,6 @@ import com.completeconceptstrength.application.GlobalContext;
 import org.apache.http.HttpResponse;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import completeconceptstrength.model.exercise.impl.PrescriptionDefinition;
 import completeconceptstrength.model.user.impl.User;

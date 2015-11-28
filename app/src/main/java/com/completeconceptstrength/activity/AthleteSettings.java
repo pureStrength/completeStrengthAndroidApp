@@ -1,26 +1,23 @@
 package com.completeconceptstrength.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.TableLayout;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
-
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TableLayout;
 
 import org.apache.http.HttpResponse;
 
@@ -30,7 +27,6 @@ import completeconceptstrength.model.exercise.impl.OneRepMaxChart;
 import completeconceptstrength.model.exercise.impl.PreferenceUnitType;
 import completeconceptstrength.model.user.impl.Athlete;
 import completeconceptstrength.model.user.impl.User;
-import completeconceptstrength.model.user.impl.UserType;
 import completeconceptstrength.services.impl.UserClientService;
 
 public class AthleteSettings extends AppCompatActivity {

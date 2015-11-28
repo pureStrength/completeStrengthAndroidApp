@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.completeconceptstrength.R;
 
 import completeconceptstrength.model.exercise.impl.MainLiftDefinition;
-import completeconceptstrength.model.user.impl.UserConnectionResponse;
-import completeconceptstrength.model.user.impl.UserConnectionStatus;
 
 /**
  * Created by Jessica on 10/26/2015.

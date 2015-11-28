@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.completeconceptstrength.config.ServerConfig;
 
-import completeconceptstrength.model.exercise.impl.MainLiftDefinition;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.services.impl.MainLiftDefinitionClientService;
 import completeconceptstrength.services.impl.MainLiftSetClientService;

@@ -1,20 +1,15 @@
 package com.completeconceptstrength.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
-import com.completeconceptstrength.application.PrescriptionsAdapter;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 

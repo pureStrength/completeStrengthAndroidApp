@@ -20,9 +20,9 @@ import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
 
-import completeconceptstrength.services.impl.UserClientService;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserType;
+import completeconceptstrength.services.impl.UserClientService;
 
 
 public class RegistrationActivity extends AppCompatActivity {

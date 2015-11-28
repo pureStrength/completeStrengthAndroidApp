@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -32,16 +31,12 @@ import android.widget.TextView;
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
 
-import org.apache.http.HttpResponse;
-
-import completeconceptstrength.services.IUserService;
-import completeconceptstrength.services.impl.UserClientService;
-import completeconceptstrength.services.utils.IServiceClient;
-import completeconceptstrength.model.user.impl.User;
-import completeconceptstrength.model.user.impl.UserType;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.model.user.impl.UserType;
+import completeconceptstrength.services.impl.UserClientService;
 
 
 /**
@@ -97,6 +92,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.email_login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        //NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        //Notification notify = new Notification()
     }
 
     private void populateAutoComplete() {

@@ -16,7 +16,6 @@ import com.completeconceptstrength.application.PrescriptionsAdapter;
 
 import org.apache.http.HttpResponse;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
