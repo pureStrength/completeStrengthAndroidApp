@@ -56,7 +56,6 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -112,7 +111,12 @@
             android:parentActivityName=".activity.ConnectionsButtons"></activity>
         <activity
             android:name=".activity.AthleteWorkoutList"
-            android:label="@string/title_activity_athlete_workout_list"></activity>
+            android:label="@string/title_activity_athlete_workout_list">
+            <intent-filter>
+                <action android:name="AthleteWorkoutList" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.AthleteWorkoutCalendar"
             android:label="@string/title_activity_athlete_workout_calendar"></activity>
