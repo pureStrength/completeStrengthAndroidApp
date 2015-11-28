@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.completeconceptstrength" >
+    package="com.completeconceptstrength">
 
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,8 +8,10 @@
  To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
      option is required to comply with the Google+ Sign-In developer policies
     -->
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To retrieve the account name (email) as part of sign-in: -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
@@ -18,23 +20,23 @@
         android:allowBackup="true"
         android:icon="@drawable/ccs_logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.RegistrationActivity"
-            android:label="@string/title_activity_registration" >
-        </activity>
+            android:label="@string/title_activity_registration"></activity>
         <activity
             android:name=".activity.CoachHomeActivity"
             android:label="@string/title_activity_coach_home"
-            android:parentActivityName=".activity.LoginActivity" >
+            android:parentActivityName=".activity.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.LoginActivity" />
@@ -42,7 +44,7 @@
         <activity
             android:name=".activity.AthleteHomeActivity"
             android:label="@string/title_activity_athlete_home"
-            android:parentActivityName=".activity.LoginActivity" >
+            android:parentActivityName=".activity.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.LoginActivity" />
@@ -54,68 +56,52 @@
 
         <activity
             android:name=".activity.CoachSettings"
-            android:label="@string/title_activity_coach_settings" >
-        </activity>
+            android:label="@string/title_activity_coach_settings"></activity>
         <activity
             android:name=".activity.AthleteSettings"
-            android:label="@string/title_activity_athlete_settings" >
-        </activity>
+            android:label="@string/title_activity_athlete_settings"></activity>
         <activity
             android:name=".activity.AthleteWorkouts"
-            android:label="@string/title_activity_athlete_workouts" >
-        </activity>
+            android:label="@string/title_activity_athlete_workouts"></activity>
         <activity
             android:name=".activity.CoachAthletesActivity"
-            android:label="@string/title_activity_coach_athletes" >
-        </activity>
+            android:label="@string/title_activity_coach_athletes"></activity>
         <activity
             android:name=".activity.CoachWorkouts"
-            android:label="@string/title_activity_coach_workouts" >
-        </activity>
+            android:label="@string/title_activity_coach_workouts"></activity>
         <activity
             android:name=".activity.ConnectionsButtons"
-            android:label="@string/title_activity_connections_buttons" >
-        </activity>
+            android:label="@string/title_activity_connections_buttons"></activity>
         <activity
             android:name=".activity.ConnectionsList"
-            android:parentActivityName=".activity.ConnectionsButtons"
-            android:label="@string/title_activity_connections_list" >
-        </activity>
+            android:label="@string/title_activity_connections_list"
+            android:parentActivityName=".activity.ConnectionsButtons"></activity>
         <activity
             android:name=".activity.ConnectionSearch"
-            android:parentActivityName=".activity.ConnectionsButtons"
-            android:label="@string/title_activity_connection_search" >
-        </activity>
+            android:label="@string/title_activity_connection_search"
+            android:parentActivityName=".activity.ConnectionsButtons"></activity>
         <activity
             android:name=".activity.AthleteWorkoutList"
-            android:label="@string/title_activity_athlete_workout_list" >
-        </activity>
+            android:label="@string/title_activity_athlete_workout_list"></activity>
         <activity
             android:name=".activity.AthleteWorkoutCalendar"
-            android:label="@string/title_activity_athlete_workout_calendar" >
-        </activity>
+            android:label="@string/title_activity_athlete_workout_calendar"></activity>
         <activity
             android:name=".activity.CoachWorkoutsLifts"
-            android:label="@string/title_activity_coach_workouts_lifts" >
-        </activity>
+            android:label="@string/title_activity_coach_workouts_lifts"></activity>
         <activity
             android:name=".activity.CoachWorkoutsSets"
-            android:label="@string/title_activity_coach_workouts_sets" >
-        </activity>
+            android:label="@string/title_activity_coach_workouts_sets"></activity>
         <activity
             android:name=".activity.CoachWorkoutsPrescriptions"
-            android:label="@string/title_activity_coach_workouts_prescriptions" >
-        </activity>
-        <activity android:name=".activity.CustomPrescriptionActivity" >
-        </activity>
-        <activity android:name=".activity.CustomLiftActivity" >
-        </activity>
-        <activity android:name=".activity.CustomSetsActivity" >
-        </activity>
+            android:label="@string/title_activity_coach_workouts_prescriptions"></activity>
+        <activity android:name=".activity.CustomPrescriptionActivity"></activity>
+        <activity android:name=".activity.CustomLiftActivity"></activity>
+        <activity android:name=".activity.CustomSetsActivity"></activity>
         <activity
             android:name=".activity.AthleteWorkoutResults"
-            android:label="@string/title_activity_athlete_workout_results" >
-        </activity>
+            android:label="@string/title_activity_athlete_workout_results"></activity>
+        <activity android:name=".activity.ViewProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -20,9 +20,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
 
 import org.apache.http.HttpResponse;
 
+import java.util.List;
+
+import completeconceptstrength.model.exercise.impl.OneRepMaxChart;
 import completeconceptstrength.model.exercise.impl.PreferenceUnitType;
 import completeconceptstrength.model.user.impl.Athlete;
 import completeconceptstrength.model.user.impl.User;
@@ -101,6 +105,8 @@ public class AthleteSettings extends AppCompatActivity {
 
         EditText athleteDOB = (EditText) findViewById(R.id.athleteDOB);
         athleteDOB.setText(getAthleteDOB());
+
+        TableLayout ORMtable = (TableLayout) findViewById(R.id.ORMTable);
     }
 
     public String getOrganization(){
@@ -133,6 +139,10 @@ public class AthleteSettings extends AppCompatActivity {
         else{
             return "N/A";
         }
+    }
+
+    public List<OneRepMaxChart> getAthleteORMs() {
+        return a.getAthleteProfile().getMostRecentOneRepMaxes();
     }
 
     public void editProfile(View view){

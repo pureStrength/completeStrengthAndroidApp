@@ -1,6 +1,7 @@
 package com.completeconceptstrength.activity;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,8 +38,6 @@ public class AthleteWorkoutResults extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_athlete_workout_results);
-
-        setTitle("Post Results");
 
         Bundle extras = getIntent().getExtras();
         long prescriptionResultID = extras.getLong("prescription");
@@ -180,6 +179,8 @@ public class AthleteWorkoutResults extends AppCompatActivity {
             liftNameTV.setTextSize(14);
             row2.addView(liftNameTV);
             setTable.addView(row2);
+
+
 
             Log.i("addprescription", "set Row children " + row2.getChildCount() );
             Log.i("addprescription", "Set" + i + "Number lifts " + Integer.toString(set.getMainLifts().size()));

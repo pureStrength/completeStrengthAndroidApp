@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
@@ -125,8 +127,35 @@ public class AthleteWorkoutList extends AppCompatActivity {
                         rxAdapter.add(p);
                     }
                 }
+
+                if(rxAdapter.isEmpty()){
+                    View rl = findViewById(R.id.layout_workout_list);
+                    TextView tv = new TextView(AthleteWorkoutList.this);
+
+                    if(date != null){
+                        tv.setText("No prescriptions are available for this date.");
+                    }
+                    else {
+                        tv.setText("You currently have no prescriptions. Try connecting with a trainer to get started.");
+                    }
+
+                    ((RelativeLayout)rl).addView(tv);
+                }
             }
             else {
+
+                View rl = findViewById(R.id.layout_workout_list);
+                TextView tv = new TextView(AthleteWorkoutList.this);
+
+                if(date != null){
+                    tv.setText("No prescriptions are available for this date.");
+                }
+                else {
+                    tv.setText("You currently have no prescriptions. Try connecting with a trainer to get started.");
+                }
+
+                ((RelativeLayout)rl).addView(tv);
+
                 Log.e("onPostExecute", "Execute unsuccessful or no results found");
             }
         }

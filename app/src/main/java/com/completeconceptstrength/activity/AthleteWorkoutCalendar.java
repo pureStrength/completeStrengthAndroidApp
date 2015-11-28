@@ -1,6 +1,7 @@
 package com.completeconceptstrength.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.completeconceptstrength.R;
@@ -62,11 +64,9 @@ public class AthleteWorkoutCalendar extends AppCompatActivity {
         final CaldroidListener caldroidListener = new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                //if(prescriptionInstances != null && !prescriptionInstances.isEmpty()){
-                    Intent intent = new Intent(AthleteWorkoutCalendar.this, AthleteWorkoutList.class);
-                    intent.putExtra("prescriptionDate", date.getTime());
-                    startActivity(intent);
-                //}
+            Intent intent = new Intent(AthleteWorkoutCalendar.this, AthleteWorkoutList.class);
+            intent.putExtra("prescriptionDate", date.getTime());
+            startActivity(intent);
             }
         };
         caldroidFragment.setCaldroidListener(caldroidListener);
@@ -76,6 +76,7 @@ public class AthleteWorkoutCalendar extends AppCompatActivity {
         t.commit();
     }
 
+    // TODO use this to pass into workout list if possible
     public List<PrescriptionInstance> getPrescriptionsOnDate(Date date){
         List<PrescriptionInstance> prescriptionInstancesOnDate = new ArrayList<PrescriptionInstance>();
 
@@ -141,11 +142,19 @@ public class AthleteWorkoutCalendar extends AppCompatActivity {
 
     private void setCalendarDates() {
         for(int i = 0; i < prescriptions.size(); i++){
-            if(prescriptions.get(i).getWasPerformed())
-                caldroidFragment.setBackgroundResourceForDate(R.color.accent_material_dark, prescriptions.get(i).getDateAssigned());
-            else
-                caldroidFragment.setBackgroundResourceForDate(R.color.accent_material_light, prescriptions.get(i).getDateAssigned());
+            if(prescriptions.get(i).getWasPerformed()) {
+                caldroidFragment.setBackgroundResourceForDate(R.color.green, prescriptions.get(i).getDateAssigned());
+                caldroidFragment.setTextColorForDate(R.color.white, prescriptions.get(i).getDateAssigned());
+            }
+            else {
+                caldroidFragment.setBackgroundResourceForDate(R.color.maroon, prescriptions.get(i).getDateAssigned());
+                caldroidFragment.setTextColorForDate(R.color.white, prescriptions.get(i).getDateAssigned());
+            }
         }
+
+        caldroidFragment.setBackgroundResourceForDate(R.color.dark_blue, Calendar.getInstance().getTime());
+        caldroidFragment.setTextColorForDate(R.color.white, Calendar.getInstance().getTime());
+
         caldroidFragment.refreshView();
     }
 }
