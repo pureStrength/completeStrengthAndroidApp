@@ -51,4 +51,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.android.support:percent:22.2.0'
     compile 'com.roomorama:caldroid:2.2.0'
+    compile 'com.jjoe64:graphview:4.0.1'
 }

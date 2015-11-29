@@ -5,6 +5,7 @@ import android.app.Application;
 import com.completeconceptstrength.config.ServerConfig;
 
 import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.services.impl.AthleteClientService;
 import completeconceptstrength.services.impl.MainLiftDefinitionClientService;
 import completeconceptstrength.services.impl.MainLiftSetClientService;
 import completeconceptstrength.services.impl.PrescriptionDefinitionClientService;
@@ -81,6 +82,14 @@ public class GlobalContext extends Application {
      */
     public UserClientService getUserClientService() {
         return new UserClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
+    }
+
+    /**
+     * Get the athlete client service
+     * @return
+     */
+    public AthleteClientService getAthleteClientService() {
+        return new AthleteClientService(getServiceClient(), _serverConfig.getIpAddress(), _serverConfig.getPort());
     }
 
     /**

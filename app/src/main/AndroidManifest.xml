@@ -107,7 +107,12 @@
         <activity
             android:name=".activity.ConnectionsList"
             android:label="@string/title_activity_connections_list"
-            android:parentActivityName=".activity.ConnectionsButtons"></activity>
+            android:parentActivityName=".activity.ConnectionsButtons">
+            <intent-filter>
+                <action android:name="ConnectionsList" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.ConnectionSearch"
             android:label="@string/title_activity_connection_search"
