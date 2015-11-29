@@ -27,6 +27,7 @@ public class AthleteHomeActivity extends AppCompatActivity {
 
         globalContext = (GlobalContext)getApplicationContext();
         user = globalContext.getLoggedInUser();
+
         setTitle(welcomeString());
 
     }

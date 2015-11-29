@@ -15,6 +15,7 @@ import com.google.android.gms.iid.InstanceIDListenerService;
 /**
  * Created by Jessica on 11/28/2015.
  */
+
 public class MyInstanceIDListenerService extends InstanceIDListenerService {
 
     private static final String TAG = "MyInstanceIDLS";
@@ -28,7 +29,9 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
     @Override
     public void onTokenRefresh() {
         // Fetch updated Instance ID token and notify our app's server of any changes (if applicable).
-        Intent intent = new Intent(this, RegistrationActivity.class);
+        Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
     }
+    // [END refresh_token]
 }
+

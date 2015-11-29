@@ -30,7 +30,13 @@ import android.widget.TextView;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
+import com.completeconceptstrength.application.RegistrationIntentService;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 
+import org.apache.http.HttpResponse;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,12 +50,8 @@ import completeconceptstrength.services.impl.UserClientService;
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
-    // Global context
     GlobalContext globalContext;
-
-    //Service classes
     UserClientService userService;
-
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -322,6 +324,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
                 startActivity(intent);
                 globalContext.setLoggedInUser(user);
+
+                Intent regIntent = new Intent(LoginActivity.this, RegistrationIntentService.class);
+                startService(regIntent);
+
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

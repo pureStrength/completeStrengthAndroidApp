@@ -3,33 +3,38 @@ package com.completeconceptstrength.application;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.completeconceptstrength.R;
-import com.completeconceptstrength.activity.RegistrationActivity;
+import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
+import org.apache.http.HttpResponse;
+
 import java.io.IOException;
 
-/**
- * Created by Jessica on 11/28/2015.
- */
+import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.services.impl.UserClientService;
+
 public class RegistrationIntentService extends IntentService {
 
-    private static final String TAG = "RegIntentService";
+    GlobalContext globalContext;
+    User user;
+
+    UserClientService userService;
+
     private static final String[] TOPICS = {"global"};
 
-    public RegistrationIntentService(){
-        super(TAG);
+    public RegistrationIntentService() {
+        super("RegistrationIntentService");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
         try {
             // [START register_for_gcm]
             // Initially this call goes out to the network to retrieve the token, subsequent calls
@@ -41,45 +46,96 @@ public class RegistrationIntentService extends IntentService {
             String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             // [END get_token]
-            Log.i(TAG, "GCM Registration Token: " + token);
 
             // TODO: Implement this method to send any registration to your app's servers.
             sendRegistrationToServer(token);
 
-            // Subscribe to topic channels
-            subscribeTopics(token);
-
-            // You should store a boolean that indicates whether the generated token has been
-            // sent to your server. If the boolean is false, send the token to your server,
-            // otherwise your server should have already received the token.
-            sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
-            // [END register_for_gcm]
         } catch (Exception e) {
-            Log.d(TAG, "Failed to complete token refresh", e);
-            // If an exception happens while fetching the new token or updating our registration data
-            // on a third-party server, this ensures that we'll attempt the update at a later time.
-            sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
+            Log.d("RegistrationIntentServi", "Failed to complete token refresh", e);
         }
         // Notify UI that registration has completed, so the progress indicator can be hidden.
         Intent registrationComplete = new Intent(QuickstartPreferences.REGISTRATION_COMPLETE);
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
     }
 
+    /**
+     * Persist registration to third-party servers.
+     *
+     * Modify this method to associate the user's GCM registration token with any server-side account
+     * maintained by your application.
+     *
+     * @param token The new token.
+     */
     private void sendRegistrationToServer(String token) {
+        globalContext = (GlobalContext)getApplicationContext();
+
         // Add custom implementation, as needed.
+        user = globalContext.getLoggedInUser();
+        user.setEnableAndroidNotifications(true);
+        user.setAndroidToken(token);
+
+        final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+        updateTask.execute((Void) null);
     }
 
-    /**
-     * Subscribe to any GCM topics of interest, as defined by the TOPICS constant.
-     *
-     * @param token GCM token
-     * @throws IOException if unable to reach the GCM PubSub service
-     */
-    // [START subscribe_topics]
-    private void subscribeTopics(String token) throws IOException {
-        GcmPubSub pubSub = GcmPubSub.getInstance(this);
-        for (String topic : TOPICS) {
-            pubSub.subscribe(token, "/topics/" + topic, null);
+    public class UpdateProfileTask extends AsyncTask<Void, Void, Boolean> {
+
+        private User localUser;
+        private String alertTitle;
+        private String alertMessage;
+        private int alertIconNumber;
+
+        UpdateProfileTask(final User user) {
+            localUser = user;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Boolean result = false;
+
+            Log.i("doInBackground", "User to update: " + localUser);
+
+            // Set service class
+            if(userService == null) {
+
+                // Get the global context
+                if(globalContext == null) {
+                    globalContext = (GlobalContext)getApplicationContext();
+                }
+
+                userService = globalContext.getUserClientService();
+            }
+
+
+            // Run the service
+            if(userService != null) {
+                result = userService.update(localUser.getId(), localUser);
+                Log.i("Update User Profile", localUser.getAndroidToken() + " " + localUser.getEnableAndroidNotifications());
+            } else {
+                Log.e("doInBackground", "userService is null");
+            }
+
+            Log.d("doInBackground", "result: " + result);
+
+            // Check the result of the service call and set the variables accordingly
+            if(result == false) {
+                alertTitle = "Unable to update settings";
+                alertIconNumber = android.R.drawable.ic_dialog_alert;
+
+                final HttpResponse response = userService.getLastResponse();
+                if (response != null) {
+                    Log.e("doInBackground", "Error updating user with status code: " + response.getStatusLine().getStatusCode());
+                    alertMessage = "Error updating, \nPlease try again later.\n";
+                }
+                else {
+                    Log.e("doInBackground", "Update user response is null");
+                    alertMessage = "Unable to access server";
+                }
+
+            }
+
+            return result;
         }
     }
+
 }
