@@ -12,7 +12,6 @@ import android.util.Log;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.activity.AthleteHomeActivity;
-import com.completeconceptstrength.activity.LoginActivity;
 import com.google.android.gms.gcm.GcmListenerService;
 
 /**
@@ -21,37 +20,15 @@ import com.google.android.gms.gcm.GcmListenerService;
 public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
+        String message = data.toString();
         Log.d("GCM", "From: " + from);
         Log.d("GCM", "Message: " + message);
 
-        if (from.startsWith("/topics/")) {
-            // message received from some topic.
-        } else {
-            // normal downstream message.
-        }
-
-        // [START_EXCLUDE]
-        /**
-         * Production applications would usually process the message here.
-         * Eg: - Syncing with server.
-         *     - Store message in local database.
-         *     - Update UI.
-         */
-
-        /**
-         * In some cases it may be useful to show a notification indicating to the user
-         * that a message was received.
-         */
         sendNotification(message);
-        // [END_EXCLUDE]
     }
-    // [END receive_message]
 
     /**
      * Create and show a simple notification containing the received GCM message.
-     *
-     * @param message GCM message received.
      */
     private void sendNotification(String message) {
         Intent intent = new Intent(this, AthleteHomeActivity.class);
@@ -62,7 +39,7 @@ public class MyGcmListenerService extends GcmListenerService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("GCM Message")
+                .setContentTitle(message)
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
