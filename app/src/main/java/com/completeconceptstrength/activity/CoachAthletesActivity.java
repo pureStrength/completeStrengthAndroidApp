@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.application.ConnectedAthletesAdapter;
 import com.completeconceptstrength.application.ConnectionsAdapter;
 import com.completeconceptstrength.application.GlobalContext;
 
@@ -99,8 +100,8 @@ public class CoachAthletesActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if(success && athleteConnections != null && !athleteConnections.isEmpty()){
-                ConnectionsAdapter athleteAdapter = new ConnectionsAdapter(CoachAthletesActivity.this,
-                        R.layout.connection_entry_item, localUser, globalContext);
+                ConnectedAthletesAdapter athleteAdapter = new ConnectedAthletesAdapter(CoachAthletesActivity.this,
+                        R.layout.athlete_entry_item, localUser, globalContext);
 
                 ListView athleteList = (ListView) findViewById(R.id.athleteList);
                 athleteList.setAdapter(athleteAdapter);
