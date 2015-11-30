@@ -22,7 +22,10 @@
             android:id="@+id/athletes_button"
             android:layout_gravity="center_horizontal"
             android:onClick="openAthletesList"
-            android:textSize="20dp" />
+            android:textAppearance="?android:textAppearanceLarge"
+            android:backgroundTint="#3384ff"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="match_parent"
@@ -31,7 +34,10 @@
             android:id="@+id/workout_button"
             android:layout_gravity="center_horizontal"
             android:onClick="openWorkouts"
-            android:textSize="20dp" />
+            android:textAppearance="?android:textAppearanceLarge"
+            android:backgroundTint="#3384ff"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="match_parent"
@@ -40,7 +46,10 @@
             android:id="@+id/connections_button"
             android:layout_gravity="center_horizontal"
             android:onClick="openConnections"
-            android:textSize="20dp" />
+            android:textAppearance="?android:textAppearanceLarge"
+            android:backgroundTint="#3384ff"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="match_parent"
@@ -49,7 +58,10 @@
             android:id="@+id/settings_button"
             android:layout_gravity="center_horizontal"
             android:onClick="openSettings"
-            android:textSize="20dp" />
+            android:textAppearance="?android:textAppearanceLarge"
+            android:backgroundTint="#3384ff"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -59,8 +71,9 @@
             android:onClick="logout"
             android:id="@+id/logout_button"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_weight="0.25"
-            android:textSize="20dp"
-            android:layout_marginTop="20dp" />
+            android:textAppearance="?android:textAppearanceLarge"
+            android:backgroundTint="#ff3333"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>
