@@ -86,11 +86,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <Spinner
+            android:id="@+id/ormSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/timeTable"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown" />
+
         <com.jjoe64.graphview.GraphView
             android:id="@+id/ORMGraph"
             android:layout_width="match_parent"
             android:layout_height="200dip"
-            android:layout_below="@+id/timeTable"
+            android:layout_below="@+id/ormSpinner"
             app:seriesType = "line"
             app:seriesColor="#00cc00"
             app:seriesTitle="ORM (lbs)"

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -22,7 +25,9 @@ import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import completeconceptstrength.model.exercise.impl.OneRepMax;
@@ -43,6 +48,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     User profileUser;
     AthleteClientService athleteClientService;
     AthleteProfile profileAthlete;
+    HashMap<String, OneRepMaxChart> liftsByName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,13 +132,18 @@ public class ViewProfileActivity extends AppCompatActivity {
         TableLayout ORMTable = (TableLayout) findViewById(R.id.ORMTable);
         TableLayout timeTable = (TableLayout) findViewById(R.id.timeTable);
 
+        final Spinner dropdown = (Spinner)findViewById(R.id.ormSpinner);
+
         nameTV.setText(profileUser.getFirstName() + " " + profileUser.getLastName());
         emailTV.setText(profileUser.getEmail());
         orgTV.setText(profileUser.getOrganization());
 
         List<OneRepMaxChart> ORMs = profileAthlete.getMostRecentOneRepMaxes();
+        liftsByName = new HashMap<String, OneRepMaxChart>();
 
         for(OneRepMaxChart O : ORMs){
+            liftsByName.put(O.getLiftName(), O);
+
             TableRow tr = new TableRow(this);
 
             TextView liftName = new TextView(this);
@@ -177,6 +188,24 @@ public class ViewProfileActivity extends AppCompatActivity {
 
             ORMTable.addView(tr);
         }
+
+        createGraph(ORMs.get(0).getOneRepMaxes());
+
+        ArrayList<String> liftNames = new ArrayList<>(liftsByName.keySet());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, liftNames);
+        dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                List<OneRepMax> graphValues = liftsByName.get(dropdown.getSelectedItem().toString()).getOneRepMaxes();
+                createGraph(graphValues);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         List<TrackEventChart> times = profileAthlete.getMostRecentTrackEvents();
 
@@ -224,8 +253,6 @@ public class ViewProfileActivity extends AppCompatActivity {
 
             timeTable.addView(tr);
         }
-
-        createGraph(ORMs.get(0).getOneRepMaxes());
 
     }
 
