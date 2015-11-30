@@ -1,68 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/profileLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.completeconceptstrength.activity.ViewProfileActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ScrollView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/profileLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.completeconceptstrength.activity.ViewProfileActivity">
 
-    <TextView
-        android:id="@+id/athleteName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000040"
-        android:enabled="false"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
+        <TextView
+            android:id="@+id/athleteName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000040"
+            android:enabled="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
 
-    <TextView
-        android:id="@+id/athleteEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000040"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/athleteName"
-        android:enabled="false"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        <TextView
+            android:id="@+id/athleteEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000040"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/athleteName"
+            android:enabled="false"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
 
-    <TextView
-        android:id="@+id/organization"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000040"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/athleteEmail"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:id="@+id/organization"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000040"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/athleteEmail"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <TextView
-        android:id="@+id/ORMTableTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Most Recent ORMs"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000040"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/organization"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:id="@+id/ORMTableTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Most Recent ORMs"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000040"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/organization" />
 
 
-    <TableLayout
-        android:id="@+id/ORMTable"
-        android:layout_below="@+id/ORMTableTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></TableLayout>
+        <TableLayout
+            android:id="@+id/ORMTable"
+            android:layout_below="@+id/ORMTableTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TableLayout>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/timeTableTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Track Event Times"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000040"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/ORMTable" />
+
+
+        <TableLayout
+            android:id="@+id/timeTable"
+            android:layout_below="@+id/timeTableTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/ORMGraph"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:layout_below="@+id/timeTable"
+            app:seriesType = "line"
+            app:seriesColor="#00cc00"
+            app:seriesTitle="ORM (lbs)"
+            />
+
+
+    </RelativeLayout>
+</ScrollView>

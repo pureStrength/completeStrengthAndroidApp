@@ -11,15 +11,24 @@ import android.widget.TextView;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
+import com.jjoe64.graphview.DefaultLabelFormatter;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.apache.http.HttpResponse;
 import org.w3c.dom.Text;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import completeconceptstrength.model.exercise.impl.OneRepMax;
 import completeconceptstrength.model.exercise.impl.OneRepMaxChart;
+import completeconceptstrength.model.exercise.impl.TrackEventChart;
+import completeconceptstrength.model.exercise.impl.TrackTime;
 import completeconceptstrength.model.user.impl.Athlete;
 import completeconceptstrength.model.user.impl.AthleteProfile;
 import completeconceptstrength.model.user.impl.User;
@@ -115,6 +124,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         TextView emailTV = (TextView) findViewById(R.id.athleteEmail);
         TextView orgTV = (TextView) findViewById(R.id.organization);
         TableLayout ORMTable = (TableLayout) findViewById(R.id.ORMTable);
+        TableLayout timeTable = (TableLayout) findViewById(R.id.timeTable);
 
         nameTV.setText(profileUser.getFirstName() + " " + profileUser.getLastName());
         emailTV.setText(profileUser.getEmail());
@@ -142,7 +152,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
                 Date updateDate = O.getMostRecentOneRepMax().getDate();
 
-                SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d");
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/d");
 
                 dateUpdated.setText("on " + sdf.format(updateDate));
                 dateUpdated.setTextSize(18);
@@ -168,6 +178,80 @@ public class ViewProfileActivity extends AppCompatActivity {
             ORMTable.addView(tr);
         }
 
+        List<TrackEventChart> times = profileAthlete.getMostRecentTrackEvents();
+
+        for(TrackEventChart t : times){
+            TableRow tr = new TableRow(this);
+
+            TextView eventName = new TextView(this);
+            TextView value = new TextView(this);
+            TextView dateUpdated = new TextView(this);
+
+            eventName.setText(t.getEventName());
+            eventName.setTextSize(18);
+            eventName.setPadding(0, 0, 20, 0);
+
+            TrackTime eventValue = t.getMostRecentTrackEvent().getTrackTime();
+            String trackTime = eventValue.getHours() + "h " + eventValue.getMinutes() + "m " + eventValue.getSeconds() + "s";
+
+            value.setText(trackTime);
+            value.setTextSize(18);
+            value.setPadding(0, 0, 20, 0);
+
+            Date updateDate = t.getMostRecentTrackEvent().getDate();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/d");
+
+            dateUpdated.setText("on " + sdf.format(updateDate));
+            dateUpdated.setTextSize(18);
+
+            tr.addView(eventName);
+            tr.addView(value);
+            tr.addView(dateUpdated);
+
+            TableLayout.LayoutParams tableRowParams=
+                    new TableLayout.LayoutParams
+                            (TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
+
+            int leftMargin=10;
+            int topMargin=10;
+            int rightMargin=10;
+            int bottomMargin = 2;
+
+            tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+
+            tr.setLayoutParams(tableRowParams);
+
+            timeTable.addView(tr);
+        }
+
+        createGraph(ORMs.get(0).getOneRepMaxes());
+
+    }
+
+    public void createGraph(List<OneRepMax> orm){
+
+        GraphView graph = (GraphView) findViewById(R.id.ORMGraph);
+
+        DataPoint[] dataPoints = new DataPoint[orm.size()];
+        for(int i = 0; i < orm.size(); i++){
+            OneRepMax o = orm.get(i);
+            DataPoint d = new DataPoint(/*o.getDate()*/ i, o.getValue());
+            dataPoints[i] = d;
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
+
+        graph.addSeries(series);
+
+        // set date label formatter
+        //graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
+        //graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+
+        // set manual x bounds to have nice steps
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(3);
+        graph.getViewport().setXAxisBoundsManual(true);
 
     }
 }
