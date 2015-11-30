@@ -17,7 +17,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="70dp" />
+        android:layout_marginTop="10dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
         android:textColor="#000040"
         android:background="#00000000"
         android:enabled="false"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/coachFirstName"
         android:layout_alignParentTop="true"/>
@@ -65,7 +65,7 @@
         android:id="@+id/organization"
         android:text="Organization: "
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/changeCoachPassword"
+        android:layout_below="@+id/changePassword"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -78,8 +78,35 @@
         android:textColor="#000040"
         android:background="#00000000"
         android:enabled="false"
-        android:layout_below="@+id/changeCoachPassword"
+        android:layout_below="@+id/changePassword"
         android:layout_toRightOf="@+id/organization"/>
+
+    <Button
+        android:id="@+id/enableAndroidButton"
+        android:text="Enable Android Notifications"
+        android:layout_centerHorizontal="true"
+        android:onClick="enableAndroid"
+        android:layout_below="@+id/organization"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/enableTexts"
+        android:text="Enable Text Notifications"
+        android:layout_centerHorizontal="true"
+        android:onClick="enableText"
+        android:layout_below="@+id/enableAndroidButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
+
 
     <Button
         android:layout_width="wrap_content"

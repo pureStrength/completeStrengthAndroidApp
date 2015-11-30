@@ -1,6 +1,7 @@
 package com.completeconceptstrength.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,15 +10,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
+import com.completeconceptstrength.application.RegistrationIntentService;
 
 import org.apache.http.HttpResponse;
 
+import java.util.ArrayList;
+
+import completeconceptstrength.model.user.impl.CellCarrier;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.services.impl.UserClientService;
 
@@ -32,6 +39,7 @@ public class CoachSettings extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coach_settings);
+        setTitle("Settings");
 
         globalContext = (GlobalContext)getApplicationContext();
         user = globalContext.getLoggedInUser();
@@ -145,6 +153,64 @@ public class CoachSettings extends ActionBarActivity {
         final UpdateProfileTask updateTask = new UpdateProfileTask(user);
         updateTask.execute((Void) null);
     }
+
+    public void enableAndroid(View view){
+        Intent regIntent = new Intent(CoachSettings.this, RegistrationIntentService.class);
+        startService(regIntent);
+    }
+
+    public void enableText(View view) {
+        final AlertDialog.Builder enableTexts = new AlertDialog.Builder(this);
+
+        final EditText phoneNumber = new EditText(this);
+        phoneNumber.setHint("Phone Number");
+        final Spinner carriers = new Spinner(this); // ENUM, iterate, class in api cellCarrier.values
+
+        ArrayList<String> spinnerList = new ArrayList<String>();
+
+        for(CellCarrier c : CellCarrier.values()){
+            spinnerList.add(c.getType());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerList);
+        carriers.setAdapter(adapter);
+
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(phoneNumber);
+        linearLayout.addView(carriers);
+        linearLayout.setPadding(10, 10, 10, 10);
+
+        enableTexts.setView(linearLayout);
+
+        enableTexts.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("posBtn", phoneNumber.getText().toString());
+                long phoneNum = Long.valueOf(phoneNumber.getText().toString());
+                String carrier = carriers.getSelectedItem().toString();
+
+                user.setPhoneNumber(phoneNum);
+                user.setCellCarrier(CellCarrier.fromString(carrier));
+                user.setEnableTextMessages(true);
+
+                final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+                updateTask.execute((Void) null);
+            }
+        });
+
+        enableTexts.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        enableTexts.setTitle("Enable Text Notifications")
+                .setCancelable(true)
+                .show();
+    }
+
 
     public void changeCoachPassword(View view){
         final AlertDialog.Builder changePass = new AlertDialog.Builder(this);
