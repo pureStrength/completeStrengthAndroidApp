@@ -12,14 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
 
-import completeconceptstrength.model.exercise.impl.PreferenceUnitType;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.services.impl.UserClientService;
 
@@ -135,15 +133,6 @@ public class CoachSettings extends ActionBarActivity {
             Log.i("saveProfile", "New Email: " + coachEmail.getText().toString());
         }
         coachEmail.setEnabled(false);
-
-        RadioGroup unitsOfMeasurement = (RadioGroup) findViewById(R.id.coachRadioGroup);
-        int selectedID = unitsOfMeasurement.getCheckedRadioButtonId();
-        if(selectedID == R.id.radioButtonImperial){
-            user.setPreferenceUnitType(PreferenceUnitType.IMPERIAL);
-        }
-        else {
-            user.setPreferenceUnitType(PreferenceUnitType.METRIC);
-        }
 
         Button editButton = (Button) findViewById(R.id.buttonEdit);
         editButton.setEnabled(true);

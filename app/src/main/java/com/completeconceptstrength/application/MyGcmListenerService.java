@@ -20,7 +20,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.toString();
+        String message = data.getString("message");
         Log.d("GCM", "From: " + from);
         Log.d("GCM", "Message: " + message);
 
@@ -31,6 +31,7 @@ public class MyGcmListenerService extends GcmListenerService {
      * Create and show a simple notification containing the received GCM message.
      */
     private void sendNotification(String message) {
+
         Intent intent = new Intent(this, AthleteHomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

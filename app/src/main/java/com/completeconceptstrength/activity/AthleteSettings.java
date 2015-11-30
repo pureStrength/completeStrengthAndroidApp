@@ -1,6 +1,7 @@
 package com.completeconceptstrength.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -9,23 +10,26 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
+import com.completeconceptstrength.application.RegistrationIntentService;
 
 import org.apache.http.HttpResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import completeconceptstrength.model.exercise.impl.OneRepMaxChart;
-import completeconceptstrength.model.exercise.impl.PreferenceUnitType;
 import completeconceptstrength.model.user.impl.Athlete;
+import completeconceptstrength.model.user.impl.CellCarrier;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.services.impl.UserClientService;
 
@@ -118,6 +122,63 @@ public class AthleteSettings extends AppCompatActivity {
         return a.getAthleteProfile().getMostRecentOneRepMaxes();
     }
 
+    public void enableAndroid(View view){
+        Intent regIntent = new Intent(AthleteSettings.this, RegistrationIntentService.class);
+        startService(regIntent);
+    }
+
+    public void enableText(View view) {
+        final AlertDialog.Builder enableTexts = new AlertDialog.Builder(this);
+
+        final EditText phoneNumber = new EditText(this);
+        phoneNumber.setHint("Phone Number");
+        final Spinner carriers = new Spinner(this); // ENUM, iterate, class in api cellCarrier.values
+
+        ArrayList<String> spinnerList = new ArrayList<String>();
+
+        for(CellCarrier c : CellCarrier.values()){
+            spinnerList.add(c.getType());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerList);
+        carriers.setAdapter(adapter);
+
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(phoneNumber);
+        linearLayout.addView(carriers);
+        linearLayout.setPadding(10, 10, 10, 10);
+
+        enableTexts.setView(linearLayout);
+
+        enableTexts.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("posBtn", phoneNumber.getText().toString());
+                long phoneNum = Long.valueOf(phoneNumber.getText().toString());
+                String carrier = carriers.getSelectedItem().toString();
+
+                user.setPhoneNumber(phoneNum);
+                user.setCellCarrier(CellCarrier.fromString(carrier));
+                user.setEnableTextMessages(true);
+
+                final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+                updateTask.execute((Void) null);
+            }
+        });
+
+        enableTexts.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        enableTexts.setTitle("Enable Text Notifications")
+                .setCancelable(true)
+                .show();
+    }
+
     public void editProfile(View view){
         EditText userFirstName = (EditText) findViewById(R.id.athleteFirstName);
         userFirstName.setEnabled(true);
@@ -181,15 +242,6 @@ public class AthleteSettings extends AppCompatActivity {
             Log.i("saveProfile", "New Email: " + athleteEmail.getText().toString());
         }
         athleteEmail.setEnabled(false);
-
-        RadioGroup unitsOfMeasurement = (RadioGroup) findViewById(R.id.athleteRadioGroup);
-        int selectedID = unitsOfMeasurement.getCheckedRadioButtonId();
-        if(selectedID == R.id.radioButtonImperial){
-            user.setPreferenceUnitType(PreferenceUnitType.IMPERIAL);
-        }
-        else {
-            user.setPreferenceUnitType(PreferenceUnitType.METRIC);
-        }
 
         EditText dob = (EditText) findViewById(R.id.athleteDOB);
         dob.setEnabled(false);
@@ -274,12 +326,6 @@ public class AthleteSettings extends AppCompatActivity {
 
         UpdateProfileTask(final User user) {
             localUser = user;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            // Start the progress wheel spinner
-            //progressRegister.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -386,10 +432,5 @@ public class AthleteSettings extends AppCompatActivity {
                 finish();
             }
         }
-
-        @Override
-        protected void onCancelled() {
-        }
     }
-
 }

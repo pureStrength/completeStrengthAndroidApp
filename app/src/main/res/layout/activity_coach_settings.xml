@@ -81,40 +81,6 @@
         android:layout_below="@+id/changeCoachPassword"
         android:layout_toRightOf="@+id/organization"/>
 
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/organization"
-        android:id="@+id/coachRadioGroup"
-        android:layout_alignParentTop="false"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Metric"
-            android:textSize="15dp"
-            android:id="@+id/radioButtonMetric"
-            android:checked="true"
-            android:layout_below="@+id/organization"
-            android:layout_gravity="left" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Imperial"
-            android:textSize="15dp"
-            android:id="@+id/radioButtonImperial"
-            android:checked="false"
-            android:layout_below="@+id/organization"
-            android:layout_toRightOf="@+id/radioButtonMetric"
-            android:enabled="true"
-            android:layout_gravity="left" />
-
-    </RadioGroup>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

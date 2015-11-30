@@ -154,47 +154,40 @@
         android:layout_toRightOf="@+id/dateOfBirth"
         android:background="#00000000"/>
 
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/athleteDOB"
-        android:id="@+id/athleteRadioGroup"
-        android:layout_alignParentTop="false"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal" >
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Metric"
-            android:textSize="15dp"
-            android:id="@+id/radioButtonMetric"
-            android:checked="true"
-            android:layout_below="@+id/athleteDOB"
-            android:layout_gravity="left" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Imperial"
-            android:textSize="15dp"
-            android:id="@+id/radioButtonImperial"
-            android:checked="false"
-            android:layout_below="@+id/athleteDOB"
-            android:layout_toRightOf="@+id/radioButtonMetric"
-            android:enabled="true"
-            android:layout_gravity="left" />
-
-    </RadioGroup>
-
     <TableLayout
         android:id="@+id/ORMTable"
-        android:layout_below="@+id/athleteRadioGroup"
+        android:layout_below="@+id/athleteDOB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
+        android:id="@+id/enableAndroidButton"
+        android:text="Enable Android Notifications"
+        android:layout_centerHorizontal="true"
+        android:onClick="enableAndroid"
+        android:layout_below="@+id/ORMTable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/enableTexts"
+        android:text="Enable Text Notifications"
+        android:layout_centerHorizontal="true"
+        android:onClick="enableText"
+        android:layout_below="@+id/enableAndroidButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/buttonEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -202,7 +195,10 @@
         android:text="Edit"
         android:enabled="true"
         android:onClick="editProfile"
-        android:id="@+id/buttonEdit" />
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -213,6 +209,10 @@
         android:onClick="saveProfile"
         android:layout_toRightOf="@+id/buttonEdit"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
 
 </RelativeLayout>

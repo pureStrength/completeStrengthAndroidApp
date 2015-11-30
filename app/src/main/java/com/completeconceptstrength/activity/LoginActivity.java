@@ -325,9 +325,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 startActivity(intent);
                 globalContext.setLoggedInUser(user);
 
-                Intent regIntent = new Intent(LoginActivity.this, RegistrationIntentService.class);
-                startService(regIntent);
-
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
