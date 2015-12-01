@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.activity.AthleteHomeActivity;
+import com.completeconceptstrength.activity.LoginActivity;
 import com.google.android.gms.gcm.GcmListenerService;
 
 /**
@@ -20,7 +21,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
+        String message = data.toString();
         Log.d("GCM", "From: " + from);
         Log.d("GCM", "Message: " + message);
 
@@ -32,7 +33,7 @@ public class MyGcmListenerService extends GcmListenerService {
      */
     private void sendNotification(String message) {
 
-        Intent intent = new Intent(this, AthleteHomeActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

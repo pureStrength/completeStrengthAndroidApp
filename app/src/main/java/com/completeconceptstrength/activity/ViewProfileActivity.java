@@ -207,7 +207,7 @@ public class ViewProfileActivity extends AppCompatActivity {
             }
         });
 
-        List<TrackEventChart> times = profileAthlete.getMostRecentTrackEvents();
+        List<TrackEventChart> times = profileAthlete.getBestTrackTimes();
 
         for(TrackEventChart t : times){
             TableRow tr = new TableRow(this);
@@ -220,14 +220,14 @@ public class ViewProfileActivity extends AppCompatActivity {
             eventName.setTextSize(18);
             eventName.setPadding(0, 0, 20, 0);
 
-            TrackTime eventValue = t.getMostRecentTrackEvent().getTrackTime();
+            TrackTime eventValue = t.getBestTrackTime().getTrackTime();
             String trackTime = eventValue.getHours() + "h " + eventValue.getMinutes() + "m " + eventValue.getSeconds() + "s";
 
             value.setText(trackTime);
             value.setTextSize(18);
             value.setPadding(0, 0, 20, 0);
 
-            Date updateDate = t.getMostRecentTrackEvent().getDate();
+            Date updateDate = t.getBestTrackTime().getDate();
 
             SimpleDateFormat sdf = new SimpleDateFormat("MM/d");
 
