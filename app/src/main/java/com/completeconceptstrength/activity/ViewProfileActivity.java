@@ -1,5 +1,6 @@
 package com.completeconceptstrength.activity;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,16 +15,13 @@ import android.widget.TextView;
 
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
-import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.Series;
 
 import org.apache.http.HttpResponse;
-import org.w3c.dom.Text;
 
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,12 +30,11 @@ import java.util.List;
 
 import completeconceptstrength.model.exercise.impl.OneRepMax;
 import completeconceptstrength.model.exercise.impl.OneRepMaxChart;
+import completeconceptstrength.model.exercise.impl.TrackEvent;
 import completeconceptstrength.model.exercise.impl.TrackEventChart;
 import completeconceptstrength.model.exercise.impl.TrackTime;
-import completeconceptstrength.model.user.impl.Athlete;
 import completeconceptstrength.model.user.impl.AthleteProfile;
 import completeconceptstrength.model.user.impl.User;
-import completeconceptstrength.services.impl.AthleteClientService;
 import completeconceptstrength.services.impl.UserClientService;
 
 public class ViewProfileActivity extends AppCompatActivity {
@@ -46,9 +43,9 @@ public class ViewProfileActivity extends AppCompatActivity {
     User user;
     UserClientService userClientService;
     User profileUser;
-    AthleteClientService athleteClientService;
     AthleteProfile profileAthlete;
     HashMap<String, OneRepMaxChart> liftsByName;
+    HashMap<String, TrackEventChart> eventsByName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +54,6 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         globalContext = (GlobalContext)getApplicationContext();
         user = globalContext.getLoggedInUser();
-        athleteClientService = globalContext.getAthleteClientService();
         userClientService = globalContext.getUserClientService();
 
         Bundle extra = getIntent().getExtras();
@@ -106,7 +102,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
             // Check the result of the service call and set the variables accordingly
             if(result == false) {
-                final HttpResponse response = athleteClientService.getLastResponse();
+                final HttpResponse response = userClientService.getLastResponse();
                 if (response != null) {
                     Log.e("doInBackground", "Error getting user profile with status code: " + response.getStatusLine().getStatusCode());
                 }
@@ -133,16 +129,22 @@ public class ViewProfileActivity extends AppCompatActivity {
         TableLayout timeTable = (TableLayout) findViewById(R.id.timeTable);
 
         final Spinner dropdown = (Spinner)findViewById(R.id.ormSpinner);
+        final Spinner dropdown2 = (Spinner)findViewById(R.id.ormSpinner2);
+        final Spinner eventDropdown = (Spinner) findViewById(R.id.eventSpinner);
 
         nameTV.setText(profileUser.getFirstName() + " " + profileUser.getLastName());
         emailTV.setText(profileUser.getEmail());
         orgTV.setText(profileUser.getOrganization());
 
         List<OneRepMaxChart> ORMs = profileAthlete.getMostRecentOneRepMaxes();
+        List<OneRepMaxChart> allORMs = profileAthlete.getOneRepMaxCharts();
         liftsByName = new HashMap<String, OneRepMaxChart>();
 
+        Log.i("num lifts", "Recent ORMs: " + ORMs.size() + " All ORMs: " + allORMs.size());
+
+        int i = 0;
         for(OneRepMaxChart O : ORMs){
-            liftsByName.put(O.getLiftName(), O);
+            liftsByName.put(allORMs.get(i).getLiftName(), allORMs.get(i++));
 
             TableRow tr = new TableRow(this);
 
@@ -198,7 +200,21 @@ public class ViewProfileActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 List<OneRepMax> graphValues = liftsByName.get(dropdown.getSelectedItem().toString()).getOneRepMaxes();
-                createGraph(graphValues);
+                createGraph2(graphValues, 0);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        dropdown2.setAdapter(adapter);
+        dropdown2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                List<OneRepMax> graphValues = liftsByName.get(dropdown2.getSelectedItem().toString()).getOneRepMaxes();
+                createGraph2(graphValues, 1);
             }
 
             @Override
@@ -208,8 +224,13 @@ public class ViewProfileActivity extends AppCompatActivity {
         });
 
         List<TrackEventChart> times = profileAthlete.getBestTrackTimes();
+        List<TrackEventChart> allTimes = profileAthlete.getTrackEventCharts();
+        eventsByName = new HashMap<String, TrackEventChart>();
 
+        int j = 0;
         for(TrackEventChart t : times){
+            eventsByName.put(allTimes.get(j).getEventName(), allTimes.get(j++));
+
             TableRow tr = new TableRow(this);
 
             TextView eventName = new TextView(this);
@@ -254,17 +275,36 @@ public class ViewProfileActivity extends AppCompatActivity {
             timeTable.addView(tr);
         }
 
+        ArrayList<String> eventNames = new ArrayList<>(eventsByName.keySet());
+        ArrayAdapter<String> eventAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, eventNames);
+        eventDropdown.setAdapter(eventAdapter);
+        eventDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                List<TrackEvent> graphValues = eventsByName.get(eventDropdown.getSelectedItem().toString()).getTrackEvents();
+                createGraph3(graphValues);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        createGraph3(times.get(0).getTrackEvents());
     }
 
     public void createGraph(List<OneRepMax> orm){
 
         GraphView graph = (GraphView) findViewById(R.id.ORMGraph);
+        graph.removeAllSeries();
 
         DataPoint[] dataPoints = new DataPoint[orm.size()];
-        for(int i = 0; i < orm.size(); i++){
+        for(int i = orm.size()-1; i >= 0; i--){
             OneRepMax o = orm.get(i);
-            DataPoint d = new DataPoint(/*o.getDate()*/ i, o.getValue());
-            dataPoints[i] = d;
+            Log.i("datapoint", Integer.toString(o.getValue()));
+            DataPoint d = new DataPoint(/*o.getDate()*/ orm.size()-1-i, o.getValue());
+            dataPoints[orm.size()-1-i] = d;
         }
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
@@ -273,12 +313,60 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         // set date label formatter
         //graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
-        //graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+        graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
 
-        // set manual x bounds to have nice steps
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(3);
-        graph.getViewport().setXAxisBoundsManual(true);
+    }
 
+    public void createGraph2(List<OneRepMax> orm, int graphNum){
+
+        GraphView graph = (GraphView) findViewById(R.id.ORMGraph);
+        //graph.removeAllSeries();
+
+        DataPoint[] dataPoints = new DataPoint[orm.size()];
+        for(int i = orm.size()-1; i >= 0; i--){
+            OneRepMax o = orm.get(i);
+            Log.i("datapoint", Integer.toString(o.getValue()));
+            DataPoint d = new DataPoint(/*o.getDate()*/ orm.size()-1-i, o.getValue());
+            dataPoints[orm.size()-1-i] = d;
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
+        if(graphNum == 1){
+            series.setColor(Color.RED);
+        }
+
+        graph.addSeries(series);
+
+        // set date label formatter
+        //graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
+
+    }
+
+    public void createGraph3(List<TrackEvent> trackEvents){
+
+        GraphView graph = (GraphView) findViewById(R.id.ORMGraph);
+        //graph.removeSeries((Series)graph.getSecondScale().getSeries());
+
+        DataPoint[] dataPoints = new DataPoint[trackEvents.size()];
+        for(int i = trackEvents.size()-1; i >= 0; i--){
+            TrackEvent t = trackEvents.get(i);
+
+            float time = t.getTrackTime().getSeconds() + (t.getTrackTime().getMinutes()*60) + (t.getTrackTime().getHours()*3600);
+
+            Log.i("Times: ", i + " " + Float.toString(time));
+
+            DataPoint d = new DataPoint(/*o.getDate()*/ trackEvents.size()-1-i, time);
+            dataPoints[trackEvents.size()-1-i] = d;
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
+        series.setColor(Color.GREEN);
+
+        graph.getSecondScale().addSeries(series);
+
+        // set date label formatter
+        //graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
     }
 }
