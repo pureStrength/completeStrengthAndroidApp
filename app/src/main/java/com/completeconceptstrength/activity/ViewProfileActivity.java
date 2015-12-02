@@ -1,5 +1,6 @@
 package com.completeconceptstrength.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -355,5 +356,12 @@ public class ViewProfileActivity extends AppCompatActivity {
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
         graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
+    }
+
+    public void viewAthleteResults(View view){
+        Intent intent = new Intent(ViewProfileActivity.this, AthleteWorkoutList.class);
+        intent.putExtra("athleteID", profileUser.getId());
+
+        startActivity(intent);
     }
 }

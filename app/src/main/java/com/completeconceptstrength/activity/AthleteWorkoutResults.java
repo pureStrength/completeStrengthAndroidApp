@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
@@ -25,6 +26,7 @@ import completeconceptstrength.model.exercise.impl.MainLiftInstance;
 import completeconceptstrength.model.exercise.impl.MainLiftSet;
 import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
 import completeconceptstrength.model.user.impl.User;
+import completeconceptstrength.model.user.impl.UserType;
 import completeconceptstrength.services.impl.PrescriptionInstanceClientService;
 
 public class AthleteWorkoutResults extends AppCompatActivity {
@@ -145,6 +147,12 @@ public class AthleteWorkoutResults extends AppCompatActivity {
 
             }
         });
+
+        if(user.getUserType().equals(UserType.COACH)){
+            Button resultButton = (Button) findViewById(R.id.resultButton);
+            resultButton.setEnabled(false);
+            resultButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void addPrescriptionToView(){

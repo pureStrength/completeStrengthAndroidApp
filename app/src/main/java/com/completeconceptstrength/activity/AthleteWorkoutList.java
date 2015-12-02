@@ -39,6 +39,11 @@ public class AthleteWorkoutList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_athlete_workout_list);
 
+        globalContext = (GlobalContext)getApplicationContext();
+        user = globalContext.getLoggedInUser();
+        prescriptionService = globalContext.getPrescriptionInstanceClientService();
+        long athleteID = user.getId();
+
         date = null;
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -47,28 +52,28 @@ public class AthleteWorkoutList extends AppCompatActivity {
                 Long time = extras.getLong("prescriptionDate");
                 date = new Date();
                 date.setTime(time);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d");
+                setTitle(sdf.format(date));
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d");
-            setTitle(sdf.format(date));
+            else if(extras.containsKey("athleteID")){
+                athleteID = extras.getLong("athleteID");
+            }
         }
         else{
             setTitle("Prescriptions");
         }
 
-        globalContext = (GlobalContext)getApplicationContext();
-        user = globalContext.getLoggedInUser();
-        prescriptionService = globalContext.getPrescriptionInstanceClientService();
-
         rxList = (ListView) findViewById(R.id.prescriptionList);
 
-        final GetPrescriptionResults getPresTask = new GetPrescriptionResults(user);
+        final GetPrescriptionResults getPresTask = new GetPrescriptionResults(athleteID);
         getPresTask.execute((Void) null);
     }
 
     public class GetPrescriptionResults extends AsyncTask<Void, Void, Boolean> {
-        private User localUser;
+        private long userID;
 
-        GetPrescriptionResults(final User user) {localUser = user;}
+        GetPrescriptionResults(final long userID) {this.userID = userID;}
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -86,7 +91,7 @@ public class AthleteWorkoutList extends AppCompatActivity {
             // Run the service
             if(prescriptionService != null) {
                 //String query = searchView.getQuery().toString();
-                prescriptions = prescriptionService.getByAthlete(localUser.getId());
+                prescriptions = prescriptionService.getByAthlete(userID);
 
                 if(prescriptions!= null) {
                     result = true;
