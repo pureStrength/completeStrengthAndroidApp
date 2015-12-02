@@ -13,7 +13,10 @@
         android:text="Lifts"
         android:layout_gravity="center_horizontal"
         android:onClick="openLiftsList"
-        android:textSize="20dp" />
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/sets_button"
@@ -23,7 +26,10 @@
         android:text="Sets"
         android:layout_gravity="center_horizontal"
         android:onClick="openSetsList"
-        android:textSize="20dp" />
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/prescriptions_button"
@@ -33,6 +39,9 @@
         android:text="Prescriptions"
         android:layout_gravity="center_horizontal"
         android:onClick="openPrescription"
-        android:textSize="20dp" />
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
 
 </RelativeLayout>
