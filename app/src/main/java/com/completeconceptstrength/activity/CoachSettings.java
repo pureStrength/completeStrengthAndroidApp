@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +30,7 @@ import completeconceptstrength.model.user.impl.CellCarrier;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.services.impl.UserClientService;
 
-public class CoachSettings extends ActionBarActivity {
+public class CoachSettings extends AppCompatActivity {
 
     GlobalContext globalContext;
     User user;

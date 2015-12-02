@@ -1,6 +1,7 @@
 package com.completeconceptstrength.application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.activity.SetViewActivity;
 
 import completeconceptstrength.model.exercise.impl.MainLiftSet;
 
@@ -31,6 +33,16 @@ public class SetAdapter extends ArrayAdapter<MainLiftSet> {
         final MainLiftSet set = getItem(position);
 
         viewHolder.setName.setText(set.getName());
+
+        viewHolder.viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SetViewActivity.class);
+                intent.putExtra("setID", set.getId());
+
+                getContext().startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -63,8 +75,7 @@ public class SetAdapter extends ArrayAdapter<MainLiftSet> {
         if(null == tag || !(tag instanceof ViewHolder)) {
 
             viewHolder.setName = (TextView) workingView.findViewById(R.id.setName);
-            viewHolder.editButton = (Button) workingView.findViewById(R.id.editSetButton);
-            viewHolder.deleteButton = (Button) workingView.findViewById(R.id.deleteSetButton);
+            viewHolder.viewButton = (Button) workingView.findViewById(R.id.viewSetButton);
 
             workingView.setTag(viewHolder);
 
@@ -77,9 +88,7 @@ public class SetAdapter extends ArrayAdapter<MainLiftSet> {
 
     private static class ViewHolder {
         public TextView setName;
-        public Button editButton;
-        public Button deleteButton;
-
+        public Button viewButton;
     }
 
 }

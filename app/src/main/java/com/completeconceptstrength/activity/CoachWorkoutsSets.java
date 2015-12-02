@@ -44,11 +44,6 @@ public class CoachWorkoutsSets extends AppCompatActivity {
         getSetsTask.execute((Void) null);
     }
 
-    public void openNewSet(View v){
-        Intent intent = new Intent(this, CustomSetsActivity.class);
-        startActivity(intent);
-    }
-
     public class GetSetDefinitions extends AsyncTask<Void, Void, Boolean> {
 
         private User localUser;
