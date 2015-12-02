@@ -1,6 +1,7 @@
 package com.completeconceptstrength.application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.activity.PrescriptionViewActivity;
 
 import completeconceptstrength.model.exercise.impl.PrescriptionDefinition;
 
@@ -31,6 +33,16 @@ public class CoachPrescriptionsAdapter extends ArrayAdapter<PrescriptionDefiniti
         final PrescriptionDefinition prescriptionDefinition = getItem(position);
 
         viewHolder.rxName.setText(prescriptionDefinition.getName());
+
+        viewHolder.viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), PrescriptionViewActivity.class);
+                intent.putExtra("prescriptionID", prescriptionDefinition.getId());
+
+                getContext().startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -63,8 +75,7 @@ public class CoachPrescriptionsAdapter extends ArrayAdapter<PrescriptionDefiniti
         if(null == tag || !(tag instanceof ViewHolder)) {
 
             viewHolder.rxName = (TextView) workingView.findViewById(R.id.rxName);
-            viewHolder.editButton = (Button) workingView.findViewById(R.id.editRxButton);
-            viewHolder.deleteButton = (Button) workingView.findViewById(R.id.deleteRxButton);
+            viewHolder.viewButton = (Button) workingView.findViewById(R.id.viewRxButton);
 
             workingView.setTag(viewHolder);
 
@@ -77,8 +88,7 @@ public class CoachPrescriptionsAdapter extends ArrayAdapter<PrescriptionDefiniti
 
     private static class ViewHolder {
         public TextView rxName;
-        public Button editButton;
-        public Button deleteButton;
+        public Button viewButton;
 
     }
 

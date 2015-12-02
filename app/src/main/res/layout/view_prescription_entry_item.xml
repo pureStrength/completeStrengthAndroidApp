@@ -9,17 +9,10 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/editRxButton"
-        android:text="Edit"
+        android:id="@+id/viewRxButton"
+        android:text="View"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rxName"/>
-
-    <Button
-        android:id="@+id/deleteRxButton"
-        android:text="Delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editRxButton"/>
 
 </LinearLayout>

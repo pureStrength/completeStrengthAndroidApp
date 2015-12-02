@@ -43,11 +43,6 @@ public class CoachWorkoutsPrescriptions extends AppCompatActivity {
         getRxTask.execute((Void) null);
     }
 
-    public void openNewRx(View v){
-        Intent intent = new Intent(this, CustomPrescriptionActivity.class);
-        startActivity(intent);
-    }
-
     public class GetRxDefinitions extends AsyncTask<Void, Void, Boolean> {
 
         private User localUser;

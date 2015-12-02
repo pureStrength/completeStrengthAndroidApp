@@ -155,7 +155,8 @@
             android:name=".activity.LiftViewActivity"
             android:label="@string/title_activity_lift_view"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.SetViewActivity"></activity>
+        <activity android:name=".activity.SetViewActivity" />
+        <activity android:name=".activity.PrescriptionViewActivity"></activity>
     </application>
 
 </manifest>
