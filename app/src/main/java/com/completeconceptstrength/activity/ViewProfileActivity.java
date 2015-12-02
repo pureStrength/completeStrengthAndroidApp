@@ -16,12 +16,13 @@ import android.widget.TextView;
 import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-import com.jjoe64.graphview.series.Series;
 
 import org.apache.http.HttpResponse;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -191,7 +192,7 @@ public class ViewProfileActivity extends AppCompatActivity {
             ORMTable.addView(tr);
         }
 
-        createGraph(ORMs.get(0).getOneRepMaxes());
+        createGraph(ORMs.get(0).getOneRepMaxes(), ORMs.get(1).getOneRepMaxes());
 
         ArrayList<String> liftNames = new ArrayList<>(liftsByName.keySet());
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, liftNames);
@@ -200,7 +201,8 @@ public class ViewProfileActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 List<OneRepMax> graphValues = liftsByName.get(dropdown.getSelectedItem().toString()).getOneRepMaxes();
-                createGraph2(graphValues, 0);
+                List<OneRepMax> graphValues2 = liftsByName.get(dropdown2.getSelectedItem().toString()).getOneRepMaxes();
+                createGraph(graphValues, graphValues2);
             }
 
             @Override
@@ -213,8 +215,9 @@ public class ViewProfileActivity extends AppCompatActivity {
         dropdown2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                List<OneRepMax> graphValues = liftsByName.get(dropdown2.getSelectedItem().toString()).getOneRepMaxes();
-                createGraph2(graphValues, 1);
+                List<OneRepMax> graphValues = liftsByName.get(dropdown.getSelectedItem().toString()).getOneRepMaxes();
+                List<OneRepMax> graphValues2 = liftsByName.get(dropdown2.getSelectedItem().toString()).getOneRepMaxes();
+                createGraph(graphValues, graphValues2);
             }
 
             @Override
@@ -282,7 +285,7 @@ public class ViewProfileActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 List<TrackEvent> graphValues = eventsByName.get(eventDropdown.getSelectedItem().toString()).getTrackEvents();
-                createGraph3(graphValues);
+                createEventGraph(graphValues);
             }
 
             @Override
@@ -291,62 +294,46 @@ public class ViewProfileActivity extends AppCompatActivity {
             }
         });
 
-        createGraph3(times.get(0).getTrackEvents());
+        createEventGraph(times.get(0).getTrackEvents());
     }
 
-    public void createGraph(List<OneRepMax> orm){
+    public void createGraph(List<OneRepMax> orm1, List<OneRepMax> orm2){
 
         GraphView graph = (GraphView) findViewById(R.id.ORMGraph);
         graph.removeAllSeries();
 
-        DataPoint[] dataPoints = new DataPoint[orm.size()];
-        for(int i = orm.size()-1; i >= 0; i--){
-            OneRepMax o = orm.get(i);
+        DataPoint[] dataPoints1 = new DataPoint[orm1.size()];
+        for(int i = orm1.size()-1; i >= 0; i--){
+            OneRepMax o = orm1.get(i);
             Log.i("datapoint", Integer.toString(o.getValue()));
-            DataPoint d = new DataPoint(/*o.getDate()*/ orm.size()-1-i, o.getValue());
-            dataPoints[orm.size()-1-i] = d;
+            DataPoint d = new DataPoint(o.getDate(), o.getValue());
+            dataPoints1[orm1.size()-1-i] = d;
         }
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
+        DataPoint[] dataPoints2 = new DataPoint[orm2.size()];
+        for(int i = orm2.size()-1; i >= 0; i--){
+            OneRepMax o = orm2.get(i);
+            Log.i("datapoint", Integer.toString(o.getValue()));
+            DataPoint d = new DataPoint(o.getDate(), o.getValue());
+            dataPoints2[orm2.size()-1-i] = d;
+        }
 
-        graph.addSeries(series);
+        LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>(dataPoints1);
+        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(dataPoints2);
+
+        graph.addSeries(series1);
+        graph.addSeries(series2);
 
         // set date label formatter
-        //graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
         graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
 
     }
 
-    public void createGraph2(List<OneRepMax> orm, int graphNum){
+    public void createEventGraph(List<TrackEvent> trackEvents){
 
-        GraphView graph = (GraphView) findViewById(R.id.ORMGraph);
-        //graph.removeAllSeries();
-
-        DataPoint[] dataPoints = new DataPoint[orm.size()];
-        for(int i = orm.size()-1; i >= 0; i--){
-            OneRepMax o = orm.get(i);
-            Log.i("datapoint", Integer.toString(o.getValue()));
-            DataPoint d = new DataPoint(/*o.getDate()*/ orm.size()-1-i, o.getValue());
-            dataPoints[orm.size()-1-i] = d;
-        }
-
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
-        if(graphNum == 1){
-            series.setColor(Color.RED);
-        }
-
-        graph.addSeries(series);
-
-        // set date label formatter
-        //graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
-
-    }
-
-    public void createGraph3(List<TrackEvent> trackEvents){
-
-        GraphView graph = (GraphView) findViewById(R.id.ORMGraph);
-        //graph.removeSeries((Series)graph.getSecondScale().getSeries());
+        GraphView graph = (GraphView) findViewById(R.id.eventGraph);
+        graph.removeAllSeries();
 
         DataPoint[] dataPoints = new DataPoint[trackEvents.size()];
         for(int i = trackEvents.size()-1; i >= 0; i--){
@@ -356,17 +343,17 @@ public class ViewProfileActivity extends AppCompatActivity {
 
             Log.i("Times: ", i + " " + Float.toString(time));
 
-            DataPoint d = new DataPoint(/*o.getDate()*/ trackEvents.size()-1-i, time);
+            DataPoint d = new DataPoint(t.getDate(), time);
             dataPoints[trackEvents.size()-1-i] = d;
         }
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
         series.setColor(Color.GREEN);
 
-        graph.getSecondScale().addSeries(series);
+        graph.addSeries(series);
 
         // set date label formatter
-        //graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
         graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
     }
 }
