@@ -130,6 +130,8 @@ public class ViewProfileActivity extends AppCompatActivity {
         TableLayout ORMTable = (TableLayout) findViewById(R.id.ORMTable);
         TableLayout timeTable = (TableLayout) findViewById(R.id.timeTable);
 
+        setupGraphs();
+
         final Spinner dropdown = (Spinner)findViewById(R.id.ormSpinner);
         final Spinner dropdown2 = (Spinner)findViewById(R.id.ormSpinner2);
         final Spinner eventDropdown = (Spinner) findViewById(R.id.eventSpinner);
@@ -298,6 +300,19 @@ public class ViewProfileActivity extends AppCompatActivity {
         createEventGraph(times.get(0).getTrackEvents());
     }
 
+    public void setupGraphs(){
+        GraphView ORMGraph = (GraphView) findViewById(R.id.ORMGraph);
+        GraphView eventGraph = (GraphView) findViewById(R.id.eventGraph);
+
+        ORMGraph.setTitle("Most Recent 1RMs");
+        ORMGraph.getGridLabelRenderer().setHorizontalAxisTitle("Date Updated");
+        ORMGraph.getGridLabelRenderer().setVerticalAxisTitle("Weight Lifted (lbs)");
+
+        eventGraph.setTitle("Most Recent Event Times");
+        eventGraph.getGridLabelRenderer().setHorizontalAxisTitle("Date Updated");
+        eventGraph.getGridLabelRenderer().setVerticalAxisTitle("Event Time (s)");
+    }
+
     public void createGraph(List<OneRepMax> orm1, List<OneRepMax> orm2){
 
         GraphView graph = (GraphView) findViewById(R.id.ORMGraph);
@@ -321,13 +336,14 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>(dataPoints1);
         LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(dataPoints2);
+        series2.setColor(Color.RED);
 
         graph.addSeries(series1);
         graph.addSeries(series2);
 
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
     }
 
@@ -355,7 +371,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ViewProfileActivity.this));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
     }
 
     public void viewAthleteResults(View view){
