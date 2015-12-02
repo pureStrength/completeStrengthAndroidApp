@@ -24,11 +24,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/coachName" />
 
+        <TextView
+            android:id="@+id/completed"
+            android:layout_below="@+id/rxDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <View
             android:id="@+id/spaceLine"
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:layout_below="@+id/rxDate"
+            android:layout_below="@+id/completed"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="#000000" />

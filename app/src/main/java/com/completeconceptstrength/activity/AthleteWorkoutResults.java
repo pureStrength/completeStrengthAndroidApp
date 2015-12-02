@@ -464,6 +464,15 @@ public class AthleteWorkoutResults extends AppCompatActivity {
                 TextView rxDate = (TextView) findViewById(R.id.rxDate);
                 rxDate.setText(prescriptionInstance.getDateAssigned().toString());
 
+                TextView completed = (TextView) findViewById(R.id.completed);
+                String completeStatus = "NO";
+
+                if(prescriptionInstance.getWasPerformed()){
+                    completeStatus = "YES";
+                }
+
+                completed.setText("Completed: " + completeStatus);
+
                 addPrescriptionToView();
             }
             else {
