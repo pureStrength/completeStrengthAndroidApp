@@ -1,6 +1,7 @@
 package com.completeconceptstrength.application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.completeconceptstrength.R;
+import com.completeconceptstrength.activity.LiftViewActivity;
 
 import completeconceptstrength.model.exercise.impl.MainLiftDefinition;
 
@@ -31,6 +33,19 @@ public class LiftAdapter extends ArrayAdapter<MainLiftDefinition> {
         final MainLiftDefinition lift = getItem(position);
 
         viewHolder.liftName.setText(lift.getName());
+
+        viewHolder.viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), LiftViewActivity.class);
+                intent.putExtra("name", lift.getName());
+                intent.putExtra("type", lift.getLiftType());
+                intent.putExtra("category", lift.getCategory());
+                intent.putExtra("description", lift.getDescription());
+
+                getContext().startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -63,8 +78,7 @@ public class LiftAdapter extends ArrayAdapter<MainLiftDefinition> {
         if(null == tag || !(tag instanceof ViewHolder)) {
 
             viewHolder.liftName = (TextView) workingView.findViewById(R.id.liftName);
-            viewHolder.editButton = (Button) workingView.findViewById(R.id.editLiftButton);
-            viewHolder.deleteButton = (Button) workingView.findViewById(R.id.deleteLiftButton);
+            viewHolder.viewButton = (Button) workingView.findViewById(R.id.viewLiftButton);
 
             workingView.setTag(viewHolder);
 
@@ -77,8 +91,7 @@ public class LiftAdapter extends ArrayAdapter<MainLiftDefinition> {
 
     private static class ViewHolder {
         public TextView liftName;
-        public Button editButton;
-        public Button deleteButton;
+        public Button viewButton;
 
     }
 

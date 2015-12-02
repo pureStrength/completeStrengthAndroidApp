@@ -43,11 +43,6 @@ public class CoachWorkoutsLifts extends AppCompatActivity {
         getLiftsTask.execute((Void) null);
     }
 
-    public void openNewLift(View v){
-        Intent intent = new Intent(this, CustomLiftActivity.class);
-        startActivity(intent);
-    }
-
     public class GetLiftDefinitions extends AsyncTask<Void, Void, Boolean> {
 
         private User localUser;

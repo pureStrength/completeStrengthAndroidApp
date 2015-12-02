@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,17 +9,10 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/editLiftButton"
-        android:text="Edit"
+        android:id="@+id/viewLiftButton"
+        android:text="View"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/liftName"/>
+        android:layout_alignParentRight="true" />
 
-    <Button
-        android:id="@+id/deleteLiftButton"
-        android:text="Delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editLiftButton"/>
-
-</LinearLayout>
+</RelativeLayout>

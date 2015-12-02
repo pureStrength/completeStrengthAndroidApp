@@ -2,6 +2,7 @@ package com.completeconceptstrength.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -82,6 +83,26 @@ public class CoachSettings extends ActionBarActivity {
 
         EditText coachEmail = (EditText) findViewById(R.id.coachEmail);
         coachEmail.setText(user.getEmail());
+
+        Button enableAndroid = (Button) findViewById(R.id.enableAndroidButton);
+        if(user.getEnableAndroidNotifications()){
+            enableAndroid.setBackgroundColor(Color.parseColor("#ff3333"));
+            enableAndroid.setText("Disable Android Notifications");
+        }
+        else{
+            enableAndroid.setBackgroundColor(Color.parseColor("#3384ff"));
+            enableAndroid.setText("Enable Android Notifications");
+        }
+
+        Button enableText = (Button) findViewById(R.id.enableTexts);
+        if(user.getEnableTextMessages()){
+            enableText.setBackgroundColor(Color.parseColor("#ff3333"));
+            enableText.setText("Disable Text Notifications");
+        }
+        else{
+            enableText.setBackgroundColor(Color.parseColor("#3384ff"));
+            enableText.setText("Enable Text Notifications");
+        }
     }
 
     public String getOrganization(){
@@ -155,16 +176,44 @@ public class CoachSettings extends ActionBarActivity {
     }
 
     public void enableAndroid(View view){
-        Intent regIntent = new Intent(CoachSettings.this, RegistrationIntentService.class);
-        startService(regIntent);
+        if(!user.getEnableAndroidNotifications()){
+            Intent regIntent = new Intent(CoachSettings.this, RegistrationIntentService.class);
+            startService(regIntent);
+        }
+        else{
+            user.setEnableAndroidNotifications(false);
+
+            // Updates the user in the application context and server side
+            globalContext.setLoggedInUser(user);
+
+            final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+            updateTask.execute((Void) null);
+        }
+
+        recreate();
     }
 
     public void enableText(View view) {
+
+        if(user.getEnableTextMessages()){
+            user.setEnableTextMessages(false);
+
+            // Updates the user in the application context and server side
+            globalContext.setLoggedInUser(user);
+
+            final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+            updateTask.execute((Void) null);
+
+            recreate();
+
+            return;
+        }
+
         final AlertDialog.Builder enableTexts = new AlertDialog.Builder(this);
 
         final EditText phoneNumber = new EditText(this);
         phoneNumber.setHint("Phone Number");
-        final Spinner carriers = new Spinner(this); // ENUM, iterate, class in api cellCarrier.values
+        final Spinner carriers = new Spinner(this);
 
         ArrayList<String> spinnerList = new ArrayList<String>();
 
@@ -196,6 +245,8 @@ public class CoachSettings extends ActionBarActivity {
 
                 final UpdateProfileTask updateTask = new UpdateProfileTask(user);
                 updateTask.execute((Void) null);
+
+                recreate();
             }
         });
 
@@ -203,12 +254,14 @@ public class CoachSettings extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
+                recreate();
             }
         });
 
         enableTexts.setTitle("Enable Text Notifications")
                 .setCancelable(true)
                 .show();
+
     }
 
 

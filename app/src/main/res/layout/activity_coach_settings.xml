@@ -83,27 +83,25 @@
 
     <Button
         android:id="@+id/enableAndroidButton"
-        android:text="Enable Android Notifications"
         android:layout_centerHorizontal="true"
         android:onClick="enableAndroid"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/organization"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceLarge"
-        android:backgroundTint="#3384ff"
         android:textColor="#ffffff"
         android:textStyle="bold"/>
 
     <Button
         android:id="@+id/enableTexts"
-        android:text="Enable Text Notifications"
         android:layout_centerHorizontal="true"
         android:onClick="enableText"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/enableAndroidButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceLarge"
-        android:backgroundTint="#3384ff"
         android:textColor="#ffffff"
         android:textStyle="bold"/>
 
@@ -116,7 +114,11 @@
         android:text="Edit"
         android:enabled="true"
         android:onClick="editProfile"
-        android:id="@+id/buttonEdit" />
+        android:id="@+id/buttonEdit"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
 
     <Button
         android:layout_width="wrap_content"
@@ -127,6 +129,10 @@
         android:onClick="saveProfile"
         android:layout_toRightOf="@+id/buttonEdit"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:backgroundTint="#3384ff"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
 
 </RelativeLayout>

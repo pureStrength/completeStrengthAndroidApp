@@ -12,10 +12,10 @@
         tools:context="com.completeconceptstrength.activity.AthleteSettings">
 
         <EditText
+            android:id="@+id/athleteFirstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/athleteFirstName"
             android:textColor="#000040"
             android:enabled="false"
             android:layout_alignParentTop="true"
@@ -25,10 +25,10 @@
             android:background="#00000000" />
 
         <EditText
+            android:id="@+id/athleteLastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/athleteLastName"
             android:textColor="#000040"
             android:enabled="false"
             android:layout_marginTop="10dp"
@@ -38,10 +38,10 @@
             android:background="#00000000" />
 
         <EditText
+            android:id="@+id/athleteEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/athleteEmail"
             android:textColor="#000040"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/athleteFirstName"
@@ -199,6 +199,7 @@
             android:id="@+id/enableAndroidButton"
             android:layout_centerHorizontal="true"
             android:onClick="enableAndroid"
+            android:layout_marginTop="10dp"
             android:layout_below="@+id/timeTable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

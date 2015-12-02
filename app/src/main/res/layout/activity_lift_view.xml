@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    tools:context="com.completeconceptstrength.activity.LiftViewActivity">
+
+    <TextView
+        android:id="@+id/liftName"
+        android:textSize="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/liftCategory"
+        android:textSize="18dp"
+        android:layout_below="@+id/liftName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/liftType"
+        android:textSize="18dp"
+        android:layout_below="@+id/liftName"
+        android:layout_toRightOf="@+id/liftCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/liftDescription"
+        android:textSize="18dp"
+        android:layout_below="@+id/liftCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

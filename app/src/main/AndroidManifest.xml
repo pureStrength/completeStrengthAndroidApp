@@ -7,8 +7,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission android:name="com.completeconceptstrength.permission.C2D_MESSAGE"
+    <permission
+        android:name="com.completeconceptstrength.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.completeconceptstrength.permission.C2D_MESSAGE" />
 
     <!--
@@ -31,40 +33,44 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.completeconceptstrength" />
             </intent-filter>
         </receiver>
+
         <service
-            android:name="com.completeconceptstrength.application.MyGcmListenerService"
-            android:exported="false" >
+            android:name=".application.MyGcmListenerService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name="com.completeconceptstrength.application.MyInstanceIDListenerService"
+            android:name=".application.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <service
-            android:name="com.completeconceptstrength.application.RegistrationIntentService"
-            android:exported="false"></service>
+            android:name=".application.RegistrationIntentService"
+            android:exported="false" />
+
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.RegistrationActivity"
-            android:label="@string/title_activity_registration"></activity>
+            android:label="@string/title_activity_registration" />
         <activity
             android:name=".activity.CoachHomeActivity"
             android:label="@string/title_activity_coach_home"
@@ -88,62 +94,67 @@
 
         <activity
             android:name=".activity.CoachSettings"
-            android:label="@string/title_activity_coach_settings"></activity>
+            android:label="@string/title_activity_coach_settings" />
         <activity
             android:name=".activity.AthleteSettings"
-            android:label="@string/title_activity_athlete_settings"></activity>
+            android:label="@string/title_activity_athlete_settings" />
         <activity
             android:name=".activity.AthleteWorkouts"
-            android:label="@string/title_activity_athlete_workouts"></activity>
+            android:label="@string/title_activity_athlete_workouts" />
         <activity
             android:name=".activity.CoachAthletesActivity"
-            android:label="@string/title_activity_coach_athletes"></activity>
+            android:label="@string/title_activity_coach_athletes" />
         <activity
             android:name=".activity.CoachWorkouts"
-            android:label="@string/title_activity_coach_workouts"></activity>
+            android:label="@string/title_activity_coach_workouts" />
         <activity
             android:name=".activity.ConnectionsButtons"
-            android:label="@string/title_activity_connections_buttons"></activity>
+            android:label="@string/title_activity_connections_buttons" />
         <activity
             android:name=".activity.ConnectionsList"
             android:label="@string/title_activity_connections_list"
             android:parentActivityName=".activity.ConnectionsButtons">
             <intent-filter>
                 <action android:name="ConnectionsList" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.ConnectionSearch"
             android:label="@string/title_activity_connection_search"
-            android:parentActivityName=".activity.ConnectionsButtons"></activity>
+            android:parentActivityName=".activity.ConnectionsButtons" />
         <activity
             android:name=".activity.AthleteWorkoutList"
             android:label="@string/title_activity_athlete_workout_list">
             <intent-filter>
                 <action android:name="AthleteWorkoutList" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.AthleteWorkoutCalendar"
-            android:label="@string/title_activity_athlete_workout_calendar"></activity>
+            android:label="@string/title_activity_athlete_workout_calendar" />
         <activity
             android:name=".activity.CoachWorkoutsLifts"
-            android:label="@string/title_activity_coach_workouts_lifts"></activity>
+            android:label="@string/title_activity_coach_workouts_lifts" />
         <activity
             android:name=".activity.CoachWorkoutsSets"
-            android:label="@string/title_activity_coach_workouts_sets"></activity>
+            android:label="@string/title_activity_coach_workouts_sets" />
         <activity
             android:name=".activity.CoachWorkoutsPrescriptions"
-            android:label="@string/title_activity_coach_workouts_prescriptions"></activity>
-        <activity android:name=".activity.CustomPrescriptionActivity"></activity>
-        <activity android:name=".activity.CustomLiftActivity"></activity>
-        <activity android:name=".activity.CustomSetsActivity"></activity>
+            android:label="@string/title_activity_coach_workouts_prescriptions" />
+        <activity android:name=".activity.CustomPrescriptionActivity" />
+        <activity android:name=".activity.CustomSetsActivity" />
         <activity
             android:name=".activity.AthleteWorkoutResults"
-            android:label="@string/title_activity_athlete_workout_results"></activity>
-        <activity android:name=".activity.ViewProfileActivity"></activity>
+            android:label="@string/title_activity_athlete_workout_results" />
+        <activity android:name=".activity.ViewProfileActivity" />
+        <activity
+            android:name=".activity.LiftViewActivity"
+            android:label="@string/title_activity_lift_view"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
