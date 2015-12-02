@@ -163,7 +163,7 @@
             android:id="@+id/ORMTableTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Most Recent ORMs"
+            android:text="Most Recent 1RMs"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000040"
             android:gravity="center"

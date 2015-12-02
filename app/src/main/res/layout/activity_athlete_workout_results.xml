@@ -33,13 +33,73 @@
             android:layout_marginBottom="10dp"
             android:background="#000000" />
 
+        <TextView
+            android:id="@+id/setTableTitle"
+            android:text="Main Lifts"
+            android:textSize="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spaceLine"
+            android:layout_marginBottom="10dp" />
+
         <TableLayout
             android:id="@+id/setTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:shrinkColumns="*"
             android:stretchColumns="*"
-            android:layout_below="@+id/spaceLine"></TableLayout>
+            android:layout_below="@+id/setTableTitle" />
+
+        <View
+            android:id="@+id/spaceLine2"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_below="@+id/setTable"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#000000" />
+
+        <TextView
+            android:id="@+id/accessoryTableTitle"
+            android:text="Accessory Lifts"
+            android:textSize="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spaceLine2"
+            android:layout_marginBottom="10dp" />
+
+        <TableLayout
+            android:id="@+id/accessoryTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            android:layout_below="@+id/accessoryTableTitle" />
+
+        <View
+            android:id="@+id/spaceLine3"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_below="@+id/accessoryTable"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#000000" />
+
+        <TextView
+            android:id="@+id/abFocus"
+            android:textSize="18dp"
+            android:layout_below="@+id/spaceLine3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/spaceLine4"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_below="@+id/abFocus"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#000000" />
 
         <TextView
             android:id="@+id/sleepRating"
@@ -47,7 +107,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/setTable"/>
+            android:layout_below="@+id/spaceLine4"/>
 
         <SeekBar
             android:id="@+id/sleepBar"

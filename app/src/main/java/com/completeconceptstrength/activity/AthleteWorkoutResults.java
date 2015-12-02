@@ -16,7 +16,11 @@ import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
+import org.w3c.dom.Text;
 
+import java.util.List;
+
+import completeconceptstrength.model.exercise.impl.AccessoryLiftInstance;
 import completeconceptstrength.model.exercise.impl.MainLiftInstance;
 import completeconceptstrength.model.exercise.impl.MainLiftSet;
 import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
@@ -144,27 +148,37 @@ public class AthleteWorkoutResults extends AppCompatActivity {
     }
 
     public void addPrescriptionToView(){
+        addSetsToView();
+
+        addAccessoryLiftsToView();
+
+        TextView abFocus = (TextView) findViewById(R.id.abFocus);
+        abFocus.setText("Abdominal Focus: " + prescriptionInstance.getAbdominalFocus().getType());
+
+        SeekBar sleepSB = (SeekBar) findViewById(R.id.sleepBar);
+        sleepSB.setProgress(prescriptionInstance.getWellnessSleep());
+
+        SeekBar stressSB = (SeekBar) findViewById(R.id.stressBar);
+        stressSB.setProgress(prescriptionInstance.getWellnessStress());
+
+        SeekBar motivationSB = (SeekBar) findViewById(R.id.motivationBar);
+        motivationSB.setProgress(prescriptionInstance.getWellnessMotivation());
+
+        SeekBar nutritionSB = (SeekBar) findViewById(R.id.nutritionBar);
+        nutritionSB.setProgress(prescriptionInstance.getWellnessNutrition());
+
+        SeekBar sorenessSB = (SeekBar) findViewById(R.id.sorenessBar);
+        sorenessSB.setProgress(prescriptionInstance.getWellnessSoreness());
+    }
+
+    public void addSetsToView(){
         TableLayout setTable = (TableLayout) findViewById(R.id.setTable);
 
         TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
-        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
 
-        //setTable.setLayoutParams(tableParams);
-
-        TableRow row1 = new TableRow(this);
-        row1.setLayoutParams(tableParams);
-
-        TextView prescriptionDate = new TextView(this);
-        prescriptionDate.setText(prescriptionInstance.getDateAssigned().toString());
-        row1.addView(prescriptionDate);
-
-        prescriptionInstance.getCoach().getFirstName();
-        prescriptionInstance.getPrescriptionName();
-
-        Log.i("addprescription", "Number sets " + Integer.toString(prescriptionInstance.getRecordedSets().size()));
         for(int i = 0; i < prescriptionInstance.getRecordedSets().size(); i++){
-            TableRow row2 = new TableRow(this);
-            row2.setLayoutParams(tableParams);
+            TableRow row1 = new TableRow(this);
+            row1.setLayoutParams(tableParams);
 
             MainLiftSet set = prescriptionInstance.getRecordedSets().get(i);
             String liftName = set.getMainLiftDefinition().getName();
@@ -173,26 +187,16 @@ public class AthleteWorkoutResults extends AppCompatActivity {
             liftNameTV.setText(liftName);
             liftNameTV.setTypeface(null, Typeface.BOLD);
             liftNameTV.setTextSize(14);
-            row2.addView(liftNameTV);
-            setTable.addView(row2);
-
-
-
-            Log.i("addprescription", "set Row children " + row2.getChildCount() );
-            Log.i("addprescription", "Set" + i + "Number lifts " + Integer.toString(set.getMainLifts().size()));
+            row1.addView(liftNameTV);
+            setTable.addView(row1);
 
             for (int j = 0; j < set.getMainLifts().size(); j++) {
-                TableRow row3 = new TableRow(this);
-                row3.setLayoutParams(tableParams);
+                TableRow row2 = new TableRow(this);
+                row2.setLayoutParams(tableParams);
 
                 MainLiftInstance liftInstance = set.getMainLifts().get(j);
                 int reps = liftInstance.getPerformedRepetitions();
-
-                Log.i("addprescription", "Lift " + j + " Number reps " + Integer.toString(reps));
-
                 double weight = liftInstance.getPerformedWeight();
-
-                Log.i("addprescription", "Lift " + j + " weight " + Double.toString(weight));
 
                 TextView repText = new TextView(this);
                 repText.setText("Reps:");
@@ -210,32 +214,78 @@ public class AthleteWorkoutResults extends AppCompatActivity {
                 TextView pounds = new TextView(this);
                 pounds.setText("lbs");
 
-                row3.addView(repText);
-                row3.addView(liftReps);
-                row3.addView(wtText);
-                row3.addView(liftWeight);
-                row3.addView(pounds);
+                row2.addView(repText);
+                row2.addView(liftReps);
+                row2.addView(wtText);
+                row2.addView(liftWeight);
+                row2.addView(pounds);
 
-                setTable.addView(row3);
-                Log.i("addprescription", "lift Row children " + row3.getChildCount());
+                setTable.addView(row2);
             }
-
         }
+    }
 
-        SeekBar sleepSB = (SeekBar) findViewById(R.id.sleepBar);
-        sleepSB.setProgress(prescriptionInstance.getWellnessSleep());
+    public void addAccessoryLiftsToView(){
+        TableLayout accessoryTable = (TableLayout) findViewById(R.id.accessoryTable);
 
-        SeekBar stressSB = (SeekBar) findViewById(R.id.stressBar);
-        stressSB.setProgress(prescriptionInstance.getWellnessStress());
+        TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
 
-        SeekBar motivationSB = (SeekBar) findViewById(R.id.motivationBar);
-        motivationSB.setProgress(prescriptionInstance.getWellnessMotivation());
+        TableRow row1 = new TableRow(this);
+        row1.setLayoutParams(tableParams);
 
-        SeekBar nutritionSB = (SeekBar) findViewById(R.id.nutritionBar);
-        nutritionSB.setProgress(prescriptionInstance.getWellnessNutrition());
+        TextView liftNameColTV = new TextView(this);
+        TextView categoryColTV = new TextView(this);
+        TextView setsColTV = new TextView(this);
+        TextView repsColTV = new TextView(this);
 
-        SeekBar sorenessSB = (SeekBar) findViewById(R.id.sorenessBar);
-        sorenessSB.setProgress(prescriptionInstance.getWellnessSoreness());
+        liftNameColTV.setText("Lift");
+        categoryColTV.setText("Cat.");
+        setsColTV.setText("Sets");
+        repsColTV.setText("Reps");
+
+        row1.addView(liftNameColTV);
+        row1.addView(categoryColTV);
+        row1.addView(setsColTV);
+        row1.addView(repsColTV);
+
+        accessoryTable.addView(row1);
+
+        List<AccessoryLiftInstance> accessoryLiftInstanceList = prescriptionInstance.getAccessoryLifts();
+
+        for(int accessoryLift = 0; accessoryLift < accessoryLiftInstanceList.size(); accessoryLift++){
+            TableRow row2 = new TableRow(this);
+            row2.setLayoutParams(tableParams);
+
+            AccessoryLiftInstance accessoryLiftInstance = accessoryLiftInstanceList.get(accessoryLift);
+
+            String liftName = accessoryLiftInstance.getMainLiftDefinition().getName();
+            String category = accessoryLiftInstance.getCategory();
+            String sets = Integer.toString(accessoryLiftInstance.getAssignedSets());
+            String reps = accessoryLiftInstance.getAssignedRepetitions();
+
+            TextView liftNameTV = new TextView(this);
+            TextView categoryTV = new TextView(this);
+            TextView setsTV = new TextView(this);
+            TextView repsTV = new TextView(this);
+
+            liftNameTV.setText(liftName);
+            categoryTV.setText(category);
+            setsTV.setText(sets);
+            repsTV.setText(reps);
+
+            liftNameTV.setTypeface(null, Typeface.BOLD);
+            liftNameTV.setTextSize(14);
+            categoryTV.setTextSize(14);
+            setsTV.setTextSize(14);
+            repsTV.setTextSize(14);
+
+            row2.addView(liftNameTV);
+            row2.addView(categoryTV);
+            row2.addView(setsTV);
+            row2.addView(repsTV);
+
+            accessoryTable.addView(row2);
+        }
     }
 
     public void submitWorkoutResults(View v){
