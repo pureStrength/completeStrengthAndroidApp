@@ -196,6 +196,7 @@ public class AthleteWorkoutResults extends AppCompatActivity {
             liftNameTV.setTypeface(null, Typeface.BOLD);
             liftNameTV.setTextSize(14);
             row1.addView(liftNameTV);
+
             setTable.addView(row1);
 
             for (int j = 0; j < set.getMainLifts().size(); j++) {
@@ -214,10 +215,10 @@ public class AthleteWorkoutResults extends AppCompatActivity {
                 liftReps.setText(Integer.toString(reps));
 
                 TextView wtText = new TextView(this);
-                wtText.setText("Weight:");
+                wtText.setText("Wt:");
 
                 EditText liftWeight = new EditText(this);
-                liftWeight.setText(Double.toString(weight));
+                liftWeight.setText(Integer.toString((int)weight));
 
                 TextView pounds = new TextView(this);
                 pounds.setText("lbs");
@@ -227,6 +228,13 @@ public class AthleteWorkoutResults extends AppCompatActivity {
                 row2.addView(wtText);
                 row2.addView(liftWeight);
                 row2.addView(pounds);
+
+
+                if(user.getUserType().equals(UserType.COACH)){
+                    TextView predictedORMTV = new TextView(this);
+                    predictedORMTV.setText("New 1RM:" + predictORM(weight, reps));
+                    row2.addView(predictedORMTV);
+                }
 
                 setTable.addView(row2);
             }
@@ -294,6 +302,12 @@ public class AthleteWorkoutResults extends AppCompatActivity {
 
             accessoryTable.addView(row2);
         }
+    }
+
+    public String predictORM(double weight, int reps){
+        int predictedORM = (int) (weight/(1.013-(0.0267123*reps)));
+        String predictedORMString = Integer.toString(predictedORM);
+        return predictedORMString;
     }
 
     public void submitWorkoutResults(View v){
