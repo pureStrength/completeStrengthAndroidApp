@@ -180,6 +180,11 @@ public class AthleteWorkoutResults extends AppCompatActivity {
     }
 
     public void addSetsToView(){
+
+        if(prescriptionInstance.getRecordedSets() == null || prescriptionInstance.getRecordedSets().isEmpty()){
+            return;
+        }
+
         TableLayout setTable = (TableLayout) findViewById(R.id.setTable);
 
         TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
@@ -194,10 +199,14 @@ public class AthleteWorkoutResults extends AppCompatActivity {
             TextView liftNameTV = new TextView(this);
             liftNameTV.setText(liftName);
             liftNameTV.setTypeface(null, Typeface.BOLD);
-            liftNameTV.setTextSize(14);
+            liftNameTV.setTextSize(18);
             row1.addView(liftNameTV);
 
             setTable.addView(row1);
+
+            if(set.getMainLifts() == null || set.getMainLifts().isEmpty()){
+                return;
+            }
 
             for (int j = 0; j < set.getMainLifts().size(); j++) {
                 TableRow row2 = new TableRow(this);
