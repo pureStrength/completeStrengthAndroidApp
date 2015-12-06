@@ -60,7 +60,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         user = globalContext.getLoggedInUser();
         userClientService = globalContext.getUserClientService();
 
-        useKGUnits = user.getPreferenceUnitType().equals(PreferenceUnitType.METRIC) ? true : false;
+        useKGUnits = user.getPreferenceUnitType().equals(PreferenceUnitType.METRIC);
 
         Bundle extra = getIntent().getExtras();
         long profileViewID = extra.getLong("profileID");
@@ -174,8 +174,9 @@ public class ViewProfileActivity extends AppCompatActivity {
             if(ORMvalue != null) {
 
                 int ormWeight = useKGUnits ? convertToKG(O.getMostRecentOneRepMax().getValue()) : O.getMostRecentOneRepMax().getValue();
+                String ormUnits = useKGUnits ? " kg" : "lbs";
 
-                value.setText(ormWeight + " lbs");
+                value.setText(ormWeight + ormUnits);
                 value.setTextSize(18);
                 value.setPadding(0, 0, 40, 0);
 
@@ -318,7 +319,8 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         ORMGraph.setTitle("Most Recent 1RMs");
         ORMGraph.getGridLabelRenderer().setHorizontalAxisTitle("Date Updated");
-        ORMGraph.getGridLabelRenderer().setVerticalAxisTitle("Weight Lifted (lbs)");
+        String units = useKGUnits ? "(kg)" : "(lbs)";
+        ORMGraph.getGridLabelRenderer().setVerticalAxisTitle("Weight Lifted " + units);
 
         eventGraph.setTitle("Most Recent Event Times");
         eventGraph.getGridLabelRenderer().setHorizontalAxisTitle("Date Updated");
