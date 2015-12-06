@@ -24,6 +24,7 @@ import java.util.List;
 import completeconceptstrength.model.exercise.impl.AccessoryLiftInstance;
 import completeconceptstrength.model.exercise.impl.MainLiftInstance;
 import completeconceptstrength.model.exercise.impl.MainLiftSet;
+import completeconceptstrength.model.exercise.impl.PreferenceUnitType;
 import completeconceptstrength.model.exercise.impl.PrescriptionInstance;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.model.user.impl.UserType;
@@ -35,6 +36,7 @@ public class AthleteWorkoutResults extends AppCompatActivity {
     User user;
     PrescriptionInstanceClientService prescriptionService;
     PrescriptionInstance prescriptionInstance;
+    boolean useKGUnits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class AthleteWorkoutResults extends AppCompatActivity {
         globalContext = (GlobalContext)getApplicationContext();
         user = globalContext.getLoggedInUser();
         prescriptionService = globalContext.getPrescriptionInstanceClientService();
+
+        useKGUnits = user.getPreferenceUnitType().equals(PreferenceUnitType.METRIC) ? true : false;
 
         final TextView sleepValue = (TextView) findViewById(R.id.sleepValue);
         SeekBar sleepSB = (SeekBar) findViewById(R.id.sleepBar);
@@ -227,17 +231,22 @@ public class AthleteWorkoutResults extends AppCompatActivity {
                 wtText.setText("Wt:");
 
                 EditText liftWeight = new EditText(this);
-                liftWeight.setText(Integer.toString((int)weight));
-
                 TextView pounds = new TextView(this);
-                pounds.setText("lbs");
+
+                if(useKGUnits){
+                    liftWeight.setText(Integer.toString((int)(convertToKG(weight))));
+                    pounds.setText("kg");
+                }
+                else {
+                    liftWeight.setText(Integer.toString((int)(Math.ceil(weight))));
+                    pounds.setText("lbs");
+                }
 
                 row2.addView(repText);
                 row2.addView(liftReps);
                 row2.addView(wtText);
                 row2.addView(liftWeight);
                 row2.addView(pounds);
-
 
                 if(user.getUserType().equals(UserType.COACH)){
                     TextView predictedORMTV = new TextView(this);
@@ -248,6 +257,14 @@ public class AthleteWorkoutResults extends AppCompatActivity {
                 setTable.addView(row2);
             }
         }
+    }
+
+    public int convertToKG(double weightInKG){
+        return (int) Math.ceil(weightInKG/2.2);
+    }
+
+    public int convertToLB(double weightInLBS){
+        return (int) Math.ceil(weightInLBS*2.2);
     }
 
     public void addAccessoryLiftsToView(){
@@ -314,7 +331,13 @@ public class AthleteWorkoutResults extends AppCompatActivity {
     }
 
     public String predictORM(double weight, int reps){
+
+        if(useKGUnits){
+            weight = convertToKG(weight);
+        }
+
         int predictedORM = (int) (weight/(1.013-(0.0267123*reps)));
+
         String predictedORMString = Integer.toString(predictedORM);
         return predictedORMString;
     }
@@ -358,6 +381,10 @@ public class AthleteWorkoutResults extends AppCompatActivity {
 
                 int reps = Integer.valueOf(actualReps.getText().toString());
                 float wt = Float.valueOf(actualWt.getText().toString());
+
+                if(useKGUnits){
+                    wt = convertToLB(wt);
+                }
 
                 prescriptionInstance.getRecordedSets().get(setIndex).getMainLifts().get(liftInstanceIndex).setPerformedRepetitions(reps);
                 prescriptionInstance.getRecordedSets().get(setIndex).getMainLifts().get(liftInstanceIndex).setPerformedWeight(wt);
