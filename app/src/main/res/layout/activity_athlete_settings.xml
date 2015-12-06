@@ -195,12 +195,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <TextView
+            android:id="@+id/unitOptionsTitle"
+            android:text="Preferred Units:"
+            android:layout_below="@+id/timeTable"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_below="@+id/unitOptionsTitle"
+            android:id="@+id/unitOptions"
+            android:layout_alignParentTop="false"
+            android:layout_marginTop="10dp">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kilograms"
+                android:id="@+id/metric"
+                android:checked="true"
+                android:layout_marginRight="20dp"
+                android:enabled="true"
+                android:layout_gravity="center_horizontal" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pounds"
+                android:id="@+id/imperial"
+                android:checked="false"
+                android:layout_gravity="center_horizontal" />
+        </RadioGroup>
+
         <Button
             android:id="@+id/enableAndroidButton"
             android:layout_centerHorizontal="true"
             android:onClick="enableAndroid"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/timeTable"
+            android:layout_below="@+id/unitOptions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceLarge"

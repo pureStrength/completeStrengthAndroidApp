@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -33,7 +34,6 @@ import completeconceptstrength.model.exercise.impl.OneRepMaxChart;
 import completeconceptstrength.model.exercise.impl.PreferenceUnitType;
 import completeconceptstrength.model.exercise.impl.TrackEventChart;
 import completeconceptstrength.model.exercise.impl.TrackTime;
-import completeconceptstrength.model.user.impl.Athlete;
 import completeconceptstrength.model.user.impl.AthleteProfile;
 import completeconceptstrength.model.user.impl.CellCarrier;
 import completeconceptstrength.model.user.impl.User;
@@ -61,7 +61,7 @@ public class AthleteSettings extends AppCompatActivity {
         athleteClientService = globalContext.getAthleteClientService();
         user = globalContext.getLoggedInUser();
 
-        useKGUnits = user.getPreferenceUnitType().equals(PreferenceUnitType.METRIC) ? true : false;
+        useKGUnits = user.getPreferenceUnitType().equals(PreferenceUnitType.METRIC);
 
         final GetAthleteProfileInfo getProfileTask = new GetAthleteProfileInfo(user.getId());
         getProfileTask.execute((Void) null);
@@ -109,6 +109,15 @@ public class AthleteSettings extends AppCompatActivity {
             enableText.setBackgroundColor(Color.parseColor("#3384ff"));
             enableText.setText("Enable Text Notifications");
         }
+
+        /*if(useKGUnits){
+            RadioButton selectKG = (RadioButton) findViewById(R.id.metric);
+            selectKG.setSelected(true);
+        }
+        else{
+            RadioButton selectLBS = (RadioButton) findViewById(R.id.imperial);
+            selectLBS.setSelected(true);
+        }*/
     }
 
     public String getOrganization(){
@@ -183,13 +192,13 @@ public class AthleteSettings extends AppCompatActivity {
         phoneNumber.setHint("Phone Number");
         final Spinner carriers = new Spinner(this);
 
-        ArrayList<String> spinnerList = new ArrayList<String>();
+        ArrayList<String> spinnerList = new ArrayList<>();
 
         for(CellCarrier c : CellCarrier.values()){
             spinnerList.add(c.getType());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerList);
         carriers.setAdapter(adapter);
 
         LinearLayout linearLayout = new LinearLayout(this);
@@ -263,7 +272,7 @@ public class AthleteSettings extends AppCompatActivity {
 
     /**
      * Checks for changes to the user's profile upon clicking the Save button
-     * @param view
+     * @param view current view
      */
     public void saveProfile(View view){
         // Checks if the first name needs to be updated
@@ -318,6 +327,15 @@ public class AthleteSettings extends AppCompatActivity {
         Button saveButton = (Button) findViewById(R.id.buttonSave);
         saveButton.setEnabled(false);
 
+        // Sets preferred weight units
+        RadioButton metricRadioButton = (RadioButton) findViewById(R.id.metric);
+        if(metricRadioButton.isChecked()){
+            user.setPreferenceUnitType(PreferenceUnitType.METRIC);
+        }
+        else{
+            user.setPreferenceUnitType(PreferenceUnitType.IMPERIAL);
+        }
+
         // Updates the user in the application context and server side
         globalContext.setLoggedInUser(user);
 
@@ -327,7 +345,7 @@ public class AthleteSettings extends AppCompatActivity {
 
     /**
      * Allows the athlete user to change their password through the settings page
-     * @param view
+     * @param view current view
      */
     public void changePassword(View view){
         //Builds the window that pops up upon clicking change password
@@ -435,7 +453,7 @@ public class AthleteSettings extends AppCompatActivity {
             Log.d("doInBackground", "result: " + result);
 
             // Check the result of the service call and set the variables accordingly
-            if(result == false) {
+            if(!result) {
                 alertTitle = "Unable to update settings";
                 alertIconNumber = android.R.drawable.ic_dialog_alert;
 
@@ -555,7 +573,9 @@ public class AthleteSettings extends AppCompatActivity {
 
                 int ormWeight = useKGUnits ? convertToKG(O.getMostRecentOneRepMax().getValue()) : O.getMostRecentOneRepMax().getValue();
 
-                value.setText(ormWeight + " lbs");
+                String units = useKGUnits ? "kg" : "lbs";
+
+                value.setText(ormWeight + units);
                 value.setTextSize(18);
                 value.setPadding(0, 0, 40, 0);
 

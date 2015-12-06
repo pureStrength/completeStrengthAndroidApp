@@ -17,7 +17,6 @@ import com.completeconceptstrength.R;
 import com.completeconceptstrength.application.GlobalContext;
 
 import org.apache.http.HttpResponse;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class AthleteWorkoutResults extends AppCompatActivity {
         user = globalContext.getLoggedInUser();
         prescriptionService = globalContext.getPrescriptionInstanceClientService();
 
-        useKGUnits = user.getPreferenceUnitType().equals(PreferenceUnitType.METRIC) ? true : false;
+        useKGUnits = user.getPreferenceUnitType().equals(PreferenceUnitType.METRIC);
 
         final TextView sleepValue = (TextView) findViewById(R.id.sleepValue);
         SeekBar sleepSB = (SeekBar) findViewById(R.id.sleepBar);
