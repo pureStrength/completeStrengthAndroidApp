@@ -14,8 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import com.completeconceptstrength.R;
@@ -26,6 +28,7 @@ import org.apache.http.HttpResponse;
 
 import java.util.ArrayList;
 
+import completeconceptstrength.model.exercise.impl.PreferenceUnitType;
 import completeconceptstrength.model.user.impl.CellCarrier;
 import completeconceptstrength.model.user.impl.User;
 import completeconceptstrength.services.impl.UserClientService;
@@ -36,6 +39,7 @@ public class CoachSettings extends AppCompatActivity {
     User user;
     UserClientService userService;
     private UserVerifyTask mAuthTask = null;
+    boolean useKGUnits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,8 @@ public class CoachSettings extends AppCompatActivity {
         globalContext = (GlobalContext)getApplicationContext();
         user = globalContext.getLoggedInUser();
         userService = globalContext.getUserClientService();
+
+        useKGUnits = user.getPreferenceUnitType().equals(PreferenceUnitType.METRIC);
 
         setUserDetails();
     }
@@ -103,6 +109,40 @@ public class CoachSettings extends AppCompatActivity {
         else{
             enableText.setBackgroundColor(Color.parseColor("#3384ff"));
             enableText.setText("Enable Text Notifications");
+        }
+
+        RadioButton metricRadioButton = (RadioButton) findViewById(R.id.metric);
+        RadioButton imperialRadioButton = (RadioButton) findViewById(R.id.imperial);
+
+        metricRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    user.setPreferenceUnitType(PreferenceUnitType.METRIC);
+
+                    final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+                    updateTask.execute((Void) null);
+                }
+            }
+        });
+
+        imperialRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    user.setPreferenceUnitType(PreferenceUnitType.IMPERIAL);
+
+                    final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+                    updateTask.execute((Void) null);
+                }
+            }
+        });
+
+        if(useKGUnits){
+            metricRadioButton.setChecked(true);
+        }
+        else{
+            imperialRadioButton.setChecked(true);
         }
     }
 

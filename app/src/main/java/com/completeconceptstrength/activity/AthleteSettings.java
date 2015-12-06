@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -65,6 +66,40 @@ public class AthleteSettings extends AppCompatActivity {
 
         final GetAthleteProfileInfo getProfileTask = new GetAthleteProfileInfo(user.getId());
         getProfileTask.execute((Void) null);
+
+        RadioButton metricRadioButton = (RadioButton) findViewById(R.id.metric);
+        RadioButton imperialRadioButton = (RadioButton) findViewById(R.id.imperial);
+
+        metricRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    user.setPreferenceUnitType(PreferenceUnitType.METRIC);
+
+                    final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+                    updateTask.execute((Void) null);
+                }
+            }
+        });
+
+        imperialRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    user.setPreferenceUnitType(PreferenceUnitType.IMPERIAL);
+
+                    final UpdateProfileTask updateTask = new UpdateProfileTask(user);
+                    updateTask.execute((Void) null);
+                }
+            }
+        });
+
+        if(useKGUnits){
+            metricRadioButton.setChecked(true);
+        }
+        else{
+            imperialRadioButton.setChecked(true);
+        }
     }
 
     public void setUserDetails(){
@@ -109,15 +144,6 @@ public class AthleteSettings extends AppCompatActivity {
             enableText.setBackgroundColor(Color.parseColor("#3384ff"));
             enableText.setText("Enable Text Notifications");
         }
-
-        /*if(useKGUnits){
-            RadioButton selectKG = (RadioButton) findViewById(R.id.metric);
-            selectKG.setSelected(true);
-        }
-        else{
-            RadioButton selectLBS = (RadioButton) findViewById(R.id.imperial);
-            selectLBS.setSelected(true);
-        }*/
     }
 
     public String getOrganization(){
@@ -326,15 +352,6 @@ public class AthleteSettings extends AppCompatActivity {
         // Disables save button
         Button saveButton = (Button) findViewById(R.id.buttonSave);
         saveButton.setEnabled(false);
-
-        // Sets preferred weight units
-        RadioButton metricRadioButton = (RadioButton) findViewById(R.id.metric);
-        if(metricRadioButton.isChecked()){
-            user.setPreferenceUnitType(PreferenceUnitType.METRIC);
-        }
-        else{
-            user.setPreferenceUnitType(PreferenceUnitType.IMPERIAL);
-        }
 
         // Updates the user in the application context and server side
         globalContext.setLoggedInUser(user);

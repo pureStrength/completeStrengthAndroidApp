@@ -3,11 +3,14 @@ package com.completeconceptstrength.activity;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -156,6 +159,7 @@ public class AthleteWorkoutResults extends AppCompatActivity {
             resultButton.setEnabled(false);
             resultButton.setVisibility(View.INVISIBLE);
         }
+
     }
 
     public void addPrescriptionToView(){
