@@ -32,6 +32,7 @@ import java.util.List;
 
 import completeconceptstrength.model.exercise.impl.OneRepMax;
 import completeconceptstrength.model.exercise.impl.OneRepMaxChart;
+import completeconceptstrength.model.exercise.impl.PreferenceUnitType;
 import completeconceptstrength.model.exercise.impl.TrackEvent;
 import completeconceptstrength.model.exercise.impl.TrackEventChart;
 import completeconceptstrength.model.exercise.impl.TrackTime;
@@ -45,6 +46,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     User user;
     UserClientService userClientService;
     User profileUser;
+    boolean useKGUnits;
     AthleteProfile profileAthlete;
     HashMap<String, OneRepMaxChart> liftsByName;
     HashMap<String, TrackEventChart> eventsByName;
@@ -58,11 +60,21 @@ public class ViewProfileActivity extends AppCompatActivity {
         user = globalContext.getLoggedInUser();
         userClientService = globalContext.getUserClientService();
 
+        useKGUnits = user.getPreferenceUnitType().equals(PreferenceUnitType.METRIC) ? true : false;
+
         Bundle extra = getIntent().getExtras();
         long profileViewID = extra.getLong("profileID");
 
         final GetUserProfileInfo getProfileTask = new GetUserProfileInfo(profileViewID);
         getProfileTask.execute((Void) null);
+    }
+
+    public int convertToKG(double weightInKG){
+        return (int) Math.ceil(weightInKG/2.2);
+    }
+
+    public int convertToLB(double weightInLBS){
+        return (int) Math.ceil(weightInLBS*2.2);
     }
 
     public class GetUserProfileInfo extends AsyncTask<Void, Void, Boolean>{
@@ -160,10 +172,14 @@ public class ViewProfileActivity extends AppCompatActivity {
             liftName.setTextSize(18);
             liftName.setPadding(0, 0, 40, 0);
 
+
             String ORMvalue = Integer.toString(O.getMostRecentOneRepMax().getValue());
 
             if(ORMvalue != null) {
-                value.setText(ORMvalue + " lbs");
+
+                int ormWeight = useKGUnits ? convertToKG(O.getMostRecentOneRepMax().getValue()) : O.getMostRecentOneRepMax().getValue();
+
+                value.setText(ormWeight + " lbs");
                 value.setTextSize(18);
                 value.setPadding(0, 0, 40, 0);
 
@@ -321,16 +337,20 @@ public class ViewProfileActivity extends AppCompatActivity {
         DataPoint[] dataPoints1 = new DataPoint[orm1.size()];
         for(int i = orm1.size()-1; i >= 0; i--){
             OneRepMax o = orm1.get(i);
-            Log.i("datapoint", Integer.toString(o.getValue()));
-            DataPoint d = new DataPoint(o.getDate(), o.getValue());
+
+            int dataPointValue = useKGUnits ? convertToKG(o.getValue()) : o.getValue();
+
+            DataPoint d = new DataPoint(o.getDate(), dataPointValue);
             dataPoints1[orm1.size()-1-i] = d;
         }
 
         DataPoint[] dataPoints2 = new DataPoint[orm2.size()];
         for(int i = orm2.size()-1; i >= 0; i--){
             OneRepMax o = orm2.get(i);
-            Log.i("datapoint", Integer.toString(o.getValue()));
-            DataPoint d = new DataPoint(o.getDate(), o.getValue());
+
+            int dataPointValue = useKGUnits ? convertToKG(o.getValue()) : o.getValue();
+
+            DataPoint d = new DataPoint(o.getDate(), dataPointValue);
             dataPoints2[orm2.size()-1-i] = d;
         }
 
