@@ -73,10 +73,6 @@ public class ViewProfileActivity extends AppCompatActivity {
         return (int) Math.ceil(weightInKG/2.2);
     }
 
-    public int convertToLB(double weightInLBS){
-        return (int) Math.ceil(weightInLBS*2.2);
-    }
-
     public class GetUserProfileInfo extends AsyncTask<Void, Void, Boolean>{
 
         private long userID;

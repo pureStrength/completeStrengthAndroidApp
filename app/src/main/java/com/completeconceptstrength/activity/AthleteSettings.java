@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 import completeconceptstrength.model.exercise.impl.OneRepMaxChart;
+import completeconceptstrength.model.exercise.impl.PreferenceUnitType;
 import completeconceptstrength.model.exercise.impl.TrackEventChart;
 import completeconceptstrength.model.exercise.impl.TrackTime;
 import completeconceptstrength.model.user.impl.Athlete;
@@ -46,6 +47,7 @@ public class AthleteSettings extends AppCompatActivity {
     AthleteClientService athleteClientService;
     User user;
     AthleteProfile athleteProfile;
+    boolean useKGUnits;
 
     private UserVerifyTask mAuthTask = null;
 
@@ -58,6 +60,8 @@ public class AthleteSettings extends AppCompatActivity {
         userService = globalContext.getUserClientService();
         athleteClientService = globalContext.getAthleteClientService();
         user = globalContext.getLoggedInUser();
+
+        useKGUnits = user.getPreferenceUnitType().equals(PreferenceUnitType.METRIC) ? true : false;
 
         final GetAthleteProfileInfo getProfileTask = new GetAthleteProfileInfo(user.getId());
         getProfileTask.execute((Void) null);
@@ -548,7 +552,10 @@ public class AthleteSettings extends AppCompatActivity {
             // If there is a value for the weight lifted, add it to the current table row
             // along with the date lifted
             if(ORMvalue != null) {
-                value.setText(ORMvalue + " lbs");
+
+                int ormWeight = useKGUnits ? convertToKG(O.getMostRecentOneRepMax().getValue()) : O.getMostRecentOneRepMax().getValue();
+
+                value.setText(ormWeight + " lbs");
                 value.setTextSize(18);
                 value.setPadding(0, 0, 40, 0);
 
@@ -699,5 +706,8 @@ public class AthleteSettings extends AppCompatActivity {
         }
     }
 
+    public int convertToKG(double weightInKG){
+        return (int) Math.ceil(weightInKG/2.2);
+    }
 
 }
