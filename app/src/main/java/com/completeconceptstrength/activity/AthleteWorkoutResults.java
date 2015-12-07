@@ -1,5 +1,6 @@
 package com.completeconceptstrength.activity;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -447,6 +448,16 @@ public class AthleteWorkoutResults extends AppCompatActivity {
 
             return result;
         }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            returnToCalendar();
+        }
+    }
+
+    public void returnToCalendar(){
+        Intent intent = new Intent(AthleteWorkoutResults.this, AthleteWorkoutCalendar.class);
+        startActivity(intent);
     }
 
     public class GetPrescriptionInstance extends AsyncTask<Void, Void, Boolean> {
