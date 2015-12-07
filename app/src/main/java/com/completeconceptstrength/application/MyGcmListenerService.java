@@ -21,17 +21,18 @@ import com.google.android.gms.gcm.GcmListenerService;
 public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.toString();
+        String title = data.getString("title");
+        String message = data.getString("body");
         Log.d("GCM", "From: " + from);
         Log.d("GCM", "Message: " + message);
 
-        sendNotification(message);
+        sendNotification(title, message);
     }
 
     /**
      * Create and show a simple notification containing the received GCM message.
      */
-    private void sendNotification(String message) {
+    private void sendNotification(String title, String message) {
 
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -41,7 +42,7 @@ public class MyGcmListenerService extends GcmListenerService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(message)
+                .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
