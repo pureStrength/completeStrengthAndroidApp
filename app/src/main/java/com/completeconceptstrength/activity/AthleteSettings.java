@@ -113,17 +113,17 @@ public class AthleteSettings extends AppCompatActivity {
         EditText userOrg = (EditText) findViewById(R.id.athleteOrg);
         userOrg.setText(getOrganization());
 
-        EditText athleteHeight = (EditText) findViewById(R.id.athleteHeight);
+        /*EditText athleteHeight = (EditText) findViewById(R.id.athleteHeight);
         athleteHeight.setText(getAthleteHeight());
 
         EditText athleteWeight = (EditText) findViewById(R.id.athleteWeight);
-        athleteWeight.setText(getAthleteWeight());
+        athleteWeight.setText(getAthleteWeight());*/
 
         EditText athleteEmail = (EditText) findViewById(R.id.athleteEmail);
         athleteEmail.setText(user.getEmail());
 
-        EditText athleteDOB = (EditText) findViewById(R.id.athleteDOB);
-        athleteDOB.setText(getAthleteDOB());
+        /*EditText athleteDOB = (EditText) findViewById(R.id.athleteDOB);
+        athleteDOB.setText(getAthleteDOB());*/
 
         Button enableAndroid = (Button) findViewById(R.id.enableAndroidButton);
         if(user.getEnableAndroidNotifications()){
@@ -277,17 +277,17 @@ public class AthleteSettings extends AppCompatActivity {
         EditText userOrg = (EditText) findViewById(R.id.athleteOrg);
         userOrg.setEnabled(true);
 
-        EditText athleteHeight = (EditText) findViewById(R.id.athleteHeight);
+        /*EditText athleteHeight = (EditText) findViewById(R.id.athleteHeight);
         athleteHeight.setEnabled(true);
 
         EditText athleteWeight = (EditText) findViewById(R.id.athleteWeight);
-        athleteWeight.setEnabled(true);
+        athleteWeight.setEnabled(true); */
 
         EditText athleteEmail = (EditText) findViewById(R.id.athleteEmail);
         athleteEmail.setEnabled(true);
 
-        EditText dob = (EditText) findViewById(R.id.athleteDOB);
-        dob.setEnabled(true);
+        /*EditText dob = (EditText) findViewById(R.id.athleteDOB);
+        dob.setEnabled(true);*/
 
         Button editButton = (Button) findViewById(R.id.buttonEdit);
         editButton.setEnabled(false);
@@ -325,6 +325,7 @@ public class AthleteSettings extends AppCompatActivity {
         }
         userOrg.setEnabled(false);
 
+        /*
         // Checks if the athlete height needs to be updated
         EditText athleteHeight = (EditText) findViewById(R.id.athleteHeight);
         athleteHeight.setEnabled(false);
@@ -332,6 +333,8 @@ public class AthleteSettings extends AppCompatActivity {
         // Checks if the athlete weight needs to be updated
         EditText athleteWeight = (EditText) findViewById(R.id.athleteWeight);
         athleteWeight.setEnabled(false);
+        */
+
 
         // Checks if the athlete email needs to be updated
         EditText athleteEmail = (EditText) findViewById(R.id.athleteEmail);
@@ -341,9 +344,11 @@ public class AthleteSettings extends AppCompatActivity {
         }
         athleteEmail.setEnabled(false);
 
+        /*
         // Checks if the athlete date of birth needs to be updated
         EditText dob = (EditText) findViewById(R.id.athleteDOB);
         dob.setEnabled(false);
+        */
 
         // Re-enables edit button
         Button editButton = (Button) findViewById(R.id.buttonEdit);
